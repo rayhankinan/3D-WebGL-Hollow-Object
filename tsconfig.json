@@ -8,7 +8,11 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "public/dist",
-    "paths": {}
+    "paths": {
+      "Main/*": ["./src/*"],
+      "Utils/*": ["./src/Utils/*"],
+      "Operations/*": ["./src/Operations/*"]
+    }
   },
   "include": ["src/**/*"]
 }

@@ -8,7 +8,7 @@
   "scripts": {
     "build": "npx webpack",
     "preview": "npx webpack serve",
-    "predeploy": "yarn build",
+    "predeploy": "npx webpack",
     "deploy": "gh-pages -d build"
   },
   "devDependencies": {

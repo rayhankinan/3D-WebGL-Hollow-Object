@@ -19,6 +19,22 @@ class Point extends Coordinate implements PointInterface {
     this.b = b;
     this.a = a;
   }
+
+  public getTriplet(): readonly [number, number, number] {
+    return [this.x, this.y, this.z];
+  }
+
+  public getColor(): readonly [number, number, number, number] {
+    return [this.r, this.g, this.b, this.a];
+  }
+
+  public setColor(color: readonly [number, number, number, number]): void {
+    const [r, g, b, a] = color;
+    this.r = r;
+    this.g = g;
+    this.b = b;
+    this.a = a;
+  }
 }
 
 export default Point;

@@ -1,6 +1,6 @@
 class FileHandling {
   public static download(text: string): void {
-    const data = new File([text], "shape.obj", { type: "model/obj" });
+    const data = new File([text], "shape.json", { type: "application/json" });
 
     const url = URL.createObjectURL(data);
 
@@ -18,7 +18,7 @@ class FileHandling {
   public static upload(callback: (text: string) => void): void {
     const input = document.createElement("input");
     input.type = "file";
-    input.accept = "model/obj";
+    input.accept = "application/json";
 
     input.addEventListener("change", () => {
       const file = input.files[0];

@@ -35,8 +35,26 @@ class Transformation {
 
     const p1 = new Coordinate([f / aspect, 0, 0, 0]);
     const p2 = new Coordinate([0, f, 0, 0]);
-    const p3 = new Coordinate([0, 0, w1, w2]);
-    const p4 = new Coordinate([0, 0, -1, 0]);
+    const p3 = new Coordinate([0, 0, w1, -1]);
+    const p4 = new Coordinate([0, 0, w2, 0]);
+
+    return new Matrix([p1, p2, p3, p4]);
+  }
+
+  public static translation(tx: number, ty: number, tz: number): Matrix {
+    const p1 = new Coordinate([1, 0, 0, 0]);
+    const p2 = new Coordinate([0, 1, 0, 0]);
+    const p3 = new Coordinate([0, 0, 1, 0]);
+    const p4 = new Coordinate([tx, ty, tz, 1]);
+
+    return new Matrix([p1, p2, p3, p4]);
+  }
+
+  public static rotationX(angle: number): Matrix {
+    const p1 = new Coordinate([1, 0, 0, 0]);
+    const p2 = new Coordinate([0, Math.cos(angle), Math.sin(angle), 0]);
+    const p3 = new Coordinate([0, -Math.sin(angle), Math.cos(angle), 0]);
+    const p4 = new Coordinate([0, 0, 0, 1]);
 
     return new Matrix([p1, p2, p3, p4]);
   }

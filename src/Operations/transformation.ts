@@ -2,59 +2,6 @@ import Matrix from "Operations/matrix";
 import Coordinate from "Operations/coordinate";
 
 class Transformation {
-  public static orthographic(
-    left: number,
-    right: number,
-    bottom: number,
-    top: number,
-    near: number,
-    far: number
-  ): Matrix {
-    const p1 = new Coordinate([2 / (right - left), 0, 0, 0]);
-    const p2 = new Coordinate([0, 2 / (top - bottom), 0, 0]);
-    const p3 = new Coordinate([0, 0, 2 / (near - far), 0]);
-    const p4 = new Coordinate([
-      -(right + left) / (right - left),
-      -(top + bottom) / (top - bottom),
-      -(far + near) / (far - near),
-      1,
-    ]);
-
-    return new Matrix([p1, p2, p3, p4]);
-  }
-
-  public static perspective(
-    fieldOfView: number,
-    aspect: number,
-    near: number,
-    far: number
-  ): Matrix {
-    const f = Math.tan(0.5 * (Math.PI - fieldOfView));
-    const w1 = -(far + near) / (far - near);
-    const w2 = (-2 * near * far) / (far - near);
-
-    const p1 = new Coordinate([f / aspect, 0, 0, 0]);
-    const p2 = new Coordinate([0, f, 0, 0]);
-    const p3 = new Coordinate([0, 0, w1, -1]);
-    const p4 = new Coordinate([0, 0, w2, 0]);
-
-    return new Matrix([p1, p2, p3, p4]);
-  }
-
-  public static oblique(factor: number, angle: number): Matrix {
-    const p1 = new Coordinate([1, 0, 0, 0]);
-    const p2 = new Coordinate([0, 1, 0, 0]);
-    const p3 = new Coordinate([
-      factor * Math.cos(angle),
-      factor * Math.sin(angle),
-      0,
-      0,
-    ]);
-    const p4 = new Coordinate([0, 0, 0, 1]);
-
-    return new Matrix([p1, p2, p3, p4]);
-  }
-
   public static translation(tx: number, ty: number, tz: number): Matrix {
     const p1 = new Coordinate([1, 0, 0, 0]);
     const p2 = new Coordinate([0, 1, 0, 0]);
@@ -64,27 +11,27 @@ class Transformation {
     return new Matrix([p1, p2, p3, p4]);
   }
 
-  public static rotationX(angle: number): Matrix {
+  public static rotationX(angleX: number): Matrix {
     const p1 = new Coordinate([1, 0, 0, 0]);
-    const p2 = new Coordinate([0, Math.cos(angle), Math.sin(angle), 0]);
-    const p3 = new Coordinate([0, -Math.sin(angle), Math.cos(angle), 0]);
+    const p2 = new Coordinate([0, Math.cos(angleX), Math.sin(angleX), 0]);
+    const p3 = new Coordinate([0, -Math.sin(angleX), Math.cos(angleX), 0]);
     const p4 = new Coordinate([0, 0, 0, 1]);
 
     return new Matrix([p1, p2, p3, p4]);
   }
 
-  public static rotationY(angle: number): Matrix {
-    const p1 = new Coordinate([Math.cos(angle), 0, -Math.sin(angle), 0]);
+  public static rotationY(angleY: number): Matrix {
+    const p1 = new Coordinate([Math.cos(angleY), 0, -Math.sin(angleY), 0]);
     const p2 = new Coordinate([0, 1, 0, 0]);
-    const p3 = new Coordinate([Math.sin(angle), 0, Math.cos(angle), 0]);
+    const p3 = new Coordinate([Math.sin(angleY), 0, Math.cos(angleY), 0]);
     const p4 = new Coordinate([0, 0, 0, 1]);
 
     return new Matrix([p1, p2, p3, p4]);
   }
 
-  public static rotationZ(angle: number): Matrix {
-    const p1 = new Coordinate([Math.cos(angle), Math.sin(angle), 0, 0]);
-    const p2 = new Coordinate([-Math.sin(angle), Math.cos(angle), 0, 0]);
+  public static rotationZ(angleZ: number): Matrix {
+    const p1 = new Coordinate([Math.cos(angleZ), Math.sin(angleZ), 0, 0]);
+    const p2 = new Coordinate([-Math.sin(angleZ), Math.cos(angleZ), 0, 0]);
     const p3 = new Coordinate([0, 0, 1, 0]);
     const p4 = new Coordinate([0, 0, 0, 1]);
 
@@ -98,6 +45,27 @@ class Transformation {
     const p4 = new Coordinate([0, 0, 0, 1]);
 
     return new Matrix([p1, p2, p3, p4]);
+  }
+
+  public static general(
+    tx: number,
+    ty: number,
+    tz: number,
+    angleX: number,
+    angleY: number,
+    angleZ: number,
+    sx: number,
+    sy: number,
+    sz: number,
+    pivot: Coordinate
+  ): Matrix {
+    return Transformation.translation(tx, ty, tz)
+      .multiplyMatrix(Transformation.translation(pivot.x, pivot.y, pivot.z))
+      .multiplyMatrix(Transformation.rotationX(angleX))
+      .multiplyMatrix(Transformation.rotationY(angleY))
+      .multiplyMatrix(Transformation.rotationZ(angleZ))
+      .multiplyMatrix(Transformation.scale(sx, sy, sz))
+      .multiplyMatrix(Transformation.translation(-pivot.x, -pivot.y, -pivot.z));
   }
 }
 

@@ -13,7 +13,8 @@
       "Utils/*": ["./src/Utils/*"],
       "Operations/*": ["./src/Operations/*"],
       "Objects/*": ["./src/Objects/*"],
-      "Interfaces/*": ["./src/Interfaces/*"]
+      "Interfaces/*": ["./src/Interfaces/*"],
+      "Files/*": ["./src/Files/*"]
     }
   },
   "include": ["src/**/*"]

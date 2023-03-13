@@ -41,6 +41,20 @@ class Transformation {
     return new Matrix([p1, p2, p3, p4]);
   }
 
+  public static oblique(factor: number, angle: number): Matrix {
+    const p1 = new Coordinate([1, 0, 0, 0]);
+    const p2 = new Coordinate([0, 1, 0, 0]);
+    const p3 = new Coordinate([
+      factor * Math.cos(angle),
+      factor * Math.sin(angle),
+      0,
+      0,
+    ]);
+    const p4 = new Coordinate([0, 0, 0, 1]);
+
+    return new Matrix([p1, p2, p3, p4]);
+  }
+
   public static translation(tx: number, ty: number, tz: number): Matrix {
     const p1 = new Coordinate([1, 0, 0, 0]);
     const p2 = new Coordinate([0, 1, 0, 0]);

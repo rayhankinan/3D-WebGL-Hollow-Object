@@ -58,6 +58,33 @@ class Transformation {
 
     return new Matrix([p1, p2, p3, p4]);
   }
+
+  public static rotationY(angle: number): Matrix {
+    const p1 = new Coordinate([Math.cos(angle), 0, -Math.sin(angle), 0]);
+    const p2 = new Coordinate([0, 1, 0, 0]);
+    const p3 = new Coordinate([Math.sin(angle), 0, Math.cos(angle), 0]);
+    const p4 = new Coordinate([0, 0, 0, 1]);
+
+    return new Matrix([p1, p2, p3, p4]);
+  }
+
+  public static rotationZ(angle: number): Matrix {
+    const p1 = new Coordinate([Math.cos(angle), Math.sin(angle), 0, 0]);
+    const p2 = new Coordinate([-Math.sin(angle), Math.cos(angle), 0, 0]);
+    const p3 = new Coordinate([0, 0, 1, 0]);
+    const p4 = new Coordinate([0, 0, 0, 1]);
+
+    return new Matrix([p1, p2, p3, p4]);
+  }
+
+  public static scale(sx: number, sy: number, sz: number): Matrix {
+    const p1 = new Coordinate([sx, 0, 0, 0]);
+    const p2 = new Coordinate([0, sy, 0, 0]);
+    const p3 = new Coordinate([0, 0, sz, 0]);
+    const p4 = new Coordinate([0, 0, 0, 1]);
+
+    return new Matrix([p1, p2, p3, p4]);
+  }
 }
 
 export default Transformation;

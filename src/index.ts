@@ -28,8 +28,14 @@ gl.useProgram(program);
 resizeCanvasToDisplaySize(gl.canvas as HTMLCanvasElement);
 gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
-/* Clear Color */
-gl.clear(gl.COLOR_BUFFER_BIT);
+/* Clear Color and Buffer */
+gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+/* Turn On Culling */
+gl.enable(gl.CULL_FACE);
+
+/* Enable the depth buffer */
+gl.enable(gl.DEPTH_TEST);
 
 /* Setup Buffer */
 const positionBuffer = gl.createBuffer();

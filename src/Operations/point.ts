@@ -1,5 +1,5 @@
 import PointInterface from "Main/Interfaces/point-interface";
-import Coordinate from "./coordinate";
+import Coordinate from "Operations/coordinate";
 
 class Point extends Coordinate implements PointInterface {
   public r: number;

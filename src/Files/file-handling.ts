@@ -1,6 +1,6 @@
 class FileHandling {
   public static download(text: string): void {
-    const data = new File([text], "shapes.json", { type: "application/json" });
+    const data = new File([text], "shape.obj", { type: "model/obj" });
 
     const url = URL.createObjectURL(data);
 

@@ -62,7 +62,7 @@ let object: Shape = new Shape(
         new Point([200, 100, 100]),
         new Point([200, 200, 100]),
       ],
-      new Color(0.5, 0.5, 0.5)
+      new Color(1, 0, 0)
     ),
   ],
   0,
@@ -70,12 +70,12 @@ let object: Shape = new Shape(
   0,
   degToRad(0),
   degToRad(0),
-  degToRad(45),
+  degToRad(0),
   1,
   1,
   1
 );
-let projectionType: ProjectionType = "orthographic";
+let projectionType: ProjectionType = "perspective";
 let projectionParams: ProjectionParams = {
   orthographic: {
     left: 0,
@@ -90,7 +90,7 @@ let projectionParams: ProjectionParams = {
     aspect:
       (gl.canvas as HTMLCanvasElement).clientWidth /
       (gl.canvas as HTMLCanvasElement).clientHeight,
-    near: 1,
+    near: 5,
     far: 2000,
   },
   oblique: {

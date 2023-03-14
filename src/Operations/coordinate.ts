@@ -29,7 +29,9 @@ class Coordinate implements CoordinateInterface {
   }
 
   public dot(other: Coordinate): number {
-    return this.x * other.x + this.y * other.y + this.w * other.w;
+    return (
+      this.x * other.x + this.y * other.y + this.z * other.z + this.w * other.w
+    );
   }
 }
 

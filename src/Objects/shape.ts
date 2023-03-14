@@ -131,6 +131,8 @@ class Shape implements ShapeInterface, ShaderInterface {
       this.findCenter()
     );
 
+    console.log(matrix);
+
     switch (projectionType) {
       case "orthographic":
         const {

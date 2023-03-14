@@ -1,5 +1,6 @@
 import ShaderInterface from "Main/Interfaces/shader-interface";
 import ShapeInterface from "Main/Interfaces/shape-interface";
+import Point from "Main/Operations/point";
 import Face from "Objects/face";
 
 class Shape implements ShapeInterface, ShaderInterface {
@@ -19,6 +20,26 @@ class Shape implements ShapeInterface, ShaderInterface {
     public sy: number = 1,
     public sz: number = 1
   ) {}
+
+  public findCenter(): Point {
+    let totalX = 0;
+    let totalY = 0;
+    let totalZ = 0;
+
+    for (const f of this.arrayOfFace) {
+      const [fX, fY, fZ] = f.findCenter().getTriplet();
+
+      totalX += fX;
+      totalY += fY;
+      totalZ += fZ;
+    }
+
+    return new Point([
+      totalX / this.arrayOfFace.length,
+      totalY / this.arrayOfFace.length,
+      totalZ / this.arrayOfFace.length,
+    ]);
+  }
 }
 
 export default Shape;

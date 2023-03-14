@@ -2,9 +2,9 @@ import createShader from "Utils/shader";
 import createProgram from "Utils/program";
 import resizeCanvasToDisplaySize from "Utils/resize-canvas";
 import Shape from "Objects/shape";
-
-/* Global Variables */
-let object: Shape = null;
+import ProjectionType from "Types/projection-type";
+import ProjectionParams from "Types/projection-params";
+import { degToRad, radToDeg } from "Utils/angle";
 
 /* Create Program */
 const canvas = document.getElementById("webgl-canvas") as HTMLCanvasElement;
@@ -45,13 +45,39 @@ gl.enable(gl.DEPTH_TEST);
 const positionBuffer = gl.createBuffer();
 const colorBuffer = gl.createBuffer();
 
+/* Global Variables */
+let object: Shape = new Shape(gl, program, positionBuffer, colorBuffer, []);
+let projectionType: ProjectionType = "perspective";
+let projectionParams: ProjectionParams = {
+  orthographic: {
+    left: 0,
+    right: (gl.canvas as HTMLCanvasElement).clientWidth,
+    bottom: (gl.canvas as HTMLCanvasElement).clientHeight,
+    top: 0,
+    near: 400,
+    far: -400,
+  },
+  perspective: {
+    fieldOfView: degToRad(60),
+    aspect:
+      (gl.canvas as HTMLCanvasElement).clientWidth /
+      (gl.canvas as HTMLCanvasElement).clientHeight,
+    near: 1,
+    far: 2000,
+  },
+  oblique: {
+    factor: 0.5,
+    angle: degToRad(45),
+  },
+};
+
 /* Render Canvas */
 const renderCanvas = () => {
   /* Clear Color and Buffer */
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
   /* Render Object If Not Null */
-  object?.render();
+  object.render(projectionType, projectionParams[projectionType]);
 
   /* Render Recursively */
   window.requestAnimationFrame(renderCanvas);

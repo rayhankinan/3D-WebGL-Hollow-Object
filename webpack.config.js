@@ -22,6 +22,7 @@ module.exports = {
       Objects: path.resolve(__dirname, "src/Objects/"),
       Interfaces: path.resolve(__dirname, "src/Interfaces"),
       Files: path.resolve(__dirname, "src/Files"),
+      Types: path.resolve(__dirname, "src/Types"),
     },
   },
   output: {

@@ -172,6 +172,16 @@ class Shape implements ShapeInterface, ShaderInterface {
         matrix = Projection.oblique(factor, angle).multiplyMatrix(matrix);
         break;
     }
+
+    const rawMatrix = matrix.flatten();
+    this.gl.uniformMatrix4fv(matrixLocation, false, rawMatrix);
+
+    /* Draw Shape */
+    const primitiveType = this.gl.TRIANGLE_STRIP;
+    const offset = 0;
+    const count = this.arrayOfFace.flatMap((f) => f.arrayOfPoint).length;
+
+    this.gl.drawArrays(primitiveType, offset, count);
   }
 }
 

@@ -1,8 +1,7 @@
 interface ColorInterface {
-  r: number;
-  g: number;
-  b: number;
-  a: number;
+  readonly r: number;
+  readonly g: number;
+  readonly b: number;
 }
 
 export default ColorInterface;

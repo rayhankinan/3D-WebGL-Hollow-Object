@@ -174,6 +174,7 @@ class Shape implements ShapeInterface, ShaderInterface {
     }
 
     const rawMatrix = matrix.flatten();
+
     this.gl.uniformMatrix4fv(matrixLocation, false, rawMatrix);
 
     /* Draw Shape */

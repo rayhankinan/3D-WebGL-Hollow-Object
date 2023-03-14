@@ -2,6 +2,9 @@ import createShader from "Utils/shader";
 import createProgram from "Utils/program";
 import resizeCanvasToDisplaySize from "Utils/resize-canvas";
 import Shape from "Objects/shape";
+import Face from "Objects/face";
+import Color from "Operations/color";
+import Point from "Operations/point";
 import ProjectionType from "Types/projection-type";
 import ProjectionParams from "Types/projection-params";
 import { degToRad, radToDeg } from "Utils/angle";
@@ -46,8 +49,33 @@ const positionBuffer = gl.createBuffer();
 const colorBuffer = gl.createBuffer();
 
 /* Global Variables */
-let object: Shape = new Shape(gl, program, positionBuffer, colorBuffer, []);
-let projectionType: ProjectionType = "perspective";
+let object: Shape = new Shape(
+  gl,
+  program,
+  positionBuffer,
+  colorBuffer,
+  [
+    new Face(
+      [
+        new Point([100, 100, 100]),
+        new Point([100, 200, 100]),
+        new Point([200, 100, 100]),
+        new Point([200, 200, 100]),
+      ],
+      new Color(0.5, 0.5, 0.5)
+    ),
+  ],
+  0,
+  0,
+  0,
+  degToRad(0),
+  degToRad(0),
+  degToRad(45),
+  1,
+  1,
+  1
+);
+let projectionType: ProjectionType = "orthographic";
 let projectionParams: ProjectionParams = {
   orthographic: {
     left: 0,
@@ -58,7 +86,7 @@ let projectionParams: ProjectionParams = {
     far: -400,
   },
   perspective: {
-    fieldOfView: degToRad(60),
+    fieldOfView: degToRad(120),
     aspect:
       (gl.canvas as HTMLCanvasElement).clientWidth /
       (gl.canvas as HTMLCanvasElement).clientHeight,
@@ -76,7 +104,7 @@ const renderCanvas = () => {
   /* Clear Color and Buffer */
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-  /* Render Object If Not Null */
+  /* Render Object */
   object.render(projectionType, projectionParams[projectionType]);
 
   /* Render Recursively */

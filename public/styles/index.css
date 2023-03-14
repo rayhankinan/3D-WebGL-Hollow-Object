@@ -1,0 +1,11 @@
+body,
+html {
+  height: 100vh;
+  overflow: hidden;
+}
+
+canvas {
+  height: 100vh;
+  width: 100%;
+  z-index: 0;
+}

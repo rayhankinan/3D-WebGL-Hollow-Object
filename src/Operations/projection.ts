@@ -2,6 +2,7 @@ import Matrix from "Operations/matrix";
 import Coordinate from "Operations/coordinate";
 
 class Projection {
+  /* SUDAH BISA */
   public static orthographic(
     left: number,
     right: number,
@@ -23,6 +24,7 @@ class Projection {
     return new Matrix([p1, p2, p3, p4]);
   }
 
+  /* MASIH BELUM BISA */
   public static perspective(
     fieldOfView: number,
     aspect: number,
@@ -41,6 +43,7 @@ class Projection {
     return new Matrix([p1, p2, p3, p4]);
   }
 
+  /* MASIH BELUM BISA */
   public static oblique(factor: number, angle: number): Matrix {
     const p1 = new Coordinate([1, 0, 0, 0]);
     const p2 = new Coordinate([0, 1, 0, 0]);

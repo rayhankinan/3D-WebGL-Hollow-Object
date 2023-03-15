@@ -51,8 +51,20 @@ canvas {
 #section {
   display: flex;
   flex-direction: column;
-  row-gap: 12px;
-  padding: 24px;
+  row-gap: 15px;
+  padding: 25px;
+}
+
+#left-panel {
+  background-color: #040404;
+  border-radius: 0px 20px 20px 0px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.8);
+  color: #fdfdfd;
+  height: fit-content;
+  position: absolute;
+  top: 20%;
+  width: 18vw;
+  z-index: 2;
 }
 
 #right-panel {
@@ -62,8 +74,45 @@ canvas {
   color: #fdfdfd;
   height: fit-content;
   position: absolute;
+  top: 20%;
   right: 0;
   width: 18vw;
-  height: 100vh;
   z-index: 2;
+}
+
+.btn {
+  align-items: center;
+  background: #ffffff;
+  border: 0 solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  color: #1a202c;
+  display: inline-flex;
+  font-family: Inter, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  height: 56px;
+  justify-content: center;
+  line-height: 24px;
+  overflow-wrap: break-word;
+  padding-left: 8px;
+  text-decoration: none;
+  margin-bottom: 2px;
+  width: 100%;
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.btn:hover {
+  background-color: rgb(249, 250, 251);
+}
+
+input[type="range"] {
+  background: transparent;
+  cursor: pointer;
+  width: 10rem;
 }

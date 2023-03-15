@@ -266,18 +266,6 @@ let projectionParams: ProjectionParams = {
   },
 };
 
-/* Render Canvas */
-const renderCanvas = () => {
-  /* Clear Color and Buffer */
-  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-  /* Render Object */
-  object.render(projectionType, projectionParams[projectionType]);
-
-  /* Render Recursively */
-  window.requestAnimationFrame(renderCanvas);
-};
-
 /* Get HTML Element */
 const sliderTranslateX = document.getElementById(
   "slider-translate-x"
@@ -324,33 +312,47 @@ const sliderScaleZ = document.getElementById(
 ) as HTMLInputElement;
 const labelScaleZ = document.getElementById("label-scale-z");
 
+/* Render Canvas */
+const renderCanvas = () => {
+  /* Clear Color and Buffer */
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+  /* Render Object */
+  object.render(projectionType, projectionParams[projectionType]);
+
+  /* Render Recursively */
+  window.requestAnimationFrame(renderCanvas);
+};
+
 /* Initialize Default Value */
-sliderTranslateX.valueAsNumber = object.tx;
-labelTranslateX.textContent = object.tx.toString();
+const initializeDefaultValue = () => {
+  sliderTranslateX.valueAsNumber = object.tx;
+  labelTranslateX.textContent = object.tx.toString();
 
-sliderTranslateY.valueAsNumber = object.ty;
-labelTranslateY.textContent = object.ty.toString();
+  sliderTranslateY.valueAsNumber = object.ty;
+  labelTranslateY.textContent = object.ty.toString();
 
-sliderTranslateZ.valueAsNumber = object.tz;
-labelTranslateZ.textContent = object.tz.toString();
+  sliderTranslateZ.valueAsNumber = object.tz;
+  labelTranslateZ.textContent = object.tz.toString();
 
-sliderAngleX.valueAsNumber = radToDeg(object.angleX);
-labelAngleX.textContent = radToDeg(object.angleX).toString();
+  sliderAngleX.valueAsNumber = radToDeg(object.angleX);
+  labelAngleX.textContent = radToDeg(object.angleX).toString();
 
-sliderAngleY.valueAsNumber = radToDeg(object.angleY);
-labelAngleY.textContent = radToDeg(object.angleY).toString();
+  sliderAngleY.valueAsNumber = radToDeg(object.angleY);
+  labelAngleY.textContent = radToDeg(object.angleY).toString();
 
-sliderAngleZ.valueAsNumber = radToDeg(object.angleZ);
-labelAngleZ.textContent = radToDeg(object.angleZ).toString();
+  sliderAngleZ.valueAsNumber = radToDeg(object.angleZ);
+  labelAngleZ.textContent = radToDeg(object.angleZ).toString();
 
-sliderScaleX.valueAsNumber = object.sx;
-labelScaleX.textContent = object.sx.toString();
+  sliderScaleX.valueAsNumber = object.sx;
+  labelScaleX.textContent = object.sx.toString();
 
-sliderScaleY.valueAsNumber = object.sy;
-labelScaleY.textContent = object.sy.toString();
+  sliderScaleY.valueAsNumber = object.sy;
+  labelScaleY.textContent = object.sy.toString();
 
-sliderScaleZ.valueAsNumber = object.sz;
-labelScaleZ.textContent = object.sz.toString();
+  sliderScaleZ.valueAsNumber = object.sz;
+  labelScaleZ.textContent = object.sz.toString();
+};
 
 /* Event Listener */
 sliderTranslateX.addEventListener("input", (event) => {
@@ -407,4 +409,7 @@ sliderScaleZ.addEventListener("input", (event) => {
   object.scaleZ(delta);
 });
 
-document.addEventListener("DOMContentLoaded", renderCanvas);
+document.addEventListener("DOMContentLoaded", () => {
+  initializeDefaultValue();
+  renderCanvas();
+});

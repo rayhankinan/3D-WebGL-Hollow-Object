@@ -3,10 +3,10 @@ import Coordinate from "Operations/coordinate";
 
 class Matrix implements MatrixInterface {
   constructor(
-    public a1: Coordinate,
-    public a2: Coordinate,
-    public a3: Coordinate,
-    public a4: Coordinate
+    public readonly a1: Coordinate,
+    public readonly a2: Coordinate,
+    public readonly a3: Coordinate,
+    public readonly a4: Coordinate
   ) {}
 
   public flatten(): readonly number[] {

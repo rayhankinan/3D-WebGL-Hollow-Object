@@ -2,7 +2,11 @@ import VectorInterface from "Main/Interfaces/vector-interface";
 import Coordinate from "Operations/coordinate";
 
 class Vector extends Coordinate implements VectorInterface {
-  public constructor(public x: number, public y: number, public z: number) {
+  public constructor(
+    public readonly x: number,
+    public readonly y: number,
+    public readonly z: number
+  ) {
     super(x, y, z, 0);
   }
 

@@ -2,24 +2,14 @@ import CoordinateInterface from "Main/Interfaces/coordinate-interface";
 
 class Coordinate implements CoordinateInterface {
   public constructor(
-    public x: number,
-    public y: number,
-    public z: number,
-    public w: number
+    public readonly x: number,
+    public readonly y: number,
+    public readonly z: number,
+    public readonly w: number
   ) {}
 
   public getQuadruplet(): readonly [number, number, number, number] {
     return [this.x, this.y, this.z, this.w];
-  }
-
-  public setQuadruplet(
-    position: readonly [number, number, number, number]
-  ): void {
-    const [x, y, z, w] = position;
-    this.x = x;
-    this.y = y;
-    this.z = z;
-    this.w = w;
   }
 
   public dot(other: Coordinate): number {

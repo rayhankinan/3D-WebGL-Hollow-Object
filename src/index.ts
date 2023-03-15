@@ -49,6 +49,15 @@ const positionBuffer = gl.createBuffer();
 const colorBuffer = gl.createBuffer();
 
 /* Global Variables */
+let tx: number = 100;
+let ty: number = 100;
+let tz: number = 0;
+let angleX: number = degToRad(45);
+let angleY: number = degToRad(45);
+let angleZ: number = degToRad(0);
+let sx: number = 1;
+let sy: number = 1;
+let sz: number = 1;
 let object: Shape = new Shape(
   gl,
   program,
@@ -232,15 +241,15 @@ let object: Shape = new Shape(
       new Color(160, 160, 220)
     ),
   ],
-  100,
-  100,
-  0,
-  degToRad(45),
-  degToRad(45),
-  degToRad(0),
-  1,
-  1,
-  1
+  tx,
+  ty,
+  tz,
+  angleX,
+  angleY,
+  angleZ,
+  sx,
+  sy,
+  sz
 );
 let projectionType: ProjectionType = "orthographic";
 let projectionParams: ProjectionParams = {

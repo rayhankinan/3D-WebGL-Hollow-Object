@@ -8,6 +8,9 @@ import Color from "Operations/color";
 import Point from "Operations/point";
 import ProjectionType from "Types/projection-type";
 import ProjectionParams from "Types/projection-params";
+import FileHandling from "Files/file-handling";
+import FileSystem from "./Files/file-system";
+import ShapeInterface from "./Interfaces/shape-interface";
 
 /* Create Program */
 const canvas = document.getElementById("webgl-canvas") as HTMLCanvasElement;
@@ -47,6 +50,55 @@ gl.enable(gl.DEPTH_TEST);
 /* Setup Buffer */
 const positionBuffer = gl.createBuffer();
 const colorBuffer = gl.createBuffer();
+
+/* Get HTML Element */
+const sliderTranslateX = document.getElementById(
+  "slider-translate-x"
+) as HTMLInputElement;
+const labelTranslateX = document.getElementById("label-translate-x");
+
+const sliderTranslateY = document.getElementById(
+  "slider-translate-y"
+) as HTMLInputElement;
+const labelTranslateY = document.getElementById("label-translate-y");
+
+const sliderTranslateZ = document.getElementById(
+  "slider-translate-z"
+) as HTMLInputElement;
+const labelTranslateZ = document.getElementById("label-translate-z");
+
+const sliderAngleX = document.getElementById(
+  "slider-angle-x"
+) as HTMLInputElement;
+const labelAngleX = document.getElementById("label-angle-x");
+
+const sliderAngleY = document.getElementById(
+  "slider-angle-y"
+) as HTMLInputElement;
+const labelAngleY = document.getElementById("label-angle-y");
+
+const sliderAngleZ = document.getElementById(
+  "slider-angle-z"
+) as HTMLInputElement;
+const labelAngleZ = document.getElementById("label-angle-z");
+
+const sliderScaleX = document.getElementById(
+  "slider-scale-x"
+) as HTMLInputElement;
+const labelScaleX = document.getElementById("label-scale-x");
+
+const sliderScaleY = document.getElementById(
+  "slider-scale-y"
+) as HTMLInputElement;
+const labelScaleY = document.getElementById("label-scale-y");
+
+const sliderScaleZ = document.getElementById(
+  "slider-scale-z"
+) as HTMLInputElement;
+const labelScaleZ = document.getElementById("label-scale-z");
+
+const loadButton = document.getElementById("load-btn");
+const saveButton = document.getElementById("save-btn");
 
 /* Global Variables */
 let object: Shape = new Shape(
@@ -266,52 +318,6 @@ let projectionParams: ProjectionParams = {
   },
 };
 
-/* Get HTML Element */
-const sliderTranslateX = document.getElementById(
-  "slider-translate-x"
-) as HTMLInputElement;
-const labelTranslateX = document.getElementById("label-translate-x");
-
-const sliderTranslateY = document.getElementById(
-  "slider-translate-y"
-) as HTMLInputElement;
-const labelTranslateY = document.getElementById("label-translate-y");
-
-const sliderTranslateZ = document.getElementById(
-  "slider-translate-z"
-) as HTMLInputElement;
-const labelTranslateZ = document.getElementById("label-translate-z");
-
-const sliderAngleX = document.getElementById(
-  "slider-angle-x"
-) as HTMLInputElement;
-const labelAngleX = document.getElementById("label-angle-x");
-
-const sliderAngleY = document.getElementById(
-  "slider-angle-y"
-) as HTMLInputElement;
-const labelAngleY = document.getElementById("label-angle-y");
-
-const sliderAngleZ = document.getElementById(
-  "slider-angle-z"
-) as HTMLInputElement;
-const labelAngleZ = document.getElementById("label-angle-z");
-
-const sliderScaleX = document.getElementById(
-  "slider-scale-x"
-) as HTMLInputElement;
-const labelScaleX = document.getElementById("label-scale-x");
-
-const sliderScaleY = document.getElementById(
-  "slider-scale-y"
-) as HTMLInputElement;
-const labelScaleY = document.getElementById("label-scale-y");
-
-const sliderScaleZ = document.getElementById(
-  "slider-scale-z"
-) as HTMLInputElement;
-const labelScaleZ = document.getElementById("label-scale-z");
-
 /* Render Canvas */
 const renderCanvas = () => {
   /* Clear Color and Buffer */
@@ -357,56 +363,82 @@ const initializeDefaultValue = () => {
 /* Event Listener */
 sliderTranslateX.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
+
   labelTranslateX.textContent = delta.toString();
   object.moveX(delta);
 });
 
 sliderTranslateY.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
+
   labelTranslateY.textContent = delta.toString();
   object.moveY(delta);
 });
 
 sliderTranslateZ.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
+
   labelTranslateZ.textContent = delta.toString();
   object.moveZ(delta);
 });
 
 sliderAngleX.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
+
   labelAngleX.textContent = delta.toString();
   object.rotateX(degToRad(delta));
 });
 
 sliderAngleY.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
+
   labelAngleY.textContent = delta.toString();
   object.rotateY(degToRad(delta));
 });
 
 sliderAngleZ.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
+
   labelAngleZ.textContent = delta.toString();
   object.rotateZ(degToRad(delta));
 });
 
 sliderScaleX.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
+
   labelScaleX.textContent = delta.toString();
   object.scaleX(delta);
 });
 
 sliderScaleY.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
+
   labelScaleY.textContent = delta.toString();
   object.scaleY(delta);
 });
 
 sliderScaleZ.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
+
   labelScaleZ.textContent = delta.toString();
   object.scaleZ(delta);
+});
+
+loadButton.addEventListener("click", () => {
+  FileHandling.upload((text) => {
+    object = FileSystem.load(text, {
+      gl,
+      program,
+      positionBuffer,
+      colorBuffer,
+    });
+
+    initializeDefaultValue();
+  });
+});
+
+saveButton.addEventListener("click", () => {
+  FileHandling.download(FileSystem.serialize(object));
 });
 
 document.addEventListener("DOMContentLoaded", () => {

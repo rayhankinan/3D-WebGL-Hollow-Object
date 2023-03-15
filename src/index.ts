@@ -7,7 +7,7 @@ import ProjectionType from "Types/projection-type";
 import ProjectionParams from "Types/projection-params";
 import FileHandling from "Files/file-handling";
 import FileSystem from "Files/file-system";
-import DEFAULT_SHAPE from "./default-shape";
+import DEFAULT_SHAPE from "Main/default-shape";
 
 /* Create Program */
 const canvas = document.getElementById("webgl-canvas") as HTMLCanvasElement;
@@ -96,6 +96,10 @@ const labelScaleZ = document.getElementById("label-scale-z");
 
 const loadButton = document.getElementById("load-btn");
 const saveButton = document.getElementById("save-btn");
+
+const listOfProjection = document.getElementById(
+  "list-of-projection"
+) as HTMLSelectElement;
 
 /* Global Variables */
 let object: Shape = DEFAULT_SHAPE;
@@ -246,6 +250,13 @@ loadButton.addEventListener("click", () => {
 
 saveButton.addEventListener("click", () => {
   FileHandling.download(FileSystem.serialize(object));
+});
+
+listOfProjection.addEventListener("change", (event) => {
+  const newProjectionType = listOfProjection.selectedOptions[0]
+    .value as ProjectionType;
+
+  projectionType = newProjectionType;
 });
 
 document.addEventListener("DOMContentLoaded", () => {

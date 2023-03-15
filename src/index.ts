@@ -1,5 +1,6 @@
 import createShader from "Utils/shader";
 import createProgram from "Utils/program";
+import { degToRad, radToDeg } from "Utils/angle";
 import resizeCanvasToDisplaySize from "Utils/resize-canvas";
 import Shape from "Objects/shape";
 import Face from "Objects/face";
@@ -7,7 +8,6 @@ import Color from "Operations/color";
 import Point from "Operations/point";
 import ProjectionType from "Types/projection-type";
 import ProjectionParams from "Types/projection-params";
-import degToRad from "Utils/angle";
 
 /* Create Program */
 const canvas = document.getElementById("webgl-canvas") as HTMLCanvasElement;
@@ -232,11 +232,11 @@ let object: Shape = new Shape(
       new Color(160, 160, 220)
     ),
   ],
+  720,
+  270,
   0,
-  0,
-  0,
-  degToRad(0),
-  degToRad(0),
+  degToRad(30),
+  degToRad(30),
   degToRad(0),
   1,
   1,
@@ -323,6 +323,34 @@ const sliderScaleZ = document.getElementById(
   "slider-scale-z"
 ) as HTMLInputElement;
 const labelScaleZ = document.getElementById("label-scale-z");
+
+/* Initialize Default Value */
+sliderTranslateX.valueAsNumber = object.tx;
+labelTranslateX.textContent = object.tx.toString();
+
+sliderTranslateY.valueAsNumber = object.ty;
+labelTranslateY.textContent = object.ty.toString();
+
+sliderTranslateZ.valueAsNumber = object.tz;
+labelTranslateZ.textContent = object.tz.toString();
+
+sliderAngleX.valueAsNumber = radToDeg(object.angleX);
+labelAngleX.textContent = radToDeg(object.angleX).toString();
+
+sliderAngleY.valueAsNumber = radToDeg(object.angleY);
+labelAngleY.textContent = radToDeg(object.angleY).toString();
+
+sliderAngleZ.valueAsNumber = radToDeg(object.angleZ);
+labelAngleZ.textContent = radToDeg(object.angleZ).toString();
+
+sliderScaleX.valueAsNumber = object.sx;
+labelScaleX.textContent = object.sx.toString();
+
+sliderScaleY.valueAsNumber = object.sy;
+labelScaleY.textContent = object.sy.toString();
+
+sliderScaleZ.valueAsNumber = object.sz;
+labelScaleZ.textContent = object.sz.toString();
 
 /* Event Listener */
 sliderTranslateX.addEventListener("input", (event) => {

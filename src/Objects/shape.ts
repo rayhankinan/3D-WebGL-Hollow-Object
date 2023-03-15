@@ -14,15 +14,15 @@ class Shape implements ShapeInterface, ShaderInterface {
     public readonly positionBuffer: WebGLBuffer,
     public readonly colorBuffer: WebGLBuffer,
     public readonly arrayOfFace: Face[],
-    public tx: number = 0,
-    public ty: number = 0,
-    public tz: number = 0,
-    public angleX: number = 0,
-    public angleY: number = 0,
-    public angleZ: number = 0,
-    public sx: number = 1,
-    public sy: number = 1,
-    public sz: number = 1
+    public tx: number,
+    public ty: number,
+    public tz: number,
+    public angleX: number,
+    public angleY: number,
+    public angleZ: number,
+    public sx: number,
+    public sy: number,
+    public sz: number
   ) {}
 
   public findCenter(): Point {

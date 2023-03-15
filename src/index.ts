@@ -9,8 +9,7 @@ import Point from "Operations/point";
 import ProjectionType from "Types/projection-type";
 import ProjectionParams from "Types/projection-params";
 import FileHandling from "Files/file-handling";
-import FileSystem from "./Files/file-system";
-import ShapeInterface from "./Interfaces/shape-interface";
+import FileSystem from "Files/file-system";
 
 /* Create Program */
 const canvas = document.getElementById("webgl-canvas") as HTMLCanvasElement;
@@ -102,10 +101,6 @@ const saveButton = document.getElementById("save-btn");
 
 /* Global Variables */
 let object: Shape = new Shape(
-  gl,
-  program,
-  positionBuffer,
-  colorBuffer,
   [
     new Face(
       [
@@ -324,7 +319,14 @@ const renderCanvas = () => {
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
   /* Render Object */
-  object.render(projectionType, projectionParams[projectionType]);
+  object.render(
+    gl,
+    program,
+    positionBuffer,
+    colorBuffer,
+    projectionType,
+    projectionParams[projectionType]
+  );
 
   /* Render Recursively */
   window.requestAnimationFrame(renderCanvas);
@@ -426,12 +428,7 @@ sliderScaleZ.addEventListener("input", (event) => {
 
 loadButton.addEventListener("click", () => {
   FileHandling.upload((text) => {
-    object = FileSystem.load(text, {
-      gl,
-      program,
-      positionBuffer,
-      colorBuffer,
-    });
+    object = FileSystem.load(text);
 
     initializeDefaultValue();
   });

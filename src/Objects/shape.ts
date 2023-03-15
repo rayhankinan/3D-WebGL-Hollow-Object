@@ -1,4 +1,3 @@
-import ShaderInterface from "Main/Interfaces/shader-interface";
 import ShapeInterface from "Main/Interfaces/shape-interface";
 import Point from "Main/Operations/point";
 import Transformation from "Main/Operations/transformation";
@@ -7,12 +6,8 @@ import ProjectionParams from "Main/Types/projection-params";
 import ProjectionType from "Main/Types/projection-type";
 import Face from "Objects/face";
 
-class Shape implements ShapeInterface, ShaderInterface {
+class Shape implements ShapeInterface {
   constructor(
-    public readonly gl: WebGLRenderingContext,
-    public readonly program: WebGLProgram,
-    public readonly positionBuffer: WebGLBuffer,
-    public readonly colorBuffer: WebGLBuffer,
     public readonly arrayOfFace: Face[],
     public tx: number,
     public ty: number,
@@ -99,52 +94,49 @@ class Shape implements ShapeInterface, ShaderInterface {
     this.sz = delta;
   }
 
-  public addPosition(): void {
+  public addPosition(gl: WebGLRenderingContext): void {
     const positionArray = this.arrayOfFace.flatMap((f) => f.getRawPosition());
 
-    this.gl.bufferData(
-      this.gl.ARRAY_BUFFER,
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
       new Float32Array(positionArray),
-      this.gl.STATIC_DRAW
+      gl.STATIC_DRAW
     );
   }
 
-  public addColor(): void {
+  public addColor(gl: WebGLRenderingContext): void {
     const colorArray = this.arrayOfFace.flatMap((f) =>
       Array<readonly [number, number, number]>(f.arrayOfPoint.length)
         .fill(f.getRawColor())
         .flat()
     );
 
-    this.gl.bufferData(
-      this.gl.ARRAY_BUFFER,
-      new Uint8Array(colorArray),
-      this.gl.STATIC_DRAW
-    );
+    gl.bufferData(gl.ARRAY_BUFFER, new Uint8Array(colorArray), gl.STATIC_DRAW);
   }
 
   public render<T extends ProjectionType>(
+    gl: WebGLRenderingContext,
+    program: WebGLProgram,
+    positionBuffer: WebGLBuffer,
+    colorBuffer: WebGLBuffer,
     projectionType: T,
     params: ProjectionParams[T]
   ): void {
-    const positionLocation = this.gl.getAttribLocation(
-      this.program,
-      "a_position"
-    );
-    const colorLocation = this.gl.getAttribLocation(this.program, "a_color");
-    const matrixLocation = this.gl.getUniformLocation(this.program, "u_matrix");
+    const positionLocation = gl.getAttribLocation(program, "a_position");
+    const colorLocation = gl.getAttribLocation(program, "a_color");
+    const matrixLocation = gl.getUniformLocation(program, "u_matrix");
 
     /* Setup position */
-    this.gl.enableVertexAttribArray(positionLocation);
-    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.positionBuffer);
-    this.addPosition();
+    gl.enableVertexAttribArray(positionLocation);
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    this.addPosition(gl);
 
     const positionSize = 3; /* 3 components per iteration */
-    const positionType = this.gl.FLOAT; /* The data is 32 bit float */
+    const positionType = gl.FLOAT; /* The data is 32 bit float */
     const positionNormalized = false; /* Don't normalize the data */
     const positionStride = 0; /* 0: Move forward size * sizeof(type) each iteration to get the next position */
     const positionOffset = 0; /* Start at the beginning of the buffer */
-    this.gl.vertexAttribPointer(
+    gl.vertexAttribPointer(
       positionLocation,
       positionSize,
       positionType,
@@ -154,17 +146,16 @@ class Shape implements ShapeInterface, ShaderInterface {
     );
 
     /* Setup color */
-    this.gl.enableVertexAttribArray(colorLocation);
-    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.colorBuffer);
-    this.addColor();
+    gl.enableVertexAttribArray(colorLocation);
+    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+    this.addColor(gl);
 
     const colorSize = 3; /* 3 components per iteration */
-    const colorType =
-      this.gl.UNSIGNED_BYTE; /* The data is 8 bit unsigned values */
+    const colorType = gl.UNSIGNED_BYTE; /* The data is 8 bit unsigned values */
     const colorNormalized = true; /* Normalize the data */
     const colorStride = 0; /* 0: Move forward size * sizeof(type) each iteration to get the next position */
     const colorOffset = 0; /* Start at the beginning of the buffer */
-    this.gl.vertexAttribPointer(
+    gl.vertexAttribPointer(
       colorLocation,
       colorSize,
       colorType,
@@ -230,14 +221,14 @@ class Shape implements ShapeInterface, ShaderInterface {
 
     const rawMatrix = matrix.flatten();
 
-    this.gl.uniformMatrix4fv(matrixLocation, false, rawMatrix);
+    gl.uniformMatrix4fv(matrixLocation, false, rawMatrix);
 
     /* Draw Shape */
-    const primitiveType = this.gl.TRIANGLES;
+    const primitiveType = gl.TRIANGLES;
     const offset = 0;
     const count = this.arrayOfFace.flatMap((f) => f.arrayOfPoint).length;
 
-    this.gl.drawArrays(primitiveType, offset, count);
+    gl.drawArrays(primitiveType, offset, count);
   }
 }
 

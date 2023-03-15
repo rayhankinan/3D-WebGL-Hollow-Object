@@ -232,11 +232,11 @@ let object: Shape = new Shape(
       new Color(160, 160, 220)
     ),
   ],
-  100,
-  100,
   0,
-  degToRad(45),
-  degToRad(45),
+  0,
+  0,
+  degToRad(0),
+  degToRad(0),
   degToRad(0),
   1,
   1,
@@ -278,91 +278,101 @@ const renderCanvas = () => {
   window.requestAnimationFrame(renderCanvas);
 };
 
-/* Event Listener */
+/* Get HTML Element */
 const sliderTranslateX = document.getElementById(
   "slider-translate-x"
 ) as HTMLInputElement;
 const labelTranslateX = document.getElementById("label-translate-x");
+
+const sliderTranslateY = document.getElementById(
+  "slider-translate-y"
+) as HTMLInputElement;
+const labelTranslateY = document.getElementById("label-translate-y");
+
+const sliderTranslateZ = document.getElementById(
+  "slider-translate-z"
+) as HTMLInputElement;
+const labelTranslateZ = document.getElementById("label-translate-z");
+
+const sliderAngleX = document.getElementById(
+  "slider-angle-x"
+) as HTMLInputElement;
+const labelAngleX = document.getElementById("label-angle-x");
+
+const sliderAngleY = document.getElementById(
+  "slider-angle-y"
+) as HTMLInputElement;
+const labelAngleY = document.getElementById("label-angle-y");
+
+const sliderAngleZ = document.getElementById(
+  "slider-angle-z"
+) as HTMLInputElement;
+const labelAngleZ = document.getElementById("label-angle-z");
+
+const sliderScaleX = document.getElementById(
+  "slider-scale-x"
+) as HTMLInputElement;
+const labelScaleX = document.getElementById("label-scale-x");
+
+const sliderScaleY = document.getElementById(
+  "slider-scale-y"
+) as HTMLInputElement;
+const labelScaleY = document.getElementById("label-scale-y");
+
+const sliderScaleZ = document.getElementById(
+  "slider-scale-z"
+) as HTMLInputElement;
+const labelScaleZ = document.getElementById("label-scale-z");
+
+/* Event Listener */
 sliderTranslateX.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
   labelTranslateX.textContent = delta.toString();
   object.moveX(delta);
 });
 
-const sliderTranslateY = document.getElementById(
-  "slider-translate-y"
-) as HTMLInputElement;
-const labelTranslateY = document.getElementById("label-translate-y");
 sliderTranslateY.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
   labelTranslateY.textContent = delta.toString();
   object.moveY(delta);
 });
 
-const sliderTranslateZ = document.getElementById(
-  "slider-translate-z"
-) as HTMLInputElement;
-const labelTranslateZ = document.getElementById("label-translate-z");
 sliderTranslateZ.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
   labelTranslateZ.textContent = delta.toString();
   object.moveZ(delta);
 });
 
-const sliderAngleX = document.getElementById(
-  "slider-angle-x"
-) as HTMLInputElement;
-const labelAngleX = document.getElementById("label-angle-x");
 sliderAngleX.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
   labelAngleX.textContent = delta.toString();
   object.rotateX(degToRad(delta));
 });
 
-const sliderAngleY = document.getElementById(
-  "slider-angle-y"
-) as HTMLInputElement;
-const labelAngleY = document.getElementById("label-angle-y");
 sliderAngleY.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
   labelAngleY.textContent = delta.toString();
   object.rotateY(degToRad(delta));
 });
 
-const sliderAngleZ = document.getElementById(
-  "slider-angle-z"
-) as HTMLInputElement;
-const labelAngleZ = document.getElementById("label-angle-z");
 sliderAngleZ.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
   labelAngleZ.textContent = delta.toString();
   object.rotateZ(degToRad(delta));
 });
 
-const sliderScaleX = document.getElementById(
-  "slider-scale-x"
-) as HTMLInputElement;
-const labelScaleX = document.getElementById("label-scale-x");
 sliderScaleX.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
   labelScaleX.textContent = delta.toString();
   object.scaleX(delta);
 });
 
-const sliderScaleY = document.getElementById(
-  "slider-scale-y"
-) as HTMLInputElement;
-const labelScaleY = document.getElementById("label-scale-y");
 sliderScaleY.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
   labelScaleY.textContent = delta.toString();
   object.scaleY(delta);
 });
 
-const sliderScaleZ = document.getElementById(
-  "slider-scale-z"
-) as HTMLInputElement;
-const labelScaleZ = document.getElementById("label-scale-z");
 sliderScaleZ.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
   labelScaleZ.textContent = delta.toString();

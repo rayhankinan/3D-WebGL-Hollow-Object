@@ -88,15 +88,15 @@ class Shape implements ShapeInterface, ShaderInterface {
   }
 
   public scaleX(delta: number): void {
-    this.sx = 1 + delta / this.findLength();
+    this.sx = delta;
   }
 
   public scaleY(delta: number): void {
-    this.sy = 1 + delta / this.findWidth();
+    this.sy = delta;
   }
 
   public scaleZ(delta: number): void {
-    this.sz = 1 + delta / this.findDepth();
+    this.sz = delta;
   }
 
   public addPosition(): void {

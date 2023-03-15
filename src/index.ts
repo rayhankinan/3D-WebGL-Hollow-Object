@@ -114,11 +114,11 @@ let projectionParams: ProjectionParams = {
     far: -400,
   },
   perspective: {
-    fieldOfView: degToRad(120),
+    fieldOfView: degToRad(60),
     aspect:
       (gl.canvas as HTMLCanvasElement).clientWidth /
       (gl.canvas as HTMLCanvasElement).clientHeight,
-    near: 5,
+    near: 1,
     far: 2000,
   },
   oblique: {

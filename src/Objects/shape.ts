@@ -45,6 +45,60 @@ class Shape implements ShapeInterface, ShaderInterface {
     );
   }
 
+  public findLength(): number {
+    return Math.max(
+      ...this.arrayOfFace.map((f) => f.findMaxX() - f.findMinX())
+    );
+  }
+
+  public findWidth(): number {
+    return Math.max(
+      ...this.arrayOfFace.map((f) => f.findMaxY() - f.findMinY())
+    );
+  }
+
+  public findDepth(): number {
+    return Math.max(
+      ...this.arrayOfFace.map((f) => f.findMaxZ() - f.findMinZ())
+    );
+  }
+
+  public moveX(delta: number): void {
+    this.tx = delta;
+  }
+
+  public moveY(delta: number): void {
+    this.ty = delta;
+  }
+
+  public moveZ(delta: number): void {
+    this.tz = delta;
+  }
+
+  public rotateX(angle: number): void {
+    this.angleX = angle;
+  }
+
+  public rotateY(angle: number): void {
+    this.angleY = angle;
+  }
+
+  public rotateZ(angle: number): void {
+    this.angleZ = angle;
+  }
+
+  public scaleX(delta: number): void {
+    this.sx = 1 + delta / this.findLength();
+  }
+
+  public scaleY(delta: number): void {
+    this.sy = 1 + delta / this.findWidth();
+  }
+
+  public scaleZ(delta: number): void {
+    this.sz = 1 + delta / this.findDepth();
+  }
+
   public addPosition(): void {
     const positionArray = this.arrayOfFace.flatMap((f) => f.getRawPosition());
 

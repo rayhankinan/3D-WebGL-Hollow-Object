@@ -28,6 +28,30 @@ class Face implements FaceInterface {
     );
   }
 
+  public findMaxX(): number {
+    return Math.max(...this.arrayOfPoint.map((p) => p.x));
+  }
+
+  public findMinX(): number {
+    return Math.min(...this.arrayOfPoint.map((p) => p.x));
+  }
+
+  public findMaxY(): number {
+    return Math.max(...this.arrayOfPoint.map((p) => p.y));
+  }
+
+  public findMinY(): number {
+    return Math.min(...this.arrayOfPoint.map((p) => p.y));
+  }
+
+  public findMaxZ(): number {
+    return Math.max(...this.arrayOfPoint.map((p) => p.z));
+  }
+
+  public findMinZ(): number {
+    return Math.min(...this.arrayOfPoint.map((p) => p.z));
+  }
+
   public getRawPosition(): readonly number[] {
     return this.arrayOfPoint.flatMap((p) => p.getTriplet());
   }

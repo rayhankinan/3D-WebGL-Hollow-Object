@@ -15,7 +15,8 @@
       "Objects/*": ["./src/Objects/*"],
       "Interfaces/*": ["./src/Interfaces/*"],
       "Files/*": ["./src/Files/*"],
-      "Types/*": ["./src/Types/*"]
+      "Types/*": ["./src/Types/*"],
+      "Factories/*": ["./src/Factories/*"]
     }
   },
   "include": ["src/**/*"]

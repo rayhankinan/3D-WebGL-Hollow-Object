@@ -7,7 +7,7 @@ import Color from "Operations/color";
 import Point from "Operations/point";
 import ProjectionType from "Types/projection-type";
 import ProjectionParams from "Types/projection-params";
-import { degToRad, radToDeg } from "Utils/angle";
+import degToRad from "Utils/angle";
 
 /* Create Program */
 const canvas = document.getElementById("webgl-canvas") as HTMLCanvasElement;

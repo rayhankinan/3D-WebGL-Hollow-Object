@@ -21,11 +21,11 @@ class Face implements FaceInterface {
       totalZ += pZ;
     }
 
-    return new Point([
+    return new Point(
       totalX / this.arrayOfPoint.length,
       totalY / this.arrayOfPoint.length,
-      totalZ / this.arrayOfPoint.length,
-    ]);
+      totalZ / this.arrayOfPoint.length
+    );
   }
 
   public getRawPosition(): readonly number[] {

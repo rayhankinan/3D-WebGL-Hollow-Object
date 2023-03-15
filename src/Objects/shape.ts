@@ -38,11 +38,11 @@ class Shape implements ShapeInterface, ShaderInterface {
       totalZ += fZ;
     }
 
-    return new Point([
+    return new Point(
       totalX / this.arrayOfFace.length,
       totalY / this.arrayOfFace.length,
-      totalZ / this.arrayOfFace.length,
-    ]);
+      totalZ / this.arrayOfFace.length
+    );
   }
 
   public addPosition(): void {
@@ -64,7 +64,7 @@ class Shape implements ShapeInterface, ShaderInterface {
 
     this.gl.bufferData(
       this.gl.ARRAY_BUFFER,
-      new Float32Array(colorArray),
+      new Uint8Array(colorArray),
       this.gl.STATIC_DRAW
     );
   }
@@ -105,8 +105,9 @@ class Shape implements ShapeInterface, ShaderInterface {
     this.addColor();
 
     const colorSize = 3; /* 3 components per iteration */
-    const colorType = this.gl.FLOAT; /* The data is 32 bit float */
-    const colorNormalized = false; /* Don't normalize the data */
+    const colorType =
+      this.gl.UNSIGNED_BYTE; /* The data is 8 bit unsigned values */
+    const colorNormalized = true; /* Normalize the data */
     const colorStride = 0; /* 0: Move forward size * sizeof(type) each iteration to get the next position */
     const colorOffset = 0; /* Start at the beginning of the buffer */
     this.gl.vertexAttribPointer(
@@ -130,8 +131,6 @@ class Shape implements ShapeInterface, ShaderInterface {
       this.sz,
       this.findCenter()
     );
-
-    console.log(matrix);
 
     switch (projectionType) {
       case "orthographic":
@@ -180,7 +179,7 @@ class Shape implements ShapeInterface, ShaderInterface {
     this.gl.uniformMatrix4fv(matrixLocation, false, rawMatrix);
 
     /* Draw Shape */
-    const primitiveType = this.gl.TRIANGLE_STRIP;
+    const primitiveType = this.gl.TRIANGLES;
     const offset = 0;
     const count = this.arrayOfFace.flatMap((f) => f.arrayOfPoint).length;
 

@@ -57,25 +57,27 @@ let object: Shape = new Shape(
   [
     new Face(
       [
-        new Point([100, 100, 100]),
-        new Point([100, 200, 100]),
-        new Point([200, 100, 100]),
-        new Point([200, 200, 100]),
+        new Point(0, 0, 0),
+        new Point(0, 150, 0),
+        new Point(30, 0, 0),
+        new Point(0, 150, 0),
+        new Point(30, 150, 0),
+        new Point(30, 0, 0),
       ],
-      new Color(1, 0, 0)
+      new Color(200, 70, 120)
     ),
   ],
+  100,
+  100,
   0,
-  0,
-  0,
-  degToRad(0),
-  degToRad(0),
+  degToRad(45),
+  degToRad(45),
   degToRad(0),
   1,
   1,
   1
 );
-let projectionType: ProjectionType = "perspective";
+let projectionType: ProjectionType = "orthographic";
 let projectionParams: ProjectionParams = {
   orthographic: {
     left: 0,

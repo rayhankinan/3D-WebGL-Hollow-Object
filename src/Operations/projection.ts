@@ -24,7 +24,7 @@ class Projection {
     return new Matrix(p1, p2, p3, p4);
   }
 
-  /* TODO: MASIH BELUM BISA */
+  /* SUDAH BISA */
   public static perspective(
     fieldOfView: number,
     aspect: number,

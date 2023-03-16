@@ -3,13 +3,13 @@ import ShapeInterface from "Main/Interfaces/shape-interface";
 import Shape from "Main/Objects/shape";
 
 class FileSystem {
-  public static load(text: string): Shape {
+  public static loadShape(text: string): Shape {
     const shapeInterface = JSON.parse(text) as ShapeInterface;
 
     return ShapeFactory.fromInterface(shapeInterface);
   }
 
-  public static serialize(shape: ShapeInterface): string {
+  public static serializeShape(shape: ShapeInterface): string {
     return JSON.stringify(shape);
   }
 }

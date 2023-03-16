@@ -242,14 +242,14 @@ sliderScaleZ.addEventListener("input", (event) => {
 
 loadButton.addEventListener("click", () => {
   FileHandling.upload((text) => {
-    object = FileSystem.load(text);
+    object = FileSystem.loadShape(text);
 
     initializeDefaultValue();
   });
 });
 
 saveButton.addEventListener("click", () => {
-  FileHandling.download(FileSystem.serialize(object));
+  FileHandling.download(FileSystem.serializeShape(object));
 });
 
 listOfProjection.addEventListener("change", (event) => {

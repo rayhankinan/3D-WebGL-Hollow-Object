@@ -55,104 +55,206 @@
         </div>
       </div>
       <canvas id="webgl-canvas"></canvas>
-      <div id="right-panel">
-        <div id="section">
-          <h1>Transformation</h1>
-          <div id="translation">
-            <h2>Translate X</h2>
-            <input
-              id="slider-translate-x"
-              type="range"
-              min="-1000"
-              max="1000"
-              step="10"
-              value="0"
-            />
-            <label id="label-translate-x" for="slider-translate-x">0</label>
-            <h2>Translate Y</h2>
-            <input
-              id="slider-translate-y"
-              type="range"
-              min="-1000"
-              max="1000"
-              step="10"
-              value="0"
-            />
-            <label id="label-translate-y" for="slider-translate-y">0</label>
-            <h2>Translate Z</h2>
-            <input
-              id="slider-translate-z"
-              type="range"
-              min="-1000"
-              max="1000"
-              step="10"
-              value="0"
-            />
-            <label id="label-translate-z" for="slider-translate-z">0</label>
+      <div id="control-panel">
+        <div id="control-section">
+          <h2>Transformation</h2>
+          <div id="transformation_sliders">
+            <div id="translation">
+              <h3>Translate X</h3>
+              <input
+                id="slider-translate-x"
+                type="range"
+                min="-1000"
+                max="1000"
+                step="10"
+                value="0"
+              />
+              <label id="label-translate-x" for="slider-translate-x">0</label>
+              <h3>Translate Y</h3>
+              <input
+                id="slider-translate-y"
+                type="range"
+                min="-1000"
+                max="1000"
+                step="10"
+                value="0"
+              />
+              <label id="label-translate-y" for="slider-translate-y">0</label>
+              <h3>Translate Z</h3>
+              <input
+                id="slider-translate-z"
+                type="range"
+                min="-1000"
+                max="1000"
+                step="10"
+                value="0"
+              />
+              <label id="label-translate-z" for="slider-translate-z">0</label>
+            </div>
+            <div id="rotation">
+              <h3>Angle X</h3>
+              <input
+                id="slider-angle-x"
+                type="range"
+                min="0"
+                max="360"
+                step="10"
+                value="0"
+              />
+              <label id="label-angle-x" for="slider-angle-x">0</label>
+              <h3>Angle Y</h3>
+              <input
+                id="slider-angle-y"
+                type="range"
+                min="0"
+                max="360"
+                step="10"
+                value="0"
+              />
+              <label id="label-angle-y" for="slider-angle-y">0</label>
+              <h3>Angle Z</h3>
+              <input
+                id="slider-angle-z"
+                type="range"
+                min="0"
+                max="360"
+                step="10"
+                value="0"
+              />
+              <label id="label-angle-z" for="slider-angle-z">0</label>
+            </div>
+            <div id="scaling">
+              <h3>Scale X</h3>
+              <input
+                id="slider-scale-x"
+                type="range"
+                min="0"
+                max="10"
+                step="0.1"
+                value="1"
+              />
+              <label id="label-scale-x" for="slider-scale-x">1</label>
+              <h3>Scale Y</h3>
+              <input
+                id="slider-scale-y"
+                type="range"
+                min="0"
+                max="10"
+                step="0.1"
+                value="1"
+              />
+              <label id="label-scale-y" for="slider-scale-y">1</label>
+              <h3>Scale Z</h3>
+              <input
+                id="slider-scale-z"
+                type="range"
+                min="0"
+                max="10"
+                step="0.1"
+                value="1"
+              />
+              <label id="label-scale-z" for="slider-scale-z">1</label>
+            </div>
           </div>
-          <div id="rotation">
-            <h2>Angle X</h2>
-            <input
-              id="slider-angle-x"
-              type="range"
-              min="0"
-              max="360"
-              step="10"
-              value="0"
-            />
-            <label id="label-angle-x" for="slider-angle-x">0</label>
-            <h2>Angle Y</h2>
-            <input
-              id="slider-angle-y"
-              type="range"
-              min="0"
-              max="360"
-              step="10"
-              value="0"
-            />
-            <label id="label-angle-y" for="slider-angle-y">0</label>
-            <h2>Angle Z</h2>
-            <input
-              id="slider-angle-z"
-              type="range"
-              min="0"
-              max="360"
-              step="10"
-              value="0"
-            />
-            <label id="label-angle-z" for="slider-angle-z">0</label>
-          </div>
-          <div id="scaling">
-            <h2>Scale X</h2>
-            <input
-              id="slider-scale-x"
-              type="range"
-              min="0"
-              max="10"
-              step="0.1"
-              value="1"
-            />
-            <label id="label-scale-x" for="slider-scale-x">1</label>
-            <h2>Scale Y</h2>
-            <input
-              id="slider-scale-y"
-              type="range"
-              min="0"
-              max="10"
-              step="0.1"
-              value="1"
-            />
-            <label id="label-scale-y" for="slider-scale-y">1</label>
-            <h2>Scale Z</h2>
-            <input
-              id="slider-scale-z"
-              type="range"
-              min="0"
-              max="10"
-              step="0.1"
-              value="1"
-            />
-            <label id="label-scale-z" for="slider-scale-z">1</label>
+
+          <h2>Camera Controls</h2>
+          <div id="camera_sliders">
+            <div id="eye">
+              <h3>Eye X</h3>
+              <input
+                id="slider-eye-x"
+                type="range"
+                min="-10"
+                max="10"
+                step="0.01"
+                value="0"
+              />
+              <label id="label-eye-x" for="slider-eye-x">0</label>
+              <h3>Eye Y</h3>
+              <input
+                id="slider-eye-y"
+                type="range"
+                min="-10"
+                max="10"
+                step="0.01"
+                value="0"
+              />
+              <label id="label-eye-y" for="slider-eye-y">0</label>
+              <h3>Eye Z</h3>
+              <input
+                id="slider-eye-z"
+                type="range"
+                min="-50"
+                max="50"
+                step="0.01"
+                value="20"
+              />
+              <label id="label-eye-z" for="slider-eye-z">0</label>
+            </div>
+            <div id="center">
+              <h3>Center X</h3>
+              <input
+                id="slider-center-x"
+                type="range"
+                min="-10"
+                max="10"
+                step="0.01"
+                value="0"
+              />
+              <label id="label-center-x" for="slider-center-x">0</label>
+              <h3>Center Y</h3>
+              <input
+                id="slider-center-y"
+                type="range"
+                min="-10"
+                max="10"
+                step="0.01"
+                value="0"
+              />
+              <label id="label-center-y" for="slider-center-y">0</label>
+              <h3>Center Z</h3>
+              <input
+                id="slider-center-z"
+                type="range"
+                min="-10"
+                max="10"
+                step="0.01"
+                value="0"
+              />
+              <label id="label-center-z" for="slider-center-z">0</label>
+            </div>
+            <div id="up">
+              <h3>Up X</h3>
+              <input
+                id="slider-up-x"
+                type="range"
+                min="-1"
+                max="1"
+                step="0.01"
+                value="0"
+              />
+              <label id="label-up-x" for="slider-up-x">1</label>
+              <h3>Up Y</h3>
+              <input
+                id="slider-up-y"
+                type="range"
+                min="-1"
+                max="1"
+                step="0.01"
+                value="1"
+              />
+              <label id="label-up-y" for="slider-up-y">1</label>
+              <h3>Up Z</h3>
+              <input
+                id="slider-up-z"
+                type="range"
+                min="-1"
+                max="1"
+                step="0.01"
+                value="0"
+              />
+              <label id="label-up-z" for="slider-up-z">1</label>
+            </div>
           </div>
         </div>
       </div>

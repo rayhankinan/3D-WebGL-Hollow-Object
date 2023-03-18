@@ -55,6 +55,14 @@ canvas {
   padding: 25px;
 }
 
+#control-section {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, auto));
+  gap: 1vw;
+  padding: 1vw;
+}
+
 #left-panel {
   background-color: #040404;
   border-radius: 0px 20px 20px 0px;
@@ -67,17 +75,41 @@ canvas {
   z-index: 2;
 }
 
-#right-panel {
+#control-panel {
+  position: fixed;
   background-color: #040404;
-  border-radius: 20px 0px 0px 10px;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.8);
   color: #fdfdfd;
   height: fit-content;
-  position: absolute;
-  top: 20%;
-  right: 0;
-  width: 18vw;
+  width: 100vw;
+  bottom: 0;
   z-index: 2;
+}
+
+#transformation_sliders {
+  grid-row-start: 2;
+  grid-column-start: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+#camera_sliders {
+  grid-row-start: 2;
+  grid-column-start: 2;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+#translation {
+  grid-column-start: 1;
+}
+
+#rotation {
+  grid-column-start: 2;
+}
+
+#scaling {
+  grid-column-start: 3;
 }
 
 .btn {

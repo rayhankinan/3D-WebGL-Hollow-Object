@@ -5,6 +5,7 @@ import Projection from "Main/Operations/projection";
 import ProjectionParams from "Main/Types/projection-params";
 import ProjectionType from "Main/Types/projection-type";
 import Face from "Objects/face";
+import Camera from "Main/Operations/camera";
 
 class Shape implements ShapeInterface {
   constructor(
@@ -120,7 +121,8 @@ class Shape implements ShapeInterface {
     positionBuffer: WebGLBuffer,
     colorBuffer: WebGLBuffer,
     projectionType: T,
-    params: ProjectionParams[T]
+    params: ProjectionParams[T],
+    camera: Camera
   ): void {
     const positionLocation = gl.getAttribLocation(program, "a_position");
     const colorLocation = gl.getAttribLocation(program, "a_color");
@@ -219,7 +221,10 @@ class Shape implements ShapeInterface {
         break;
     }
 
-    const rawMatrix = matrix.flatten();
+    camera.cameraMatrix = camera.lookAt();
+    camera.generateViewMatrix();
+    var viewModelMatrix = matrix.multiplyMatrix(camera.cameraMatrix);
+    const rawMatrix = viewModelMatrix.flatten();
 
     gl.uniformMatrix4fv(matrixLocation, false, rawMatrix);
 

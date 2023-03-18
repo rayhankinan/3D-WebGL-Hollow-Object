@@ -8,6 +8,7 @@ import ProjectionParams from "Types/projection-params";
 import FileHandling from "Files/file-handling";
 import FileSystem from "Files/file-system";
 import DEFAULT_SHAPE from "Main/default-shape";
+import Camera from "./Operations/camera";
 
 /* Create Program */
 const canvas = document.getElementById("webgl-canvas") as HTMLCanvasElement;
@@ -49,6 +50,7 @@ const positionBuffer = gl.createBuffer();
 const colorBuffer = gl.createBuffer();
 
 /* Get HTML Element */
+/* Transformation elements */
 const sliderTranslateX = document.getElementById(
   "slider-translate-x"
 ) as HTMLInputElement;
@@ -94,6 +96,40 @@ const sliderScaleZ = document.getElementById(
 ) as HTMLInputElement;
 const labelScaleZ = document.getElementById("label-scale-z");
 
+/* Camera control elements */
+const sliderEyeX = document.getElementById("slider-eye-x") as HTMLInputElement;
+const labelEyeX = document.getElementById("label-eye-x");
+
+const sliderEyeY = document.getElementById("slider-eye-y") as HTMLInputElement;
+const labelEyeY = document.getElementById("label-eye-y");
+
+const sliderEyeZ = document.getElementById("slider-eye-z") as HTMLInputElement;
+const labelEyeZ = document.getElementById("label-eye-z");
+
+const sliderCenterX = document.getElementById(
+  "slider-center-x"
+) as HTMLInputElement;
+const labelCenterX = document.getElementById("label-center-x");
+
+const sliderCenterY = document.getElementById(
+  "slider-center-y"
+) as HTMLInputElement;
+const labelCenterY = document.getElementById("label-center-y");
+
+const sliderCenterZ = document.getElementById(
+  "slider-center-z"
+) as HTMLInputElement;
+const labelCenterZ = document.getElementById("label-center-z");
+
+const sliderUpX = document.getElementById("slider-up-x") as HTMLInputElement;
+const labelUpX = document.getElementById("label-up-x");
+
+const sliderUpY = document.getElementById("slider-up-y") as HTMLInputElement;
+const labelUpY = document.getElementById("label-up-y");
+
+const sliderUpZ = document.getElementById("slider-up-z") as HTMLInputElement;
+const labelUpZ = document.getElementById("label-up-z");
+
 const loadButton = document.getElementById("load-btn");
 const saveButton = document.getElementById("save-btn");
 
@@ -126,6 +162,11 @@ let projectionParams: ProjectionParams = {
     angle: degToRad(45),
   },
 };
+let cameraEye = [0, 0, 20];
+let cameraCenter = [0, 0, 0];
+let cameraUp = [0, 1, 0];
+let camera = new Camera();
+// Set custom lookAt numbers
 
 /* Render Canvas */
 const renderCanvas = () => {
@@ -139,7 +180,8 @@ const renderCanvas = () => {
     positionBuffer,
     colorBuffer,
     projectionType,
-    projectionParams[projectionType]
+    projectionParams[projectionType],
+    camera
   );
 
   /* Render Recursively */
@@ -174,9 +216,37 @@ const initializeDefaultValue = () => {
 
   sliderScaleZ.valueAsNumber = object.sz;
   labelScaleZ.textContent = object.sz.toString();
+
+  sliderEyeX.valueAsNumber = cameraEye[0];
+  labelEyeX.textContent = cameraEye[0].toString();
+
+  sliderEyeY.valueAsNumber = cameraEye[1];
+  labelEyeY.textContent = cameraEye[1].toString();
+
+  sliderEyeZ.valueAsNumber = cameraEye[2];
+  labelEyeZ.textContent = cameraEye[2].toString();
+
+  sliderCenterX.valueAsNumber = cameraCenter[0];
+  labelCenterX.textContent = cameraCenter[0].toString();
+
+  sliderCenterY.valueAsNumber = cameraCenter[1];
+  labelCenterY.textContent = cameraCenter[1].toString();
+
+  sliderCenterZ.valueAsNumber = cameraCenter[2];
+  labelCenterZ.textContent = cameraCenter[2].toString();
+
+  sliderUpX.valueAsNumber = cameraUp[0];
+  labelUpX.textContent = cameraUp[0].toString();
+
+  sliderUpY.valueAsNumber = cameraUp[1];
+  labelUpY.textContent = cameraUp[1].toString();
+
+  sliderUpZ.valueAsNumber = cameraUp[2];
+  labelUpZ.textContent = cameraUp[2].toString();
 };
 
 /* Event Listener */
+/* Transformation listener */
 sliderTranslateX.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
 
@@ -238,6 +308,70 @@ sliderScaleZ.addEventListener("input", (event) => {
 
   labelScaleZ.textContent = delta.toString();
   object.scaleZ(delta);
+});
+
+/* Camera control listener */
+sliderEyeX.addEventListener("input", (event) => {
+  const delta = (event.target as HTMLInputElement).valueAsNumber;
+
+  labelEyeX.textContent = delta.toString();
+  camera.setEyePosition(0, delta);
+});
+
+sliderEyeY.addEventListener("input", (event) => {
+  const delta = (event.target as HTMLInputElement).valueAsNumber;
+
+  labelEyeY.textContent = delta.toString();
+  camera.setEyePosition(1, delta);
+});
+
+sliderEyeZ.addEventListener("input", (event) => {
+  const delta = (event.target as HTMLInputElement).valueAsNumber;
+
+  labelEyeZ.textContent = delta.toString();
+  camera.setEyePosition(2, delta);
+});
+
+sliderCenterX.addEventListener("input", (event) => {
+  const delta = (event.target as HTMLInputElement).valueAsNumber;
+
+  labelCenterX.textContent = delta.toString();
+  camera.setCenterPosition(0, delta);
+});
+
+sliderCenterY.addEventListener("input", (event) => {
+  const delta = (event.target as HTMLInputElement).valueAsNumber;
+
+  labelCenterY.textContent = delta.toString();
+  camera.setCenterPosition(1, delta);
+});
+
+sliderCenterZ.addEventListener("input", (event) => {
+  const delta = (event.target as HTMLInputElement).valueAsNumber;
+
+  labelCenterZ.textContent = delta.toString();
+  camera.setCenterPosition(2, delta);
+});
+
+sliderUpX.addEventListener("input", (event) => {
+  const delta = (event.target as HTMLInputElement).valueAsNumber;
+
+  labelUpX.textContent = delta.toString();
+  camera.setUpPosition(0, delta);
+});
+
+sliderUpY.addEventListener("input", (event) => {
+  const delta = (event.target as HTMLInputElement).valueAsNumber;
+
+  labelUpY.textContent = delta.toString();
+  camera.setUpPosition(1, delta);
+});
+
+sliderUpZ.addEventListener("input", (event) => {
+  const delta = (event.target as HTMLInputElement).valueAsNumber;
+
+  labelUpZ.textContent = delta.toString();
+  camera.setUpPosition(2, delta);
 });
 
 loadButton.addEventListener("click", () => {

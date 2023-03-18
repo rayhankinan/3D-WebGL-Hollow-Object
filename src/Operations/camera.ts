@@ -1,5 +1,6 @@
 import Coordinate from "./coordinate";
 import Matrix from "./matrix";
+import Transformation from "./transformation";
 import Vector from "./vector";
 
 class Camera {
@@ -12,6 +13,7 @@ class Camera {
   public eye = new Vector(0, 0, 20);
   public center = new Vector(0, 0, 0);
   public up = new Vector(0, 1, 0);
+  public radius = 0;
   public viewMatrix: Matrix;
 
   setEyePosition(idx: number, value: number) {
@@ -44,6 +46,10 @@ class Camera {
     }
   }
 
+  setRadiusRange(value: number) {
+    this.radius = value;
+  }
+
   lookAt(): Matrix {
     var vectorOp1 = this.eye.subtract(this.center);
     var zAxis = vectorOp1.normalize();
@@ -63,6 +69,9 @@ class Camera {
   }
 
   generateViewMatrix() {
+    this.cameraMatrix = this.cameraMatrix.multiplyMatrix(
+      Transformation.translation(0, 0, this.radius)
+    );
     this.viewMatrix = this.cameraMatrix.inverse();
   }
 }

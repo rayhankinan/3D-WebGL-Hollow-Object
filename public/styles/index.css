@@ -57,9 +57,8 @@ canvas {
 
 #control-section {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, 42vw);
   grid-template-rows: repeat(2, minmax(0, auto));
-  gap: 1vw;
   padding: 1vw;
 }
 
@@ -100,6 +99,11 @@ canvas {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+#extra-controls {
+  grid-row-start: 2;
+  grid-column-start: 3;
+}
+
 #translation {
   grid-column-start: 1;
 }
@@ -123,7 +127,7 @@ canvas {
   display: inline-flex;
   font-size: 1rem;
   font-weight: 700;
-  height: 56px;
+  height: 5vh;
   justify-content: center;
   line-height: 24px;
   overflow-wrap: break-word;
@@ -138,9 +142,44 @@ canvas {
   touch-action: manipulation;
 }
 
+.shading-btn {
+  align-items: center;
+  background: #ffffff;
+  border: 0 solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  color: #1a202c;
+  display: inline-flex;
+  font-size: 1rem;
+  font-weight: 700;
+  height: 5vh;
+  justify-content: center;
+  line-height: 24px;
+  overflow-wrap: break-word;
+  padding-left: 8px;
+  text-decoration: none;
+  margin-bottom: 2px;
+  width: 13vw;
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
 .btn:hover {
   transition: all 0.1s ease;
   background-color: rgb(150, 150, 150);
+}
+
+.shading-btn:hover {
+  transition: all 0.1s ease;
+  background-color: rgb(150, 150, 150);
+}
+
+.active {
+  background-color: rgb(3, 255, 16);
 }
 
 input[type="range"] {

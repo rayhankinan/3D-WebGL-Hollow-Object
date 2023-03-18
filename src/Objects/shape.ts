@@ -223,7 +223,7 @@ class Shape implements ShapeInterface {
 
     camera.cameraMatrix = camera.lookAt();
     camera.generateViewMatrix();
-    var viewModelMatrix = matrix.multiplyMatrix(camera.cameraMatrix);
+    var viewModelMatrix = matrix.multiplyMatrix(camera.viewMatrix);
     const rawMatrix = viewModelMatrix.flatten();
 
     gl.uniformMatrix4fv(matrixLocation, false, rawMatrix);

@@ -140,6 +140,8 @@ const saveButton = document.getElementById("save-btn");
 
 const shadingModeButton = document.getElementById("shading-mode-btn");
 
+const animationModeButton = document.getElementById("animation-mode-btn");
+
 const listOfProjection = document.getElementById(
   "list-of-projection"
 ) as HTMLSelectElement;
@@ -171,6 +173,8 @@ let projectionParams: ProjectionParams = {
 };
 let camera = new Camera();
 let shader = false;
+let animation = false;
+let AngleY = sliderAngleY.valueAsNumber;
 // Set custom lookAt numbers
 
 /* Render Canvas */
@@ -188,6 +192,14 @@ const renderCanvas = () => {
     projectionParams[projectionType],
     camera
   );
+
+  /* Update Angle if animation is enabled */
+  if (animation) {
+    AngleY =  (AngleY + 1) % 360;
+    sliderAngleY.valueAsNumber = AngleY;
+    labelAngleY.textContent = AngleY.toString();
+    object.rotateY(degToRad(AngleY));
+  }
 
   /* Render Recursively */
   window.requestAnimationFrame(renderCanvas);
@@ -253,6 +265,8 @@ const initializeDefaultValue = () => {
   labelCamRadius.textContent = "0";
 
   shadingModeButton.textContent = "OFF";
+
+  animationModeButton.textContent = "OFF";
 };
 
 /* Event Listener */
@@ -413,6 +427,17 @@ shadingModeButton.addEventListener("click", () => {
     shader = false;
     shadingModeButton.classList.remove("active");
     shadingModeButton.textContent = "OFF";
+  }
+});
+
+animationModeButton.addEventListener("click", () => {
+  if (!animation) {
+    animation = true;
+    animationModeButton.textContent = "ON"
+  }
+  else {
+    animation = false;
+    animationModeButton.textContent = "OFF"
   }
 });
 

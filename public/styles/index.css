@@ -142,7 +142,7 @@ canvas {
   touch-action: manipulation;
 }
 
-.shading-btn {
+.shading-btn, .animation-btn {
   align-items: center;
   background: #ffffff;
   border: 0 solid #e2e8f0;
@@ -153,7 +153,7 @@ canvas {
   display: inline-flex;
   font-size: 1rem;
   font-weight: 700;
-  height: 5vh;
+  height: 3vh;
   justify-content: center;
   line-height: 24px;
   overflow-wrap: break-word;
@@ -173,7 +173,7 @@ canvas {
   background-color: rgb(150, 150, 150);
 }
 
-.shading-btn:hover {
+.shading-btn:hover, .animation-btn:hover {
   transition: all 0.1s ease;
   background-color: rgb(150, 150, 150);
 }

@@ -200,6 +200,9 @@ const renderCanvas = () => {
     labelAngleY.textContent = AngleY.toString();
     object.rotateY(degToRad(AngleY));
   }
+  else {
+    AngleY = sliderAngleY.valueAsNumber;
+  }
 
   /* Render Recursively */
   window.requestAnimationFrame(renderCanvas);

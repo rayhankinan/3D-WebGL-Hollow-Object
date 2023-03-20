@@ -57,11 +57,12 @@ class Projection {
     const pOrtho = this.orthographic(ortho_left, ortho_right, ortho_bottom, ortho_top, ortho_near, ortho_far)
     
     // Calculate transposed shear projection matrix
-    const shearX = 1/Math.tan(angle);
-    const shearY = 1/Math.tan(angle);
+    const cot_angle = 1/Math.tan(angle);
+    const shearX = factor*cot_angle;
+    const shearY = factor*-cot_angle;
     const pTrShear1 = new Coordinate(1, 0, 0, 0);
     const pTrShear2 = new Coordinate(0, 1, 0, 0);
-    const pTrShear3 = new Coordinate(factor*shearX, factor*-shearY, 1, 0);
+    const pTrShear3 = new Coordinate(shearX, shearY, 1, 0);
     const pTrShear4 = new Coordinate(0, 0, 0, 1);
     const pTrShear = new Matrix(pTrShear1, pTrShear2, pTrShear3, pTrShear4);
     

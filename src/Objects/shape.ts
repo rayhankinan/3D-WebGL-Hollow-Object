@@ -215,9 +215,13 @@ class Shape implements ShapeInterface {
         ).multiplyMatrix(matrix);
         break;
       case "oblique":
-        const { factor, angle } = params as ProjectionParams["oblique"];
+        const { factor, angle, ortho_left, ortho_right, 
+                ortho_bottom, ortho_top, ortho_near, 
+                ortho_far } = params as ProjectionParams["oblique"];
 
-        matrix = Projection.oblique(factor, angle).multiplyMatrix(matrix);
+        matrix = Projection.oblique(factor, angle, ortho_left, ortho_right, 
+                                    ortho_bottom, ortho_top, ortho_near, 
+                                    ortho_far).multiplyMatrix(matrix);
         break;
     }
 

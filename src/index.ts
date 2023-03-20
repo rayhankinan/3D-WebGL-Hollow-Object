@@ -167,8 +167,14 @@ let projectionParams: ProjectionParams = {
     far: 2000,
   },
   oblique: {
-    factor: 0.5,
-    angle: degToRad(45),
+    factor: 0.1,
+    angle: degToRad(15),
+    ortho_left: 0,
+    ortho_right: (gl.canvas as HTMLCanvasElement).clientWidth,
+    ortho_bottom: (gl.canvas as HTMLCanvasElement).clientHeight,
+    ortho_top: 0,
+    ortho_near: 400,
+    ortho_far : -400
   },
 };
 let camera = new Camera();

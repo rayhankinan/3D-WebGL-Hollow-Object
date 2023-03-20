@@ -13,7 +13,15 @@ type ProjectionParams = {
     near: number;
     far: number;
   };
-  oblique: { factor: number; angle: number };
+  oblique: { 
+    factor: number; 
+    angle: number;     
+    ortho_left: number;
+    ortho_right: number;
+    ortho_bottom: number;
+    ortho_top: number;
+    ortho_near: number;
+    ortho_far: number };
 };
 
 export default ProjectionParams;

@@ -43,19 +43,32 @@ class Projection {
     return new Matrix(p1, p2, p3, p4);
   }
 
-  /* TODO: MASIH BELUM BISA */
-  public static oblique(factor: number, angle: number): Matrix {
-    const p1 = new Coordinate(1, 0, 0, 0);
-    const p2 = new Coordinate(0, 1, 0, 0);
-    const p3 = new Coordinate(
-      factor * Math.cos(angle),
-      factor * Math.sin(angle),
-      0,
-      0
-    );
-    const p4 = new Coordinate(0, 0, 0, 1);
+  /* SUDAH BISA */
+  public static oblique(
+    factor: number, 
+    angle: number,     
+    ortho_left: number,
+    ortho_right: number,
+    ortho_bottom: number,
+    ortho_top: number,
+    ortho_near: number,
+    ortho_far: number): Matrix {
+    // Calculate orthographic projection matrix
+    const pOrtho = this.orthographic(ortho_left, ortho_right, ortho_bottom, ortho_top, ortho_near, ortho_far)
 
-    return new Matrix(p1, p2, p3, p4);
+    const cotAngle = 1/Math.tan(angle);
+    
+    // Calculate oblique projection matrix
+    const pObli1 = new Coordinate(1, 0, 0, 0);
+    const pObli2 = new Coordinate(0, 1, 0, 0);
+    const pObli3 = new Coordinate(factor*cotAngle, factor*cotAngle, 1, 0);
+    const pObli4 = new Coordinate(0, 0, 0, 1);
+    const pOblique = new Matrix(pObli1, pObli2, pObli3, pObli4);
+    
+    // Calculate final projection matrix using oblique
+    const projectionMatrix = pOblique.multiplyMatrix(pOrtho);
+
+    return projectionMatrix;
   }
 }
 

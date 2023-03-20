@@ -442,10 +442,12 @@ shadingModeButton.addEventListener("click", () => {
 animationModeButton.addEventListener("click", () => {
   if (!animation) {
     animation = true;
+    animationModeButton.classList.add("active");
     animationModeButton.textContent = "ON"
   }
   else {
     animation = false;
+    animationModeButton.classList.remove("active");
     animationModeButton.textContent = "OFF"
   }
 });

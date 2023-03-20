@@ -55,20 +55,20 @@ class Projection {
     ortho_far: number): Matrix {
     // Calculate orthographic projection matrix
     const pOrtho = this.orthographic(ortho_left, ortho_right, ortho_bottom, ortho_top, ortho_near, ortho_far)
-
-    const cotAngle = 1/Math.tan(angle);
+    
+    // Calculate transposed shear projection matrix
+    const shearX = 1/Math.tan(angle);
+    const shearY = 1/Math.tan(angle);
+    const pTrShear1 = new Coordinate(1, 0, 0, 0);
+    const pTrShear2 = new Coordinate(0, 1, 0, 0);
+    const pTrShear3 = new Coordinate(factor*shearX, factor*-shearY, 1, 0);
+    const pTrShear4 = new Coordinate(0, 0, 0, 1);
+    const pTrShear = new Matrix(pTrShear1, pTrShear2, pTrShear3, pTrShear4);
     
     // Calculate oblique projection matrix
-    const pObli1 = new Coordinate(1, 0, 0, 0);
-    const pObli2 = new Coordinate(0, 1, 0, 0);
-    const pObli3 = new Coordinate(factor*cotAngle, factor*cotAngle, 1, 0);
-    const pObli4 = new Coordinate(0, 0, 0, 1);
-    const pOblique = new Matrix(pObli1, pObli2, pObli3, pObli4);
-    
-    // Calculate final projection matrix using oblique
-    const projectionMatrix = pOblique.multiplyMatrix(pOrtho);
+    const obliqueMatrix = pOrtho.multiplyMatrix(pTrShear);
 
-    return projectionMatrix;
+    return obliqueMatrix;
   }
 }
 

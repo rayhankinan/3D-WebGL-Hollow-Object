@@ -1,8 +1,13 @@
 import VectorInterface from "Main/Interfaces/vector-interface";
 import Coordinate from "Operations/coordinate";
+import CLOSEST_TO_ZERO from "Main/Constants/closest-to-zero";
 
 class Vector extends Coordinate implements VectorInterface {
-  public constructor(public x: number, public y: number, public z: number) {
+  public constructor(
+    public readonly x: number,
+    public readonly y: number,
+    public readonly z: number
+  ) {
     super(x, y, z, 0);
   }
 
@@ -11,13 +16,13 @@ class Vector extends Coordinate implements VectorInterface {
   }
 
   public normalize(): Vector {
-    var length = Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+    const length = Math.sqrt(
+      this.x * this.x + this.y * this.y + this.z * this.z
+    );
 
-    if (length > 0.00001) {
-      return new Vector(this.x / length, this.y / length, this.z / length);
-    } else {
-      return new Vector(0, 0, 0);
-    }
+    return length < CLOSEST_TO_ZERO
+      ? new Vector(0, 0, 0)
+      : new Vector(this.x / length, this.y / length, this.z / length);
   }
 
   public subtract(other: Vector): Vector {

@@ -85,14 +85,14 @@ canvas {
   z-index: 2;
 }
 
-#transformation_sliders {
+#transformation-sliders {
   grid-row-start: 2;
   grid-column-start: 1;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-#camera_sliders {
+#camera-sliders {
   grid-row-start: 2;
   grid-column-start: 2;
   display: grid;
@@ -142,7 +142,8 @@ canvas {
   touch-action: manipulation;
 }
 
-.shading-btn, .animation-btn {
+.shading-btn,
+.animation-btn {
   align-items: center;
   background: #ffffff;
   border: 0 solid #e2e8f0;
@@ -173,7 +174,8 @@ canvas {
   background-color: rgb(150, 150, 150);
 }
 
-.shading-btn:hover, .animation-btn:hover {
+.shading-btn:hover,
+.animation-btn:hover {
   transition: all 0.1s ease;
   background-color: rgb(150, 150, 150);
 }

@@ -16,7 +16,8 @@
       "Interfaces/*": ["./src/Interfaces/*"],
       "Files/*": ["./src/Files/*"],
       "Types/*": ["./src/Types/*"],
-      "Factories/*": ["./src/Factories/*"]
+      "Factories/*": ["./src/Factories/*"],
+      "Constants/*": ["./src/Constants/*"]
     }
   },
   "include": ["src/**/*"]

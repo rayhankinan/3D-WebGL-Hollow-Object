@@ -24,6 +24,7 @@ module.exports = {
       Files: path.resolve(__dirname, "src/Files"),
       Types: path.resolve(__dirname, "src/Types"),
       Factories: path.resolve(__dirname, "src/Factories"),
+      Constants: path.resolve(__dirname, "src/Constants"),
     },
   },
   output: {

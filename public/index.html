@@ -59,7 +59,7 @@
       <div id="control-panel">
         <div id="control-section">
           <h2>Transformation</h2>
-          <div id="transformation_sliders">
+          <div id="transformation-sliders">
             <div id="translation">
               <h3>Translate X</h3>
               <input
@@ -157,49 +157,16 @@
               <label id="label-scale-z" for="slider-scale-z">1</label>
             </div>
           </div>
-
           <h2>Camera Controls</h2>
-          <div id="camera_sliders">
-            <div id="eye">
-              <h3>Eye X</h3>
-              <input
-                id="slider-eye-x"
-                type="range"
-                min="-50"
-                max="50"
-                step="0.01"
-                value="0"
-              />
-              <label id="label-eye-x" for="slider-eye-x">0</label>
-              <h3>Eye Y</h3>
-              <input
-                id="slider-eye-y"
-                type="range"
-                min="-50"
-                max="50"
-                step="0.01"
-                value="0"
-              />
-              <label id="label-eye-y" for="slider-eye-y">0</label>
-              <h3>Eye Z</h3>
-              <input
-                id="slider-eye-z"
-                type="range"
-                min="-50"
-                max="50"
-                step="0.01"
-                value="20"
-              />
-              <label id="label-eye-z" for="slider-eye-z">0</label>
-            </div>
+          <div id="camera-sliders">
             <div id="center">
               <h3>Center X</h3>
               <input
                 id="slider-center-x"
                 type="range"
-                min="-10"
-                max="10"
-                step="0.01"
+                min="-100"
+                max="100"
+                step="1"
                 value="0"
               />
               <label id="label-center-x" for="slider-center-x">0</label>
@@ -207,9 +174,9 @@
               <input
                 id="slider-center-y"
                 type="range"
-                min="-10"
-                max="10"
-                step="0.01"
+                min="-100"
+                max="100"
+                step="1"
                 value="0"
               />
               <label id="label-center-y" for="slider-center-y">0</label>
@@ -217,9 +184,9 @@
               <input
                 id="slider-center-z"
                 type="range"
-                min="-10"
-                max="10"
-                step="0.01"
+                min="-100"
+                max="100"
+                step="1"
                 value="0"
               />
               <label id="label-center-z" for="slider-center-z">0</label>
@@ -234,7 +201,7 @@
                 step="0.01"
                 value="0"
               />
-              <label id="label-up-x" for="slider-up-x">1</label>
+              <label id="label-up-x" for="slider-up-x">0</label>
               <h3>Up Y</h3>
               <input
                 id="slider-up-y"
@@ -254,22 +221,32 @@
                 step="0.01"
                 value="0"
               />
-              <label id="label-up-z" for="slider-up-z">1</label>
+              <label id="label-up-z" for="slider-up-z">0</label>
             </div>
-          </div>
-          <div id="extra-controls">
             <div>
               <h3>Camera Radius</h3>
               <input
                 id="slider-radius"
                 type="range"
                 min="0"
-                max="100"
+                max="1000"
                 step="1"
                 value="0"
               />
-              <label id="label-radius" for="slider-radius">1</label>
+              <label id="label-radius" for="slider-radius">0</label>
+              <h3>Camera Angle</h3>
+              <input
+                id="slider-angle"
+                type="range"
+                min="0"
+                max="360"
+                step="10"
+                value="0"
+              />
+              <label id="label-angle" for="slider-angle">0</label>
             </div>
+          </div>
+          <div id="extra-controls">
             <h3>Shading Mode</h3>
             <button class="shading-btn" id="shading-mode-btn">On</button>
             <h3>Enable Animation</h3>

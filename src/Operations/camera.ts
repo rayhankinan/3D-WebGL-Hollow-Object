@@ -1,78 +1,47 @@
-import Coordinate from "./coordinate";
-import Matrix from "./matrix";
-import Transformation from "./transformation";
-import Vector from "./vector";
+import CameraInterface from "Interfaces/camera-interface";
+import Coordinate from "Operations/coordinate";
+import Matrix from "Operations/matrix";
+import Transformation from "Operations/transformation";
+import Vector from "Operations/vector";
 
-class Camera {
-  public cameraMatrix = new Matrix(
-    new Coordinate(1, 0, 0, 0),
-    new Coordinate(0, 1, 0, 0),
-    new Coordinate(0, 0, 1, 0),
-    new Coordinate(0, 0, 0, 1)
-  );
-  public eye = new Vector(0, 0, 20);
-  public center = new Vector(0, 0, 0);
-  public up = new Vector(0, 1, 0);
-  public radius = 0;
-  public viewMatrix: Matrix;
-
-  setEyePosition(idx: number, value: number) {
-    if (idx === 0) {
-      this.eye.x = value;
-    } else if (idx === 1) {
-      this.eye.y = value;
-    } else if (idx === 2) {
-      this.eye.z = value;
-    }
-  }
-
-  setCenterPosition(idx: number, value: number) {
-    if (idx === 0) {
-      this.center.x = value;
-    } else if (idx === 1) {
-      this.center.y = value;
-    } else if (idx === 2) {
-      this.center.z = value;
-    }
-  }
-
-  setUpPosition(idx: number, value: number) {
-    if (idx === 0) {
-      this.up.x = value;
-    } else if (idx === 1) {
-      this.up.y = value;
-    } else if (idx === 2) {
-      this.up.z = value;
-    }
-  }
-
-  setRadiusRange(value: number) {
-    this.radius = value;
-  }
+class Camera implements CameraInterface {
+  public constructor(
+    public radius: number = 50,
+    public angle: number = 0,
+    public targetX: number = 0,
+    public targetY: number = 0,
+    public targetZ: number = 0,
+    public upX: number = 0,
+    public upY: number = 1,
+    public upZ: number = 0
+  ) {}
 
   lookAt(): Matrix {
-    var vectorOp1 = this.eye.subtract(this.center);
-    var zAxis = vectorOp1.normalize();
+    const initialMatrix = Transformation.rotationY(this.angle).multiplyMatrix(
+      Transformation.translation(0, 0, this.radius)
+    );
+    const cameraPosition = initialMatrix.a4;
 
-    var vectorOp2 = this.up.cross(zAxis);
-    var xAxis = vectorOp2.normalize();
+    const eye = new Vector(
+      cameraPosition.x,
+      cameraPosition.y,
+      cameraPosition.z
+    );
+    const center = new Vector(this.targetX, this.targetY, this.targetZ);
+    const up = new Vector(this.upX, this.upY, this.upZ);
 
-    var vectorOp3 = zAxis.cross(xAxis);
-    var yAxis = vectorOp3.normalize();
+    const zAxis = eye.subtract(center).normalize();
+    const xAxis = up.cross(zAxis).normalize();
+    const yAxis = zAxis.cross(xAxis).normalize();
 
-    return new Matrix(
+    const cameraMatrix = new Matrix(
       new Coordinate(xAxis.x, xAxis.y, xAxis.z, 0),
       new Coordinate(yAxis.x, yAxis.y, yAxis.z, 0),
       new Coordinate(zAxis.x, zAxis.y, zAxis.z, 0),
-      new Coordinate(this.eye.x, this.eye.y, this.eye.z, 1)
+      new Coordinate(eye.x, eye.y, eye.z, 1)
     );
-  }
 
-  generateViewMatrix() {
-    this.cameraMatrix = this.cameraMatrix.multiplyMatrix(
-      Transformation.translation(0, 0, this.radius)
-    );
-    this.viewMatrix = this.cameraMatrix.inverse();
+    return cameraMatrix.inverse();
   }
 }
 

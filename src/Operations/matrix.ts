@@ -104,7 +104,7 @@ class Matrix implements MatrixInterface {
     const m43 = this.a4.z;
     const m44 = this.a4.w;
 
-    // Find 3x3 determinant of each term
+    /* Find 3x3 determinant of each term */
     const detm11 =
       m22 * m33 * m44 +
       m23 * m34 * m42 +

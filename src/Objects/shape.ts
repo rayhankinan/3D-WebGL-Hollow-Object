@@ -6,8 +6,6 @@ import ProjectionParams from "Main/Types/projection-params";
 import ProjectionType from "Main/Types/projection-type";
 import Face from "Objects/face";
 import Camera from "Main/Operations/camera";
-import Matrix from "Main/Operations/matrix";
-import Coordinate from "Main/Operations/coordinate";
 
 class Shape implements ShapeInterface {
   constructor(
@@ -181,6 +179,8 @@ class Shape implements ShapeInterface {
       this.findCenter()
     );
 
+    matrix = camera.lookAt().multiplyMatrix(matrix);
+
     switch (projectionType) {
       case "orthographic":
         const {
@@ -240,10 +240,7 @@ class Shape implements ShapeInterface {
         ).multiplyMatrix(matrix);
         break;
     }
-
-    const cameraMatrix = camera.lookAt();
-    const viewModelMatrix = matrix.multiplyMatrix(cameraMatrix);
-    const rawMatrix = viewModelMatrix.flatten();
+    const rawMatrix = matrix.flatten();
 
     gl.uniformMatrix4fv(matrixLocation, false, rawMatrix);
 

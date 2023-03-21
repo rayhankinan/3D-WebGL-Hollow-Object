@@ -4,7 +4,8 @@ import Point from "Operations/point";
 import Color from "Operations/color";
 import { degToRad } from "Utils/angle";
 
-const DEFAULT_SHAPE = new Shape(
+function generate_default_shape() { 
+  return new Shape(
   [
     new Face(
       [
@@ -193,5 +194,6 @@ const DEFAULT_SHAPE = new Shape(
   1,
   1
 );
+}
 
-export default DEFAULT_SHAPE;
+export default generate_default_shape;

@@ -7,7 +7,7 @@ import ProjectionType from "Types/projection-type";
 import ProjectionParams from "Types/projection-params";
 import FileHandling from "Files/file-handling";
 import FileSystem from "Files/file-system";
-import DEFAULT_SHAPE from "Main/default-shape";
+import generate_default_shape from "Main/default-shape";
 import Camera from "./Operations/camera";
 
 /* Create Program */
@@ -146,8 +146,10 @@ const listOfProjection = document.getElementById(
   "list-of-projection"
 ) as HTMLSelectElement;
 
+const resetButton = document.getElementById("reset-btn");
+
 /* Global Variables */
-let object: Shape = DEFAULT_SHAPE;
+let object: Shape;
 let projectionType: ProjectionType = "orthographic";
 let projectionParams: ProjectionParams = {
   orthographic: {
@@ -177,7 +179,7 @@ let projectionParams: ProjectionParams = {
     ortho_far : -400
   },
 };
-let camera = new Camera();
+let camera: Camera;
 let shader = false;
 let animation = false;
 let AngleY = sliderAngleY.valueAsNumber;
@@ -216,6 +218,9 @@ const renderCanvas = () => {
 
 /* Initialize Default Value */
 const initializeDefaultValue = () => {
+  object = generate_default_shape();
+  camera = new Camera();
+
   sliderTranslateX.valueAsNumber = object.tx;
   labelTranslateX.textContent = object.tx.toString();
 
@@ -274,8 +279,11 @@ const initializeDefaultValue = () => {
   labelCamRadius.textContent = "0";
 
   shadingModeButton.textContent = "OFF";
+  shadingModeButton.classList.remove("active");
 
   animationModeButton.textContent = "OFF";
+  animationModeButton.classList.remove("active");
+  animation = false;
 };
 
 /* Event Listener */
@@ -458,6 +466,10 @@ listOfProjection.addEventListener("change", (event) => {
 
   projectionType = newProjectionType;
 });
+
+resetButton.addEventListener("click", (event) =>{
+  initializeDefaultValue();
+})
 
 document.addEventListener("DOMContentLoaded", () => {
   initializeDefaultValue();

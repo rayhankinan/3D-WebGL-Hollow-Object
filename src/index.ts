@@ -143,7 +143,7 @@ const listOfProjection = document.getElementById(
 const resetButton = document.getElementById("reset-btn");
 
 /* Global Variables */
-let object: Shape = generateDefaultShape();
+let object: Shape;
 let projectionType: ProjectionType = "orthographic";
 let projectionParams: ProjectionParams = {
   orthographic: {
@@ -173,7 +173,7 @@ let projectionParams: ProjectionParams = {
     ortho_far: -1000,
   },
 };
-let camera: Camera = new Camera();
+let camera: Camera;
 let shader = false;
 let animation = false;
 let angleY = sliderAngleY.valueAsNumber;
@@ -210,7 +210,10 @@ const renderCanvas = () => {
 };
 
 /* Initialize Default Value */
-const initializeDefaultValue = () => {
+const initializeDefaultValue = (objectShape : Shape) => {
+  object = objectShape;
+  camera = new Camera();
+
   sliderTranslateX.valueAsNumber = object.tx;
   labelTranslateX.textContent = object.tx.toString();
 
@@ -394,9 +397,7 @@ sliderCamAngle.addEventListener("input", (event) => {
 
 loadButton.addEventListener("click", () => {
   FileHandling.upload((text) => {
-    object = FileSystem.loadShape(text);
-
-    initializeDefaultValue();
+    initializeDefaultValue(FileSystem.loadShape(text));
   });
 });
 
@@ -438,10 +439,10 @@ listOfProjection.addEventListener("change", () => {
 });
 
 resetButton.addEventListener("click", () => {
-  initializeDefaultValue();
+  initializeDefaultValue(generateDefaultShape());
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  initializeDefaultValue();
+  initializeDefaultValue(generateDefaultShape());
   renderCanvas();
 });

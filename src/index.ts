@@ -262,7 +262,12 @@ const initializeDefaultValue = () => {
   sliderCamRadius.valueAsNumber = camera.radius;
   labelCamRadius.textContent = camera.radius.toString();
 
+  sliderCamAngle.valueAsNumber = camera.angle;
+  labelCamAngle.textContent = camera.angle.toString();
+
   shadingModeButton.textContent = "OFF";
+  shadingModeButton.classList.remove("active");
+
   animationModeButton.textContent = "OFF";
   animationModeButton.classList.remove("active");
   animation = false;

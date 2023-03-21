@@ -6,6 +6,8 @@ import ProjectionParams from "Main/Types/projection-params";
 import ProjectionType from "Main/Types/projection-type";
 import Face from "Objects/face";
 import Camera from "Main/Operations/camera";
+import Matrix from "Main/Operations/matrix";
+import Coordinate from "Main/Operations/coordinate";
 
 class Shape implements ShapeInterface {
   constructor(
@@ -215,19 +217,32 @@ class Shape implements ShapeInterface {
         ).multiplyMatrix(matrix);
         break;
       case "oblique":
-        const { factor, angle, ortho_left, ortho_right, 
-                ortho_bottom, ortho_top, ortho_near, 
-                ortho_far } = params as ProjectionParams["oblique"];
+        const {
+          factor,
+          angle,
+          ortho_left,
+          ortho_right,
+          ortho_bottom,
+          ortho_top,
+          ortho_near,
+          ortho_far,
+        } = params as ProjectionParams["oblique"];
 
-        matrix = Projection.oblique(factor, angle, ortho_left, ortho_right, 
-                                    ortho_bottom, ortho_top, ortho_near, 
-                                    ortho_far).multiplyMatrix(matrix);
+        matrix = Projection.oblique(
+          factor,
+          angle,
+          ortho_left,
+          ortho_right,
+          ortho_bottom,
+          ortho_top,
+          ortho_near,
+          ortho_far
+        ).multiplyMatrix(matrix);
         break;
     }
 
-    camera.cameraMatrix = camera.lookAt();
-    camera.generateViewMatrix();
-    var viewModelMatrix = matrix.multiplyMatrix(camera.viewMatrix);
+    const cameraMatrix = camera.lookAt();
+    const viewModelMatrix = matrix.multiplyMatrix(cameraMatrix);
     const rawMatrix = viewModelMatrix.flatten();
 
     gl.uniformMatrix4fv(matrixLocation, false, rawMatrix);

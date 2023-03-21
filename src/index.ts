@@ -7,8 +7,9 @@ import ProjectionType from "Types/projection-type";
 import ProjectionParams from "Types/projection-params";
 import FileHandling from "Files/file-handling";
 import FileSystem from "Files/file-system";
+import Camera from "Operations/camera";
+
 import DEFAULT_SHAPE from "Main/default-shape";
-import Camera from "./Operations/camera";
 
 /* Create Program */
 const canvas = document.getElementById("webgl-canvas") as HTMLCanvasElement;
@@ -97,15 +98,6 @@ const sliderScaleZ = document.getElementById(
 const labelScaleZ = document.getElementById("label-scale-z");
 
 /* Camera control elements */
-const sliderEyeX = document.getElementById("slider-eye-x") as HTMLInputElement;
-const labelEyeX = document.getElementById("label-eye-x");
-
-const sliderEyeY = document.getElementById("slider-eye-y") as HTMLInputElement;
-const labelEyeY = document.getElementById("label-eye-y");
-
-const sliderEyeZ = document.getElementById("slider-eye-z") as HTMLInputElement;
-const labelEyeZ = document.getElementById("label-eye-z");
-
 const sliderCenterX = document.getElementById(
   "slider-center-x"
 ) as HTMLInputElement;
@@ -135,11 +127,14 @@ const sliderCamRadius = document.getElementById(
 ) as HTMLInputElement;
 const labelCamRadius = document.getElementById("label-radius");
 
+const sliderCamAngle = document.getElementById(
+  "slider-angle"
+) as HTMLInputElement;
+const labelCamAngle = document.getElementById("label-angle");
+
 const loadButton = document.getElementById("load-btn");
 const saveButton = document.getElementById("save-btn");
-
 const shadingModeButton = document.getElementById("shading-mode-btn");
-
 const animationModeButton = document.getElementById("animation-mode-btn");
 
 const listOfProjection = document.getElementById(
@@ -174,14 +169,13 @@ let projectionParams: ProjectionParams = {
     ortho_bottom: (gl.canvas as HTMLCanvasElement).clientHeight,
     ortho_top: 0,
     ortho_near: 400,
-    ortho_far : -400
+    ortho_far: -400,
   },
 };
 let camera = new Camera();
 let shader = false;
 let animation = false;
-let AngleY = sliderAngleY.valueAsNumber;
-// Set custom lookAt numbers
+let angleY = sliderAngleY.valueAsNumber;
 
 /* Render Canvas */
 const renderCanvas = () => {
@@ -199,15 +193,15 @@ const renderCanvas = () => {
     camera
   );
 
-  /* Update Angle if animation is enabled */
+  /* Update angle if animation is enabled */
   if (animation) {
-    AngleY =  (AngleY + 1) % 360;
-    sliderAngleY.valueAsNumber = AngleY;
-    labelAngleY.textContent = AngleY.toString();
-    object.rotateY(degToRad(AngleY));
-  }
-  else {
-    AngleY = sliderAngleY.valueAsNumber;
+    angleY = (angleY + 1) % 360;
+    object.rotateY(degToRad(angleY));
+
+    sliderAngleY.valueAsNumber = angleY;
+    labelAngleY.textContent = angleY.toString();
+  } else {
+    angleY = sliderAngleY.valueAsNumber;
   }
 
   /* Render Recursively */
@@ -243,38 +237,28 @@ const initializeDefaultValue = () => {
   sliderScaleZ.valueAsNumber = object.sz;
   labelScaleZ.textContent = object.sz.toString();
 
-  sliderEyeX.valueAsNumber = camera.eye.x;
-  labelEyeX.textContent = camera.eye.x.toString();
+  sliderCenterX.valueAsNumber = camera.targetX;
+  labelCenterX.textContent = camera.targetX.toString();
 
-  sliderEyeY.valueAsNumber = camera.eye.y;
-  labelEyeY.textContent = camera.eye.y.toString();
+  sliderCenterY.valueAsNumber = camera.targetY;
+  labelCenterY.textContent = camera.targetY.toString();
 
-  sliderEyeZ.valueAsNumber = camera.eye.z;
-  labelEyeZ.textContent = camera.eye.z.toString();
+  sliderCenterZ.valueAsNumber = camera.targetZ;
+  labelCenterZ.textContent = camera.targetZ.toString();
 
-  sliderCenterX.valueAsNumber = camera.center.x;
-  labelCenterX.textContent = camera.center.x.toString();
+  sliderUpX.valueAsNumber = camera.upX;
+  labelUpX.textContent = camera.upX.toString();
 
-  sliderCenterY.valueAsNumber = camera.center.y;
-  labelCenterY.textContent = camera.center.y.toString();
+  sliderUpY.valueAsNumber = camera.upY;
+  labelUpY.textContent = camera.upY.toString();
 
-  sliderCenterZ.valueAsNumber = camera.center.z;
-  labelCenterZ.textContent = camera.center.z.toString();
+  sliderUpZ.valueAsNumber = camera.upZ;
+  labelUpZ.textContent = camera.upZ.toString();
 
-  sliderUpX.valueAsNumber = camera.up.x;
-  labelUpX.textContent = camera.up.x.toString();
-
-  sliderUpY.valueAsNumber = camera.up.y;
-  labelUpY.textContent = camera.up.y.toString();
-
-  sliderUpZ.valueAsNumber = camera.up.z;
-  labelUpZ.textContent = camera.up.z.toString();
-
-  sliderCamRadius.valueAsNumber = 0;
-  labelCamRadius.textContent = "0";
+  sliderCamRadius.valueAsNumber = camera.radius;
+  labelCamRadius.textContent = camera.radius.toString();
 
   shadingModeButton.textContent = "OFF";
-
   animationModeButton.textContent = "OFF";
 };
 
@@ -344,75 +328,61 @@ sliderScaleZ.addEventListener("input", (event) => {
 });
 
 /* Camera control listener */
-sliderEyeX.addEventListener("input", (event) => {
-  const delta = (event.target as HTMLInputElement).valueAsNumber;
-
-  labelEyeX.textContent = delta.toString();
-  camera.setEyePosition(0, delta);
-});
-
-sliderEyeY.addEventListener("input", (event) => {
-  const delta = (event.target as HTMLInputElement).valueAsNumber;
-
-  labelEyeY.textContent = delta.toString();
-  camera.setEyePosition(1, delta);
-});
-
-sliderEyeZ.addEventListener("input", (event) => {
-  const delta = (event.target as HTMLInputElement).valueAsNumber;
-
-  labelEyeZ.textContent = delta.toString();
-  camera.setEyePosition(2, delta);
-});
 
 sliderCenterX.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
 
   labelCenterX.textContent = delta.toString();
-  camera.setCenterPosition(0, delta);
+  camera.targetX = delta;
 });
 
 sliderCenterY.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
 
   labelCenterY.textContent = delta.toString();
-  camera.setCenterPosition(1, delta);
+  camera.targetY = delta;
 });
 
 sliderCenterZ.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
 
   labelCenterZ.textContent = delta.toString();
-  camera.setCenterPosition(2, delta);
+  camera.targetZ = delta;
 });
 
 sliderUpX.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
 
   labelUpX.textContent = delta.toString();
-  camera.setUpPosition(0, delta);
+  camera.upX = delta;
 });
 
 sliderUpY.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
 
   labelUpY.textContent = delta.toString();
-  camera.setUpPosition(1, delta);
+  camera.upY = delta;
 });
 
 sliderUpZ.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
 
   labelUpZ.textContent = delta.toString();
-  camera.setUpPosition(2, delta);
+  camera.upZ = delta;
 });
 
 sliderCamRadius.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
 
   labelCamRadius.textContent = delta.toString();
-  console.log(delta);
-  camera.setRadiusRange(delta);
+  camera.radius = delta;
+});
+
+sliderCamAngle.addEventListener("input", (event) => {
+  const delta = (event.target as HTMLInputElement).valueAsNumber;
+
+  labelCamAngle.textContent = delta.toString();
+  camera.angle = degToRad(delta);
 });
 
 loadButton.addEventListener("click", () => {
@@ -441,14 +411,15 @@ shadingModeButton.addEventListener("click", () => {
 
 animationModeButton.addEventListener("click", () => {
   if (!animation) {
-    animation = true;
     animationModeButton.classList.add("active");
-    animationModeButton.textContent = "ON"
-  }
-  else {
-    animation = false;
+    animationModeButton.textContent = "ON";
+
+    animation = true;
+  } else {
     animationModeButton.classList.remove("active");
-    animationModeButton.textContent = "OFF"
+    animationModeButton.textContent = "OFF";
+
+    animation = false;
   }
 });
 

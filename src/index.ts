@@ -7,7 +7,7 @@ import ProjectionType from "Types/projection-type";
 import ProjectionParams from "Types/projection-params";
 import FileHandling from "Files/file-handling";
 import FileSystem from "Files/file-system";
-import generate_default_shape from "Main/default-shape";
+import generateDefaultShape from "Main/default-shape";
 import Camera from "./Operations/camera";
 
 /* Create Program */
@@ -143,7 +143,7 @@ const listOfProjection = document.getElementById(
 const resetButton = document.getElementById("reset-btn");
 
 /* Global Variables */
-let object: Shape;
+let object: Shape = generateDefaultShape();
 let projectionType: ProjectionType = "orthographic";
 let projectionParams: ProjectionParams = {
   orthographic: {
@@ -151,8 +151,8 @@ let projectionParams: ProjectionParams = {
     right: (gl.canvas as HTMLCanvasElement).clientWidth,
     bottom: (gl.canvas as HTMLCanvasElement).clientHeight,
     top: 0,
-    near: 400,
-    far: -400,
+    near: 1000,
+    far: -1000,
   },
   perspective: {
     fieldOfView: degToRad(60),
@@ -169,11 +169,11 @@ let projectionParams: ProjectionParams = {
     ortho_right: (gl.canvas as HTMLCanvasElement).clientWidth,
     ortho_bottom: (gl.canvas as HTMLCanvasElement).clientHeight,
     ortho_top: 0,
-    ortho_near: 400,
-    ortho_far: -400,
+    ortho_near: 1000,
+    ortho_far: -1000,
   },
 };
-let camera: Camera;
+let camera: Camera = new Camera();
 let shader = false;
 let animation = false;
 let angleY = sliderAngleY.valueAsNumber;
@@ -211,9 +211,6 @@ const renderCanvas = () => {
 
 /* Initialize Default Value */
 const initializeDefaultValue = () => {
-  object = generate_default_shape();
-  camera = new Camera();
-
   sliderTranslateX.valueAsNumber = object.tx;
   labelTranslateX.textContent = object.tx.toString();
 
@@ -274,7 +271,7 @@ const initializeDefaultValue = () => {
 };
 
 /* Event Listener */
-/* Transformation listener */
+/* Transformation Listener */
 sliderTranslateX.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
 
@@ -339,7 +336,6 @@ sliderScaleZ.addEventListener("input", (event) => {
 });
 
 /* Camera control listener */
-
 sliderCenterX.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
 
@@ -434,16 +430,16 @@ animationModeButton.addEventListener("click", () => {
   }
 });
 
-listOfProjection.addEventListener("change", (event) => {
+listOfProjection.addEventListener("change", () => {
   const newProjectionType = listOfProjection.selectedOptions[0]
     .value as ProjectionType;
 
   projectionType = newProjectionType;
 });
 
-resetButton.addEventListener("click", (event) =>{
+resetButton.addEventListener("click", () => {
   initializeDefaultValue();
-})
+});
 
 document.addEventListener("DOMContentLoaded", () => {
   initializeDefaultValue();

@@ -8,6 +8,7 @@ import Light from "Objects/light";
 import Color from "Operations/color";
 import ProjectionType from "Types/projection-type";
 import ProjectionParams from "Types/projection-params";
+import ShaderStatus from "Types/shader-status";
 import FileHandling from "Files/file-handling";
 import FileSystem from "Files/file-system";
 import generateDefaultShape from "Main/default-shape";
@@ -103,10 +104,20 @@ const sliderScaleZ = document.getElementById(
 const labelScaleZ = document.getElementById("label-scale-z");
 
 /* Camera Control Elements */
-const sliderCamAngle = document.getElementById(
-  "slider-cam-angle"
+const sliderCamAngleX = document.getElementById(
+  "slider-cam-angle-x"
 ) as HTMLInputElement;
-const labelCamAngle = document.getElementById("label-cam-angle");
+const labelCamAngleX = document.getElementById("label-cam-angle-x");
+
+const sliderCamAngleY = document.getElementById(
+  "slider-cam-angle-y"
+) as HTMLInputElement;
+const labelCamAngleY = document.getElementById("label-cam-angle-y");
+
+const sliderCamAngleZ = document.getElementById(
+  "slider-cam-angle-z"
+) as HTMLInputElement;
+const labelCamAngleZ = document.getElementById("label-cam-angle-z");
 
 const sliderCamRadius = document.getElementById(
   "slider-cam-radius"
@@ -130,19 +141,19 @@ let camera: Camera;
 let ambientColor: Color;
 let directionalLight: Light;
 let offsetTranslate = {
-  orthographic : {
+  orthographic: {
     x: 730,
     y: 240,
   },
-  perspective : {
+  perspective: {
     x: 40,
     y: 100,
   },
-  oblique : {
+  oblique: {
     x: 950,
     y: 20,
-  }
-}
+  },
+};
 let projectionType: ProjectionType = "orthographic";
 let projectionParams: ProjectionParams = {
   orthographic: {
@@ -172,7 +183,7 @@ let projectionParams: ProjectionParams = {
     ortho_far: -2000,
   },
 };
-let shader = 0;
+let shaderStatus = ShaderStatus.OFF;
 let animation = false;
 
 /* Render Canvas */
@@ -206,7 +217,7 @@ const renderCanvas = () => {
     camera,
     ambientColor,
     currentLight,
-    shader,
+    shaderStatus,
     offsetTranslate[projectionType].x,
     offsetTranslate[projectionType].y
   );
@@ -254,15 +265,25 @@ const initializeDefaultValue = (
   sliderScaleZ.valueAsNumber = object.sz;
   labelScaleZ.textContent = object.sz.toString();
 
+  sliderCamAngleX.valueAsNumber = radToDeg(camera.angleX);
+  labelCamAngleX.textContent = radToDeg(camera.angleX).toString();
+
+  sliderCamAngleY.valueAsNumber = radToDeg(camera.angleY);
+  labelCamAngleY.textContent = radToDeg(camera.angleY).toString();
+
+  sliderCamAngleZ.valueAsNumber = radToDeg(camera.angleZ);
+  labelCamAngleZ.textContent = radToDeg(camera.angleZ).toString();
+
   sliderCamRadius.valueAsNumber = camera.radius;
   labelCamRadius.textContent = camera.radius.toString();
-  shadingModeButton.textContent = "ON";
-  shadingModeButton.classList.add("active");
-  shader = 1;
 
-  animationModeButton.textContent = "ON";
-  animationModeButton.classList.add("active");
-  animation = true;
+  shadingModeButton.textContent = "OFF";
+  shadingModeButton.classList.remove("active");
+  shaderStatus = ShaderStatus.OFF;
+
+  animationModeButton.textContent = "OFF";
+  animationModeButton.classList.remove("active");
+  animation = false;
 };
 
 /* Event Listener */
@@ -337,12 +358,26 @@ listOfProjection.addEventListener("change", () => {
   projectionType = newProjectionType;
 });
 
-/* Camera control listener */
-sliderCamAngle.addEventListener("input", (event) => {
+/* Camera Control Listener */
+sliderCamAngleX.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
 
-  labelCamAngle.textContent = delta.toString();
-  camera.rotate(degToRad(delta));
+  labelCamAngleX.textContent = delta.toString();
+  camera.rotateX(degToRad(delta));
+});
+
+sliderCamAngleY.addEventListener("input", (event) => {
+  const delta = (event.target as HTMLInputElement).valueAsNumber;
+
+  labelCamAngleY.textContent = delta.toString();
+  camera.rotateY(degToRad(delta));
+});
+
+sliderCamAngleZ.addEventListener("input", (event) => {
+  const delta = (event.target as HTMLInputElement).valueAsNumber;
+
+  labelCamAngleZ.textContent = delta.toString();
+  camera.rotateZ(degToRad(delta));
 });
 
 sliderCamRadius.addEventListener("input", (event) => {
@@ -369,16 +404,16 @@ saveButton.addEventListener("click", () => {
 
 /* Shading and Animation */
 shadingModeButton.addEventListener("click", () => {
-  if (!shader) {
+  if (shaderStatus === ShaderStatus.OFF) {
     shadingModeButton.classList.add("active");
     shadingModeButton.textContent = "ON";
 
-    shader = 1;
+    shaderStatus = ShaderStatus.ON;
   } else {
     shadingModeButton.classList.remove("active");
     shadingModeButton.textContent = "OFF";
 
-    shader = 0;
+    shaderStatus = ShaderStatus.OFF;
   }
 });
 

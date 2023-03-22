@@ -1,10 +1,11 @@
-import ShapeInterface from "Main/Interfaces/shape-interface";
-import Point from "Main/Operations/point";
-import Color from "Main/Operations/color";
-import Transformation from "Main/Operations/transformation";
-import Projection from "Main/Operations/projection";
-import ProjectionParams from "Main/Types/projection-params";
-import ProjectionType from "Main/Types/projection-type";
+import ShapeInterface from "Interfaces/shape-interface";
+import Point from "Operations/point";
+import Color from "Operations/color";
+import Transformation from "Operations/transformation";
+import Projection from "Operations/projection";
+import ProjectionParams from "Types/projection-params";
+import ProjectionType from "Types/projection-type";
+import ShaderStatus from "Types/shader-status";
 import Face from "Objects/face";
 import Camera from "Objects/camera";
 import Light from "Objects/light";
@@ -147,9 +148,9 @@ class Shape implements ShapeInterface {
     camera: Camera,
     ambientColor: Color,
     directionalLight: Light,
-    shaderStatus: number,
+    shaderStatus: ShaderStatus,
     offsetTranslateX: number,
-    offsetTranslateY: number,
+    offsetTranslateY: number
   ): void {
     /* Lookup Attribute */
     const positionLocation = gl.getAttribLocation(program, "a_position");
@@ -233,15 +234,13 @@ class Shape implements ShapeInterface {
     );
 
     /* Get Matrix */
-    let angleY = projectionType === "perspective" ? -this.angleY + degToRad(180) : this.angleY;
-    let angleZ = projectionType === "perspective" ? this.angleZ + degToRad(180) : this.angleZ;
     let matrix = Transformation.general(
-      this.tx + offsetTranslateX,
-      this.ty + offsetTranslateY,
+      this.tx,
+      this.ty,
       this.tz,
       this.angleX,
-      angleY,
-      angleZ,
+      this.angleY,
+      this.angleZ,
       this.sx,
       this.sy,
       this.sz,
@@ -250,7 +249,7 @@ class Shape implements ShapeInterface {
 
     const inverseTransposeMatrix = matrix.inverse().transpose();
 
-    matrix = camera.lookAt().multiplyMatrix(matrix);
+    matrix = camera.lookAt(this).multiplyMatrix(matrix);
 
     switch (projectionType) {
       case "orthographic":
@@ -311,10 +310,7 @@ class Shape implements ShapeInterface {
         ).multiplyMatrix(matrix);
         break;
     }
-    // console.log(matrix.a1.x, matrix.a1.y, matrix.a1.z, matrix.a1.w);
-    // console.log(matrix.a2.x, matrix.a2.y, matrix.a2.z, matrix.a2.w);
-    // console.log(matrix.a3.x, matrix.a3.y, matrix.a3.z, matrix.a3.w);
-    // console.log(matrix.a4.x, matrix.a4.y, matrix.a4.z, matrix.a4.w);
+
     const rawMatrix = matrix.flatten();
     const rawInverseTransposeMatrix = inverseTransposeMatrix.flatten();
 

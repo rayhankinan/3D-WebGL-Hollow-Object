@@ -2,7 +2,6 @@ import Shape from "Objects/shape";
 import Face from "Objects/face";
 import Point from "Operations/point";
 import Color from "Operations/color";
-import Vector from "Operations/vector";
 import { degToRad } from "Utils/angle";
 
 function generateDefaultShape() {
@@ -205,7 +204,7 @@ function generateDefaultShape() {
     0,
     0,
     degToRad(30),
-    degToRad(135),
+    degToRad(45),
     degToRad(0),
     1,
     1,

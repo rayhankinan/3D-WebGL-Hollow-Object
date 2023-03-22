@@ -145,7 +145,8 @@ class Shape implements ShapeInterface {
     params: ProjectionParams[T],
     camera: Camera,
     ambientColor: Color,
-    directionalLight: Light
+    directionalLight: Light,
+    shaderStatus: number
   ): void {
     /* Lookup Attribute */
     const positionLocation = gl.getAttribLocation(program, "a_position");
@@ -169,6 +170,7 @@ class Shape implements ShapeInterface {
       program,
       "u_ambientLightColor"
     );
+    const shadingLocation = gl.getUniformLocation(program, "u_shading");
 
     /* Setup Position */
     gl.enableVertexAttribArray(positionLocation);
@@ -327,6 +329,8 @@ class Shape implements ShapeInterface {
 
     /* Set Directional Light Value */
     gl.uniform3fv(reverseLightDirectionLocation, rawDirectionalLight);
+
+    gl.uniform1i(shadingLocation, shaderStatus);
 
     /* Draw Shape */
     const primitiveType = gl.TRIANGLES;

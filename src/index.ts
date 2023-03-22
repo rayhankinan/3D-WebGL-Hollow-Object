@@ -158,7 +158,7 @@ let projectionParams: ProjectionParams = {
     ortho_far: -2000,
   },
 };
-let shader = false;
+let shader = 0;
 let animation = false;
 
 /* Render Canvas */
@@ -191,7 +191,8 @@ const renderCanvas = () => {
     projectionParams[projectionType],
     camera,
     ambientColor,
-    currentLight
+    currentLight,
+    shader
   );
 
   /* Render Recursively */
@@ -355,12 +356,12 @@ shadingModeButton.addEventListener("click", () => {
     shadingModeButton.classList.add("active");
     shadingModeButton.textContent = "ON";
 
-    shader = true;
+    shader = 1;
   } else {
     shadingModeButton.classList.remove("active");
     shadingModeButton.textContent = "OFF";
 
-    shader = false;
+    shader = 0;
   }
 });
 

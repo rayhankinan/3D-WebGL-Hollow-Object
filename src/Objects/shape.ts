@@ -251,6 +251,13 @@ class Shape implements ShapeInterface {
 
     matrix = camera.lookAt(this).multiplyMatrix(matrix);
 
+    /* Offset position to center object */
+    matrix = Transformation.translation(
+      offsetTranslateX,
+      offsetTranslateY,
+      0
+    ).multiplyMatrix(matrix);
+
     switch (projectionType) {
       case "orthographic":
         const {

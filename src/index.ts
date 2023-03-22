@@ -150,8 +150,8 @@ let offsetTranslate = {
     y: 100,
   },
   oblique: {
-    x: 950,
-    y: 20,
+    x: 920,
+    y: 60,
   },
 };
 let projectionType: ProjectionType = "orthographic";
@@ -185,19 +185,31 @@ let projectionParams: ProjectionParams = {
 };
 let shaderStatus = ShaderStatus.OFF;
 let animation = false;
+let period = 20; // in ms
+let animationTimeout = Date.now().valueOf() + period;
+
+const animate = () => {
+  if (animation && Date.now().valueOf() > animationTimeout) {
+    object.rotateY(degToRad((radToDeg(object.angleY) + 1.0) % 360.0));
+    object.rotateZ(degToRad((radToDeg(object.angleZ) + 0.55) % 360.0));
+
+    sliderAngleY.valueAsNumber = radToDeg(object.angleY);
+    labelAngleY.textContent = radToDeg(object.angleY).toString();
+
+    sliderAngleZ.valueAsNumber = radToDeg(object.angleZ);
+    labelAngleZ.textContent = radToDeg(object.angleZ).toString();
+
+    animationTimeout = Date.now().valueOf() + period;
+  }
+}
 
 /* Render Canvas */
 const renderCanvas = () => {
   /* Clear Color and Buffer */
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-  /* Update Angle if Animation is Enabled */
-  if (animation) {
-    object.rotateY(degToRad((radToDeg(object.angleY) + 1) % 360));
-
-    sliderAngleY.valueAsNumber = radToDeg(object.angleY);
-    labelAngleY.textContent = radToDeg(object.angleY).toString();
-  }
+  /* animate */
+  animate();
 
   /* Get Current Light */
   const currentLight =
@@ -277,13 +289,13 @@ const initializeDefaultValue = (
   sliderCamRadius.valueAsNumber = camera.radius;
   labelCamRadius.textContent = camera.radius.toString();
 
-  shadingModeButton.textContent = "OFF";
-  shadingModeButton.classList.remove("active");
-  shaderStatus = ShaderStatus.OFF;
+  shadingModeButton.textContent = "ON";
+  shadingModeButton.classList.add("active");
+  shaderStatus = ShaderStatus.ON;
 
-  animationModeButton.textContent = "OFF";
-  animationModeButton.classList.remove("active");
-  animation = false;
+  animationModeButton.textContent = "ON";
+  animationModeButton.classList.add("active");
+  animation = true;
 };
 
 /* Event Listener */

@@ -25,7 +25,7 @@
         v_color = a_color;
 
         // Orient the normals and pass to the fragment shader
-        v_normal = mat3(u_worldInverseTranspose) * a_normal;
+        v_normal = (u_worldInverseTranspose * vec4(a_normal, 0)).xyz;
       }
     </script>
     <script type="x-shader/x-fragment" id="fragment-shader">

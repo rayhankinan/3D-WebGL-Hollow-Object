@@ -126,7 +126,7 @@ const resetButton = document.getElementById("reset-btn");
 let object: Shape;
 let camera: Camera;
 let light: Light;
-let projectionType: ProjectionType = "orthographic";
+let projectionType: ProjectionType = "perspective";
 let projectionParams: ProjectionParams = {
   orthographic: {
     left: 0,

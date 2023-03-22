@@ -45,28 +45,36 @@ class Projection {
 
   /* SUDAH BISA */
   public static oblique(
-    factor: number, 
-    angle: number,     
+    factor: number,
+    angle: number,
     ortho_left: number,
     ortho_right: number,
     ortho_bottom: number,
     ortho_top: number,
     ortho_near: number,
-    ortho_far: number): Matrix {
-    // Calculate orthographic projection matrix
-    const pOrtho = this.orthographic(ortho_left, ortho_right, ortho_bottom, ortho_top, ortho_near, ortho_far)
-    
-    // Calculate transposed shear projection matrix
-    const cot_angle = 1/Math.tan(angle);
-    const shearX = factor*cot_angle;
-    const shearY = factor*-cot_angle;
+    ortho_far: number
+  ): Matrix {
+    /* Calculate orthographic projection matrix */
+    const pOrtho = Projection.orthographic(
+      ortho_left,
+      ortho_right,
+      ortho_bottom,
+      ortho_top,
+      ortho_near,
+      ortho_far
+    );
+
+    /* Calculate transposed shear projection matrix */
+    const cot_angle = 1 / Math.tan(angle);
+    const shearX = factor * cot_angle;
+    const shearY = factor * -cot_angle;
     const pTrShear1 = new Coordinate(1, 0, 0, 0);
     const pTrShear2 = new Coordinate(0, 1, 0, 0);
     const pTrShear3 = new Coordinate(shearX, shearY, 1, 0);
     const pTrShear4 = new Coordinate(0, 0, 0, 1);
     const pTrShear = new Matrix(pTrShear1, pTrShear2, pTrShear3, pTrShear4);
-    
-    // Calculate oblique projection matrix
+
+    /* Calculate oblique projection matrix */
     const obliqueMatrix = pOrtho.multiplyMatrix(pTrShear);
 
     return obliqueMatrix;

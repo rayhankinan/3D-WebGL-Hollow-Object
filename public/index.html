@@ -35,7 +35,7 @@
       varying vec4 v_color;
       varying vec3 v_normal;
 
-      uniform vec3 u_ambientLightDirection;
+      uniform vec3 u_ambientLightColor;
       uniform vec3 u_reverseLightDirection;
 
       void main() {
@@ -47,7 +47,7 @@
         float directional_light = max(dot(normal, u_reverseLightDirection), 0.0);
 
         // Lets multiply just the color portion (not the alpha) by the light
-        gl_FragColor.rgb *= (u_ambientLightDirection + directional_light);
+        gl_FragColor.rgb *= (u_ambientLightColor + directional_light);
       }
     </script>
     <script type="text/javascript" src="./dist/index.js" defer></script>

@@ -1,5 +1,6 @@
 import ShapeInterface from "Main/Interfaces/shape-interface";
 import Point from "Main/Operations/point";
+import Color from "Main/Operations/color";
 import Transformation from "Main/Operations/transformation";
 import Projection from "Main/Operations/projection";
 import ProjectionParams from "Main/Types/projection-params";
@@ -139,7 +140,7 @@ class Shape implements ShapeInterface {
     projectionType: T,
     params: ProjectionParams[T],
     camera: Camera,
-    ambientLight: Light,
+    ambientColor: Color,
     directionalLight: Light
   ): void {
     /* Lookup Attribute */
@@ -160,9 +161,9 @@ class Shape implements ShapeInterface {
       program,
       "u_reverseLightDirection"
     );
-    const ambientLightDirection = gl.getUniformLocation(
+    const ambientLightColor = gl.getUniformLocation(
       program,
-      "u_ambientLightDirection"
+      "u_ambientLightColor"
     );
 
     /* Setup Position */
@@ -311,11 +312,11 @@ class Shape implements ShapeInterface {
       rawInverseTransposeMatrix
     );
 
-    /* Get Ambient Light */
-    const rawAmbientLight = ambientLight.getRawDirection();
+    /* Get Ambient Color */
+    const rawAmbientColor = ambientColor.getTriplet();
 
-    /* Set Ambient Light Value */
-    gl.uniform3fv(ambientLightDirection, rawAmbientLight);
+    /* Set Ambient Color Value */
+    gl.uniform3fv(ambientLightColor, rawAmbientColor);
 
     /* Get Directional Light */
     const rawDirectionalLight = directionalLight.getRawDirection();

@@ -5,13 +5,14 @@ import resizeCanvasToDisplaySize from "Utils/resize-canvas";
 import Shape from "Objects/shape";
 import Camera from "Objects/camera";
 import Light from "Objects/light";
+import Color from "Operations/color";
 import ProjectionType from "Types/projection-type";
 import ProjectionParams from "Types/projection-params";
 import FileHandling from "Files/file-handling";
 import FileSystem from "Files/file-system";
 import generateDefaultShape from "Main/default-shape";
 import generateDefaultCamera from "Main/default-camera";
-import generateDefaultAmbientLight from "Main/default-ambient-light";
+import generateDefaultAmbientColor from "Main/default-ambient-color";
 import generateDefaultDirectionalLight from "Main/default-directional-light";
 
 /* Create Program */
@@ -126,7 +127,7 @@ const resetButton = document.getElementById("reset-btn");
 /* Global Variables */
 let object: Shape;
 let camera: Camera;
-let ambientLight: Light;
+let ambientColor: Color;
 let directionalLight: Light;
 let projectionType: ProjectionType = "perspective";
 let projectionParams: ProjectionParams = {
@@ -135,8 +136,8 @@ let projectionParams: ProjectionParams = {
     right: (gl.canvas as HTMLCanvasElement).clientWidth,
     bottom: (gl.canvas as HTMLCanvasElement).clientHeight,
     top: 0,
-    near: 500,
-    far: -500,
+    near: 2000,
+    far: -2000,
   },
   perspective: {
     fieldOfView: degToRad(60),
@@ -153,8 +154,8 @@ let projectionParams: ProjectionParams = {
     ortho_right: (gl.canvas as HTMLCanvasElement).clientWidth,
     ortho_bottom: (gl.canvas as HTMLCanvasElement).clientHeight,
     ortho_top: 0,
-    ortho_near: 500,
-    ortho_far: -500,
+    ortho_near: 2000,
+    ortho_far: -2000,
   },
 };
 let shader = false;
@@ -173,6 +174,12 @@ const renderCanvas = () => {
     labelAngleY.textContent = radToDeg(object.angleY).toString();
   }
 
+  /* Get Current Light */
+  const currentLight =
+    projectionType === "perspective"
+      ? directionalLight.reverse()
+      : directionalLight;
+
   /* Render Object */
   object.render(
     gl,
@@ -183,8 +190,8 @@ const renderCanvas = () => {
     projectionType,
     projectionParams[projectionType],
     camera,
-    ambientLight,
-    directionalLight
+    ambientColor,
+    currentLight
   );
 
   /* Render Recursively */
@@ -195,12 +202,12 @@ const renderCanvas = () => {
 const initializeDefaultValue = (
   newObject: Shape,
   newCamera: Camera,
-  newAmbientLight: Light,
+  newAmbientColor: Color,
   newDirectionalLight: Light
 ) => {
   object = newObject;
   camera = newCamera;
-  ambientLight = newAmbientLight;
+  ambientColor = newAmbientColor;
   directionalLight = newDirectionalLight;
 
   sliderTranslateX.valueAsNumber = object.tx;
@@ -332,7 +339,7 @@ loadButton.addEventListener("click", () => {
     initializeDefaultValue(
       FileSystem.loadShape(text),
       generateDefaultCamera(),
-      generateDefaultAmbientLight(),
+      generateDefaultAmbientColor(),
       generateDefaultDirectionalLight()
     );
   });
@@ -376,7 +383,7 @@ resetButton.addEventListener("click", () => {
   initializeDefaultValue(
     generateDefaultShape(),
     generateDefaultCamera(),
-    generateDefaultAmbientLight(),
+    generateDefaultAmbientColor(),
     generateDefaultDirectionalLight()
   );
 });
@@ -385,7 +392,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeDefaultValue(
     generateDefaultShape(),
     generateDefaultCamera(),
-    generateDefaultAmbientLight(),
+    generateDefaultAmbientColor(),
     generateDefaultDirectionalLight()
   );
   renderCanvas();

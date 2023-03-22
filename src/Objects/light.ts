@@ -15,6 +15,10 @@ class Light extends Vector implements LightInterface {
 
     return unitVector.getTriplet();
   }
+
+  public reverse(): Light {
+    return new Light(-this.x, -this.y, -this.z);
+  }
 }
 
 export default Light;

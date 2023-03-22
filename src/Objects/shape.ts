@@ -245,7 +245,7 @@ class Shape implements ShapeInterface {
 
     const inverseTransposeMatrix = matrix.inverse().transpose();
 
-    matrix = camera.lookAt().multiplyMatrix(matrix);
+    matrix = camera.lookAt(this).multiplyMatrix(matrix);
 
     switch (projectionType) {
       case "orthographic":
@@ -330,6 +330,7 @@ class Shape implements ShapeInterface {
     /* Set Directional Light Value */
     gl.uniform3fv(reverseLightDirectionLocation, rawDirectionalLight);
 
+    /* Set Shading Status */
     gl.uniform1i(shadingLocation, shaderStatus);
 
     /* Draw Shape */

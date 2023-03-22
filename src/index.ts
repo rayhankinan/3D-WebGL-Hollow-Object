@@ -104,20 +104,10 @@ const sliderScaleZ = document.getElementById(
 const labelScaleZ = document.getElementById("label-scale-z");
 
 /* Camera Control Elements */
-const sliderCamAngleX = document.getElementById(
-  "slider-cam-angle-x"
+const sliderCamAngle = document.getElementById(
+  "slider-cam-angle"
 ) as HTMLInputElement;
-const labelCamAngleX = document.getElementById("label-cam-angle-x");
-
-const sliderCamAngleY = document.getElementById(
-  "slider-cam-angle-y"
-) as HTMLInputElement;
-const labelCamAngleY = document.getElementById("label-cam-angle-y");
-
-const sliderCamAngleZ = document.getElementById(
-  "slider-cam-angle-z"
-) as HTMLInputElement;
-const labelCamAngleZ = document.getElementById("label-cam-angle-z");
+const labelCamAngle = document.getElementById("label-cam-angle");
 
 const sliderCamRadius = document.getElementById(
   "slider-cam-radius"
@@ -229,9 +219,7 @@ const renderCanvas = () => {
     camera,
     ambientColor,
     currentLight,
-    shaderStatus,
-    offsetTranslate[projectionType].x,
-    offsetTranslate[projectionType].y
+    shaderStatus
   );
 
   /* Render Recursively */
@@ -277,14 +265,8 @@ const initializeDefaultValue = (
   sliderScaleZ.valueAsNumber = object.sz;
   labelScaleZ.textContent = object.sz.toString();
 
-  sliderCamAngleX.valueAsNumber = radToDeg(camera.angleX);
-  labelCamAngleX.textContent = radToDeg(camera.angleX).toString();
-
-  sliderCamAngleY.valueAsNumber = radToDeg(camera.angleY);
-  labelCamAngleY.textContent = radToDeg(camera.angleY).toString();
-
-  sliderCamAngleZ.valueAsNumber = radToDeg(camera.angleZ);
-  labelCamAngleZ.textContent = radToDeg(camera.angleZ).toString();
+  sliderCamAngle.valueAsNumber = radToDeg(camera.angle);
+  labelCamAngle.textContent = radToDeg(camera.angle).toString();
 
   sliderCamRadius.valueAsNumber = camera.radius;
   labelCamRadius.textContent = camera.radius.toString();
@@ -371,25 +353,11 @@ listOfProjection.addEventListener("change", () => {
 });
 
 /* Camera Control Listener */
-sliderCamAngleX.addEventListener("input", (event) => {
+sliderCamAngle.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
 
-  labelCamAngleX.textContent = delta.toString();
-  camera.rotateX(degToRad(delta));
-});
-
-sliderCamAngleY.addEventListener("input", (event) => {
-  const delta = (event.target as HTMLInputElement).valueAsNumber;
-
-  labelCamAngleY.textContent = delta.toString();
-  camera.rotateY(degToRad(delta));
-});
-
-sliderCamAngleZ.addEventListener("input", (event) => {
-  const delta = (event.target as HTMLInputElement).valueAsNumber;
-
-  labelCamAngleZ.textContent = delta.toString();
-  camera.rotateZ(degToRad(delta));
+  labelCamAngle.textContent = delta.toString();
+  camera.rotate(degToRad(delta));
 });
 
 sliderCamRadius.addEventListener("input", (event) => {

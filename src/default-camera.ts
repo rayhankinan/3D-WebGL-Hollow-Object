@@ -1,8 +1,9 @@
 import Camera from "Objects/camera";
-import { degToRad } from "./Utils/angle";
+import { degToRad } from "Utils/angle";
+import Point from "Operations/point";
 
 function generateDefaultCamera() {
-  return new Camera(500, 0, 0, degToRad(180));
+  return new Camera(500, degToRad(0), new Point(0, 0, 0));
 }
 
 export default generateDefaultCamera;

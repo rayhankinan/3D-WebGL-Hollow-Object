@@ -9,7 +9,6 @@ import ShaderStatus from "Types/shader-status";
 import Face from "Objects/face";
 import Camera from "Objects/camera";
 import Light from "Objects/light";
-import { degToRad } from "Utils/angle";
 
 class Shape implements ShapeInterface {
   constructor(
@@ -148,9 +147,7 @@ class Shape implements ShapeInterface {
     camera: Camera,
     ambientColor: Color,
     directionalLight: Light,
-    shaderStatus: ShaderStatus,
-    offsetTranslateX: number,
-    offsetTranslateY: number
+    shaderStatus: ShaderStatus
   ): void {
     /* Lookup Attribute */
     const positionLocation = gl.getAttribLocation(program, "a_position");
@@ -249,7 +246,7 @@ class Shape implements ShapeInterface {
 
     const inverseTransposeMatrix = matrix.inverse().transpose();
 
-    matrix = camera.lookAt(this).multiplyMatrix(matrix);
+    matrix = camera.lookAt().multiplyMatrix(matrix);
 
     /* Offset position to center object */
     matrix = Transformation.translation(

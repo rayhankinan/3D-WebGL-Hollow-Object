@@ -147,7 +147,9 @@ class Shape implements ShapeInterface {
     camera: Camera,
     ambientColor: Color,
     directionalLight: Light,
-    shaderStatus: ShaderStatus
+    shaderStatus: ShaderStatus,
+    offsetTranslateX: number,
+    offsetTranslateY: number
   ): void {
     /* Lookup Attribute */
     const positionLocation = gl.getAttribLocation(program, "a_position");

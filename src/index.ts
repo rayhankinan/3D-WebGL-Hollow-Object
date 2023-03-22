@@ -132,16 +132,16 @@ let ambientColor: Color;
 let directionalLight: Light;
 let offsetTranslate = {
   orthographic: {
-    x: 730,
-    y: 240,
+    x: 680,
+    y: 200,
   },
   perspective: {
-    x: 40,
-    y: 100,
+    x: 0,
+    y: 0,
   },
   oblique: {
-    x: 920,
-    y: 60,
+    x: 870,
+    y: 10,
   },
 };
 let projectionType: ProjectionType = "orthographic";
@@ -219,7 +219,9 @@ const renderCanvas = () => {
     camera,
     ambientColor,
     currentLight,
-    shaderStatus
+    shaderStatus,
+    offsetTranslate[projectionType].x,
+    offsetTranslate[projectionType].y
   );
 
   /* Render Recursively */

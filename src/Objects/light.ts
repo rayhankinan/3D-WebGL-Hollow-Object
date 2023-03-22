@@ -11,8 +11,7 @@ class Light extends Vector implements LightInterface {
   }
 
   public getRawDirection(): readonly [number, number, number] {
-    const currentVector = new Vector(this.x, this.y, this.z);
-    const unitVector = currentVector.normalize();
+    const unitVector = this.normalize();
 
     return unitVector.getTriplet();
   }

@@ -110,7 +110,7 @@ function generateDefaultShape() {
           new Point(100, 0, 30),
         ],
         new Color(200, 200, 70),
-        new Vector(-1, 0, 0)
+        new Vector(1, 0, 0)
       ),
       /* Under Top Rung */
       new Face(
@@ -136,7 +136,7 @@ function generateDefaultShape() {
           new Point(30, 60, 30),
         ],
         new Color(210, 160, 70),
-        new Vector(-1, 0, 0)
+        new Vector(1, 0, 0)
       ),
       /* Top of Middle Rung */
       new Face(
@@ -162,7 +162,7 @@ function generateDefaultShape() {
           new Point(67, 90, 30),
         ],
         new Color(100, 70, 210),
-        new Vector(-1, 0, 0)
+        new Vector(1, 0, 0)
       ),
       /* Bottom of Middle Rung */
       new Face(
@@ -188,7 +188,7 @@ function generateDefaultShape() {
           new Point(30, 150, 30),
         ],
         new Color(140, 210, 80),
-        new Vector(-1, 0, 0)
+        new Vector(1, 0, 0)
       ),
       /* Bottom */
       new Face(
@@ -214,7 +214,7 @@ function generateDefaultShape() {
           new Point(0, 150, 0),
         ],
         new Color(160, 160, 220),
-        new Vector(1, 0, 0)
+        new Vector(-1, 0, 0)
       ),
     ],
     720,

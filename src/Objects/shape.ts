@@ -5,8 +5,8 @@ import Projection from "Main/Operations/projection";
 import ProjectionParams from "Main/Types/projection-params";
 import ProjectionType from "Main/Types/projection-type";
 import Face from "Objects/face";
-import Camera from "Main/Objects/camera";
-import Light from "./light";
+import Camera from "Objects/camera";
+import Light from "Objects/light";
 
 class Shape implements ShapeInterface {
   constructor(
@@ -230,6 +230,7 @@ class Shape implements ShapeInterface {
       this.sz,
       this.findCenter()
     );
+
     const inverseTransposeMatrix = matrix.inverse().transpose();
 
     matrix = camera.lookAt().multiplyMatrix(matrix);

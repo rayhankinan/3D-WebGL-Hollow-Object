@@ -206,7 +206,7 @@ function generateDefaultShape() {
     0,
     degToRad(30),
     degToRad(135),
-    degToRad(180),
+    degToRad(0),
     1,
     1,
     1

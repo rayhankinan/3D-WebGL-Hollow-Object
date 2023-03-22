@@ -8,6 +8,7 @@ import ProjectionType from "Main/Types/projection-type";
 import Face from "Objects/face";
 import Camera from "Objects/camera";
 import Light from "Objects/light";
+import { degToRad } from "Utils/angle";
 
 class Shape implements ShapeInterface {
   constructor(
@@ -146,7 +147,9 @@ class Shape implements ShapeInterface {
     camera: Camera,
     ambientColor: Color,
     directionalLight: Light,
-    shaderStatus: number
+    shaderStatus: number,
+    offsetTranslateX: number,
+    offsetTranslateY: number,
   ): void {
     /* Lookup Attribute */
     const positionLocation = gl.getAttribLocation(program, "a_position");
@@ -230,13 +233,15 @@ class Shape implements ShapeInterface {
     );
 
     /* Get Matrix */
+    let angleY = projectionType === "perspective" ? -this.angleY + degToRad(180) : this.angleY;
+    let angleZ = projectionType === "perspective" ? this.angleZ + degToRad(180) : this.angleZ;
     let matrix = Transformation.general(
-      this.tx,
-      this.ty,
+      this.tx + offsetTranslateX,
+      this.ty + offsetTranslateY,
       this.tz,
       this.angleX,
-      this.angleY,
-      this.angleZ,
+      angleY,
+      angleZ,
       this.sx,
       this.sy,
       this.sz,
@@ -306,7 +311,10 @@ class Shape implements ShapeInterface {
         ).multiplyMatrix(matrix);
         break;
     }
-
+    // console.log(matrix.a1.x, matrix.a1.y, matrix.a1.z, matrix.a1.w);
+    // console.log(matrix.a2.x, matrix.a2.y, matrix.a2.z, matrix.a2.w);
+    // console.log(matrix.a3.x, matrix.a3.y, matrix.a3.z, matrix.a3.w);
+    // console.log(matrix.a4.x, matrix.a4.y, matrix.a4.z, matrix.a4.w);
     const rawMatrix = matrix.flatten();
     const rawInverseTransposeMatrix = inverseTransposeMatrix.flatten();
 

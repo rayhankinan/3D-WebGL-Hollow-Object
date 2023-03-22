@@ -129,7 +129,21 @@ let object: Shape;
 let camera: Camera;
 let ambientColor: Color;
 let directionalLight: Light;
-let projectionType: ProjectionType = "perspective";
+let offsetTranslate = {
+  orthographic : {
+    x: 730,
+    y: 240,
+  },
+  perspective : {
+    x: 40,
+    y: 100,
+  },
+  oblique : {
+    x: 950,
+    y: 20,
+  }
+}
+let projectionType: ProjectionType = "orthographic";
 let projectionParams: ProjectionParams = {
   orthographic: {
     left: 0,
@@ -192,7 +206,9 @@ const renderCanvas = () => {
     camera,
     ambientColor,
     currentLight,
-    shader
+    shader,
+    offsetTranslate[projectionType].x,
+    offsetTranslate[projectionType].y
   );
 
   /* Render Recursively */
@@ -240,12 +256,13 @@ const initializeDefaultValue = (
 
   sliderCamRadius.valueAsNumber = camera.radius;
   labelCamRadius.textContent = camera.radius.toString();
-  shadingModeButton.textContent = "OFF";
-  shadingModeButton.classList.remove("active");
+  shadingModeButton.textContent = "ON";
+  shadingModeButton.classList.add("active");
+  shader = 1;
 
-  animationModeButton.textContent = "OFF";
-  animationModeButton.classList.remove("active");
-  animation = false;
+  animationModeButton.textContent = "ON";
+  animationModeButton.classList.add("active");
+  animation = true;
 };
 
 /* Event Listener */

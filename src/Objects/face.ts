@@ -1,7 +1,7 @@
-import FaceInterface from "Main/Interfaces/face-interface";
-import Color from "Main/Operations/color";
-import Point from "Main/Operations/point";
-import Vector from "Main/Operations/vector";
+import FaceInterface from "Interfaces/face-interface";
+import Color from "Operations/color";
+import Point from "Operations/point";
+import Vector from "Operations/vector";
 
 class Face implements FaceInterface {
   constructor(

@@ -72,8 +72,8 @@
           <button class="btn" id="save-btn">Save</button>
           <h2>Projection</h2>
           <select id="list-of-projection" class="btn">
-            <option value="orthographic" selected="selected">Orthographic</option>
-            <option value="perspective">Perspective</option>
+            <option value="orthographic">Orthographic</option>
+            <option value="perspective" selected="selected">Perspective</option>
             <option value="oblique">Oblique</option>
           </select>
           <button class="btn" id="reset-btn">Reset</button>
@@ -184,36 +184,16 @@
           <h2>Camera Controls</h2>
           <div id="camera-sliders">
             <div id="camera-angle">
-              <h3>Angle X</h3>
+              <h3>Angle</h3>
               <input
-                id="slider-cam-angle-x"
+                id="slider-cam-angle"
                 type="range"
                 min="0"
                 max="360"
                 step="1"
                 value="0"
               />
-              <label id="label-cam-angle-x" for="slider-cam-angle-x">0</label>
-              <h3>Angle Y</h3>
-              <input
-                id="slider-cam-angle-y"
-                type="range"
-                min="0"
-                max="360"
-                step="1"
-                value="0"
-              />
-              <label id="label-cam-angle-y" for="slider-cam-angle-y">0</label>
-              <h3>Angle Z</h3>
-              <input
-                id="slider-cam-angle-z"
-                type="range"
-                min="0"
-                max="360"
-                step="1"
-                value="0"
-              />
-              <label id="label-cam-angle-z" for="slider-cam-angle-z">0</label>
+              <label id="label-cam-angle" for="slider-cam-angle">0</label>
             </div>
             <div id="camera-extra">
               <h3>Radius</h3>

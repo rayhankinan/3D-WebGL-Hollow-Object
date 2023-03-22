@@ -6,48 +6,20 @@ import Vector from "Operations/vector";
 import Shape from "Objects/shape";
 
 class Camera implements CameraInterface {
-  public constructor(
-    public radius: number,
-    public angleX: number,
-    public angleY: number,
-    public angleZ: number
-  ) {}
+  public constructor(public radius: number, public angle: number) {}
 
-  public rotateX(angle: number): void {
-    this.angleX = angle;
-  }
-
-  public rotateY(angle: number): void {
-    this.angleY = angle;
-  }
-
-  public rotateZ(angle: number): void {
-    this.angleZ = angle;
+  public rotate(angle: number): void {
+    this.angle = angle;
   }
 
   public moveRadius(distance: number): void {
     this.radius = distance;
   }
 
-  lookAt(shape: Shape): Matrix {
-    const centerPoint = shape.findCenter();
-
-    const initialMatrix = Transformation.translation(
-      centerPoint.x,
-      centerPoint.y,
-      centerPoint.z
-    )
-      .multiplyMatrix(Transformation.rotationX(this.angleX))
-      .multiplyMatrix(Transformation.rotationY(this.angleY))
-      .multiplyMatrix(Transformation.rotationZ(this.angleZ))
-      .multiplyMatrix(Transformation.translation(0, 0, this.radius))
-      .multiplyMatrix(
-        Transformation.translation(
-          -centerPoint.x,
-          -centerPoint.y,
-          -centerPoint.z
-        )
-      );
+  lookAt(): Matrix {
+    const initialMatrix = Transformation.rotationY(this.angle).multiplyMatrix(
+      Transformation.translation(0, 0, this.radius)
+    );
     const cameraPosition = initialMatrix.a4;
 
     const eye = new Vector(
@@ -56,7 +28,7 @@ class Camera implements CameraInterface {
       cameraPosition.z
     );
 
-    const center = new Vector(centerPoint.x, centerPoint.y, centerPoint.z);
+    const center = new Vector(0, 0, 0);
 
     const up = new Vector(0, 1, 0);
 

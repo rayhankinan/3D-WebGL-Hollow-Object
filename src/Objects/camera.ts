@@ -1,12 +1,16 @@
 import CameraInterface from "Interfaces/camera-interface";
+import Point from "Operations/point";
 import Coordinate from "Operations/coordinate";
 import Matrix from "Operations/matrix";
 import Transformation from "Operations/transformation";
 import Vector from "Operations/vector";
-import Shape from "Objects/shape";
 
 class Camera implements CameraInterface {
-  public constructor(public radius: number, public angle: number) {}
+  public constructor(
+    public radius: number,
+    public angle: number,
+    public center: Point
+  ) {}
 
   public rotate(angle: number): void {
     this.angle = angle;
@@ -22,25 +26,28 @@ class Camera implements CameraInterface {
     );
     const cameraPosition = initialMatrix.a4;
 
-    const eye = new Vector(
+    const eyeVector = new Vector(
       cameraPosition.x,
       cameraPosition.y,
       cameraPosition.z
     );
 
-    const center = new Vector(0, 0, 0);
+    const centerVector = new Vector(
+      this.center.x,
+      this.center.y,
+      this.center.z
+    );
+    const upVector = new Vector(0, 1, 0);
 
-    const up = new Vector(0, 1, 0);
-
-    const zAxis = eye.subtract(center).normalize();
-    const xAxis = up.cross(zAxis).normalize();
+    const zAxis = eyeVector.subtract(centerVector).normalize();
+    const xAxis = upVector.cross(zAxis).normalize();
     const yAxis = zAxis.cross(xAxis).normalize();
 
     const cameraMatrix = new Matrix(
       new Coordinate(xAxis.x, xAxis.y, xAxis.z, 0),
       new Coordinate(yAxis.x, yAxis.y, yAxis.z, 0),
       new Coordinate(zAxis.x, zAxis.y, zAxis.z, 0),
-      new Coordinate(eye.x, eye.y, eye.z, 1)
+      new Coordinate(eyeVector.x, eyeVector.y, eyeVector.z, 1)
     );
 
     return cameraMatrix.inverse();

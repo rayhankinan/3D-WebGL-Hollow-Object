@@ -2,6 +2,7 @@ import FaceInterface from "Main/Interfaces/face-interface";
 import Face from "Main/Objects/face";
 import PointFactory from "Factories/point-factory";
 import ColorFactory from "Factories/color-factory";
+import VectorFactory from "Factories/vector-factory";
 
 class FaceFactory {
   public static fromInterface(face: FaceInterface): Face {

@@ -6,20 +6,23 @@ import Vector from "Operations/vector";
 
 class Camera implements CameraInterface {
   public constructor(
-    public radius: number = 50,
-    public angle: number = 0,
-    public targetX: number = 0,
-    public targetY: number = 0,
-    public targetZ: number = 0,
-    public upX: number = 0,
-    public upY: number = 1,
-    public upZ: number = 0
+    public radius: number,
+    public angleX: number,
+    public angleY: number,
+    public angleZ: number,
+    public targetX: number,
+    public targetY: number,
+    public targetZ: number,
+    public upX: number,
+    public upY: number,
+    public upZ: number
   ) {}
 
   lookAt(): Matrix {
-    const initialMatrix = Transformation.rotationY(this.angle).multiplyMatrix(
-      Transformation.translation(0, 0, this.radius)
-    );
+    const initialMatrix = Transformation.rotationX(this.angleX)
+      .multiplyMatrix(Transformation.rotationY(this.angleY))
+      .multiplyMatrix(Transformation.rotationZ(this.angleZ))
+      .multiplyMatrix(Transformation.translation(0, 0, this.radius));
     const cameraPosition = initialMatrix.a4;
 
     const eye = new Vector(

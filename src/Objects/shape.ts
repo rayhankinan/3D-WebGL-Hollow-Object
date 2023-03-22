@@ -5,7 +5,7 @@ import Projection from "Main/Operations/projection";
 import ProjectionParams from "Main/Types/projection-params";
 import ProjectionType from "Main/Types/projection-type";
 import Face from "Objects/face";
-import Camera from "Main/Operations/camera";
+import Camera from "Main/Objects/camera";
 
 class Shape implements ShapeInterface {
   constructor(

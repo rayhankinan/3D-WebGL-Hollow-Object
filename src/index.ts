@@ -11,7 +11,8 @@ import FileHandling from "Files/file-handling";
 import FileSystem from "Files/file-system";
 import generateDefaultShape from "Main/default-shape";
 import generateDefaultCamera from "Main/default-camera";
-import generateDefaultLight from "Main/default-light";
+import generateDefaultAmbientLight from "Main/default-ambient-light";
+import generateDefaultDirectionalLight from "Main/default-directional-light";
 
 /* Create Program */
 const canvas = document.getElementById("webgl-canvas") as HTMLCanvasElement;
@@ -125,7 +126,8 @@ const resetButton = document.getElementById("reset-btn");
 /* Global Variables */
 let object: Shape;
 let camera: Camera;
-let light: Light;
+let ambientLight: Light;
+let directionalLight: Light;
 let projectionType: ProjectionType = "perspective";
 let projectionParams: ProjectionParams = {
   orthographic: {
@@ -181,7 +183,8 @@ const renderCanvas = () => {
     projectionType,
     projectionParams[projectionType],
     camera,
-    light
+    ambientLight,
+    directionalLight
   );
 
   /* Render Recursively */
@@ -192,11 +195,13 @@ const renderCanvas = () => {
 const initializeDefaultValue = (
   newObject: Shape,
   newCamera: Camera,
-  newLight: Light
+  newAmbientLight: Light,
+  newDirectionalLight: Light
 ) => {
   object = newObject;
   camera = newCamera;
-  light = newLight;
+  ambientLight = newAmbientLight;
+  directionalLight = newDirectionalLight;
 
   sliderTranslateX.valueAsNumber = object.tx;
   labelTranslateX.textContent = object.tx.toString();
@@ -327,7 +332,8 @@ loadButton.addEventListener("click", () => {
     initializeDefaultValue(
       FileSystem.loadShape(text),
       generateDefaultCamera(),
-      generateDefaultLight()
+      generateDefaultAmbientLight(),
+      generateDefaultDirectionalLight()
     );
   });
 });
@@ -370,7 +376,8 @@ resetButton.addEventListener("click", () => {
   initializeDefaultValue(
     generateDefaultShape(),
     generateDefaultCamera(),
-    generateDefaultLight()
+    generateDefaultAmbientLight(),
+    generateDefaultDirectionalLight()
   );
 });
 
@@ -378,7 +385,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeDefaultValue(
     generateDefaultShape(),
     generateDefaultCamera(),
-    generateDefaultLight()
+    generateDefaultAmbientLight(),
+    generateDefaultDirectionalLight()
   );
   renderCanvas();
 });

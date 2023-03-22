@@ -139,7 +139,8 @@ class Shape implements ShapeInterface {
     projectionType: T,
     params: ProjectionParams[T],
     camera: Camera,
-    light: Light
+    ambientLight: Light,
+    directionalLight: Light
   ): void {
     /* Lookup Attribute */
     const positionLocation = gl.getAttribLocation(program, "a_position");
@@ -158,6 +159,10 @@ class Shape implements ShapeInterface {
     const reverseLightDirectionLocation = gl.getUniformLocation(
       program,
       "u_reverseLightDirection"
+    );
+    const ambientLightDirection = gl.getUniformLocation(
+      program,
+      "u_ambientLightDirection"
     );
 
     /* Setup Position */
@@ -306,11 +311,17 @@ class Shape implements ShapeInterface {
       rawInverseTransposeMatrix
     );
 
-    /* Get Light */
-    const rawLight = light.getRawDirection();
+    /* Get Ambient Light */
+    const rawAmbientLight = ambientLight.getRawDirection();
 
-    /* Set Light Value */
-    gl.uniform3fv(reverseLightDirectionLocation, rawLight);
+    /* Set Ambient Light Value */
+    gl.uniform3fv(ambientLightDirection, rawAmbientLight);
+
+    /* Get Directional Light */
+    const rawDirectionalLight = directionalLight.getRawDirection();
+
+    /* Set Directional Light Value */
+    gl.uniform3fv(reverseLightDirectionLocation, rawDirectionalLight);
 
     /* Draw Shape */
     const primitiveType = gl.TRIANGLES;

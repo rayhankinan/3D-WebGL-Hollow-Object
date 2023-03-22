@@ -6,8 +6,7 @@ import Vector from "Main/Operations/vector";
 class Face implements FaceInterface {
   constructor(
     public readonly arrayOfPoint: Point[],
-    public readonly color: Color,
-    public readonly normal: Vector
+    public readonly color: Color
   ) {}
 
   public findCenter(): Point {
@@ -54,16 +53,36 @@ class Face implements FaceInterface {
     return Math.min(...this.arrayOfPoint.map((p) => p.z));
   }
 
+  public findNormal(): Vector {
+    const q = new Vector(
+      this.arrayOfPoint[0].x,
+      this.arrayOfPoint[0].y,
+      this.arrayOfPoint[0].z
+    );
+
+    const r = new Vector(
+      this.arrayOfPoint[1].x,
+      this.arrayOfPoint[1].y,
+      this.arrayOfPoint[1].z
+    );
+
+    const s = new Vector(
+      this.arrayOfPoint[2].x,
+      this.arrayOfPoint[2].y,
+      this.arrayOfPoint[2].z
+    );
+
+    const qr = r.subtract(q);
+    const qs = s.subtract(q);
+    return qs.cross(qr).normalize();
+  }
+
   public getRawPosition(): readonly number[] {
     return this.arrayOfPoint.flatMap((p) => p.getTriplet());
   }
 
   public getRawColor(): readonly [number, number, number] {
     return this.color.getTriplet();
-  }
-
-  public getRawNormal(): readonly [number, number, number] {
-    return this.normal.getTriplet();
   }
 }
 

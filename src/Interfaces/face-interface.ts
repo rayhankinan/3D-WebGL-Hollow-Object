@@ -5,7 +5,6 @@ import VectorInterface from "Interfaces/vector-interface";
 interface FaceInterface {
   readonly arrayOfPoint: PointInterface[];
   readonly color: ColorInterface;
-  readonly normal: VectorInterface;
 }
 
 export default FaceInterface;

@@ -124,7 +124,7 @@ class Shape implements ShapeInterface {
   public addNormal(gl: WebGLRenderingContext): void {
     const normalArray = this.arrayOfFace.flatMap((f) =>
       Array<readonly [number, number, number]>(f.arrayOfPoint.length)
-        .fill(f.getRawNormal())
+        .fill(f.findNormal().getTriplet())
         .flat()
     );
 

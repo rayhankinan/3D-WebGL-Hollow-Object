@@ -1,11 +1,13 @@
 import FaceInterface from "Main/Interfaces/face-interface";
 import Color from "Main/Operations/color";
 import Point from "Main/Operations/point";
+import Vector from "Main/Operations/vector";
 
 class Face implements FaceInterface {
   constructor(
     public readonly arrayOfPoint: Point[],
-    public readonly color: Color
+    public readonly color: Color,
+    public readonly normal: Vector
   ) {}
 
   public findCenter(): Point {
@@ -58,6 +60,10 @@ class Face implements FaceInterface {
 
   public getRawColor(): readonly [number, number, number] {
     return this.color.getTriplet();
+  }
+
+  public getRawNormal(): readonly [number, number, number] {
+    return this.normal.getTriplet();
   }
 }
 

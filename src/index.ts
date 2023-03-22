@@ -4,12 +4,14 @@ import { degToRad, radToDeg } from "Utils/angle";
 import resizeCanvasToDisplaySize from "Utils/resize-canvas";
 import Shape from "Objects/shape";
 import Camera from "Objects/camera";
+import Light from "Objects/light";
 import ProjectionType from "Types/projection-type";
 import ProjectionParams from "Types/projection-params";
 import FileHandling from "Files/file-handling";
 import FileSystem from "Files/file-system";
 import generateDefaultShape from "Main/default-shape";
 import generateDefaultCamera from "Main/default-camera";
+import generateDefaultLight from "Main/default-light";
 
 /* Create Program */
 const canvas = document.getElementById("webgl-canvas") as HTMLCanvasElement;
@@ -49,6 +51,7 @@ gl.enable(gl.DEPTH_TEST);
 /* Setup Buffer */
 const positionBuffer = gl.createBuffer();
 const colorBuffer = gl.createBuffer();
+const normalBuffer = gl.createBuffer();
 
 /* Get HTML Element */
 /* Transformation elements */
@@ -122,6 +125,7 @@ const resetButton = document.getElementById("reset-btn");
 /* Global Variables */
 let object: Shape;
 let camera: Camera;
+let light: Light;
 let projectionType: ProjectionType = "orthographic";
 let projectionParams: ProjectionParams = {
   orthographic: {
@@ -173,9 +177,11 @@ const renderCanvas = () => {
     program,
     positionBuffer,
     colorBuffer,
+    normalBuffer,
     projectionType,
     projectionParams[projectionType],
-    camera
+    camera,
+    light
   );
 
   /* Render Recursively */
@@ -183,9 +189,14 @@ const renderCanvas = () => {
 };
 
 /* Initialize Default Value */
-const initializeDefaultValue = (newObject: Shape, newCamera: Camera) => {
+const initializeDefaultValue = (
+  newObject: Shape,
+  newCamera: Camera,
+  newLight: Light
+) => {
   object = newObject;
   camera = newCamera;
+  light = newLight;
 
   sliderTranslateX.valueAsNumber = object.tx;
   labelTranslateX.textContent = object.tx.toString();
@@ -313,7 +324,11 @@ sliderCamRadius.addEventListener("input", (event) => {
 
 loadButton.addEventListener("click", () => {
   FileHandling.upload((text) => {
-    initializeDefaultValue(FileSystem.loadShape(text), generateDefaultCamera());
+    initializeDefaultValue(
+      FileSystem.loadShape(text),
+      generateDefaultCamera(),
+      generateDefaultLight()
+    );
   });
 });
 
@@ -352,10 +367,18 @@ animationModeButton.addEventListener("click", () => {
 
 /* Reset State */
 resetButton.addEventListener("click", () => {
-  initializeDefaultValue(generateDefaultShape(), generateDefaultCamera());
+  initializeDefaultValue(
+    generateDefaultShape(),
+    generateDefaultCamera(),
+    generateDefaultLight()
+  );
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  initializeDefaultValue(generateDefaultShape(), generateDefaultCamera());
+  initializeDefaultValue(
+    generateDefaultShape(),
+    generateDefaultCamera(),
+    generateDefaultLight()
+  );
   renderCanvas();
 });

@@ -6,6 +6,7 @@ import ProjectionParams from "Main/Types/projection-params";
 import ProjectionType from "Main/Types/projection-type";
 import Face from "Objects/face";
 import Camera from "Main/Objects/camera";
+import Light from "./light";
 
 class Shape implements ShapeInterface {
   constructor(
@@ -115,20 +116,51 @@ class Shape implements ShapeInterface {
     gl.bufferData(gl.ARRAY_BUFFER, new Uint8Array(colorArray), gl.STATIC_DRAW);
   }
 
+  public addNormal(gl: WebGLRenderingContext): void {
+    const normalArray = this.arrayOfFace.flatMap((f) =>
+      Array<readonly [number, number, number]>(f.arrayOfPoint.length)
+        .fill(f.getRawNormal())
+        .flat()
+    );
+
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      new Float32Array(normalArray),
+      gl.STATIC_DRAW
+    );
+  }
+
   public render<T extends ProjectionType>(
     gl: WebGLRenderingContext,
     program: WebGLProgram,
     positionBuffer: WebGLBuffer,
     colorBuffer: WebGLBuffer,
+    normalBuffer: WebGLBuffer,
     projectionType: T,
     params: ProjectionParams[T],
-    camera: Camera
+    camera: Camera,
+    light: Light
   ): void {
+    /* Lookup Attribute */
     const positionLocation = gl.getAttribLocation(program, "a_position");
     const colorLocation = gl.getAttribLocation(program, "a_color");
-    const matrixLocation = gl.getUniformLocation(program, "u_matrix");
+    const normalLocation = gl.getAttribLocation(program, "a_normal");
 
-    /* Setup position */
+    /* Lookup Uniform */
+    const worldViewProjectionLocation = gl.getUniformLocation(
+      program,
+      "u_worldViewProjection"
+    );
+    const worldInverseTransposeLocation = gl.getUniformLocation(
+      program,
+      "u_worldInverseTranspose"
+    );
+    const reverseLightDirectionLocation = gl.getUniformLocation(
+      program,
+      "u_reverseLightDirection"
+    );
+
+    /* Setup Position */
     gl.enableVertexAttribArray(positionLocation);
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
     this.addPosition(gl);
@@ -147,7 +179,7 @@ class Shape implements ShapeInterface {
       positionOffset
     );
 
-    /* Setup color */
+    /* Setup Color */
     gl.enableVertexAttribArray(colorLocation);
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
     this.addColor(gl);
@@ -166,6 +198,26 @@ class Shape implements ShapeInterface {
       colorOffset
     );
 
+    /* Setup Normal */
+    gl.enableVertexAttribArray(normalLocation);
+    gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+    this.addNormal(gl);
+
+    const normalSize = 3; /* 3 components per iteration */
+    const normalType = gl.FLOAT; /* The data is 32 bit float */
+    const normalNormalized = false; /* Don't normalize the data */
+    const normalStride = 0; /* 0: Move forward size * sizeof(type) each iteration to get the next position */
+    const normalOffset = 0; /* Start at the beginning of the buffer */
+    gl.vertexAttribPointer(
+      normalLocation,
+      normalSize,
+      normalType,
+      normalNormalized,
+      normalStride,
+      normalOffset
+    );
+
+    /* Get Matrix */
     let matrix = Transformation.general(
       this.tx,
       this.ty,
@@ -178,6 +230,7 @@ class Shape implements ShapeInterface {
       this.sz,
       this.findCenter()
     );
+    const inverseTransposeMatrix = matrix.inverse().transpose();
 
     matrix = camera.lookAt().multiplyMatrix(matrix);
 
@@ -240,9 +293,23 @@ class Shape implements ShapeInterface {
         ).multiplyMatrix(matrix);
         break;
     }
-    const rawMatrix = matrix.flatten();
 
-    gl.uniformMatrix4fv(matrixLocation, false, rawMatrix);
+    const rawMatrix = matrix.flatten();
+    const rawInverseTransposeMatrix = inverseTransposeMatrix.flatten();
+
+    /* Set Matrix Value */
+    gl.uniformMatrix4fv(worldViewProjectionLocation, false, rawMatrix);
+    gl.uniformMatrix4fv(
+      worldInverseTransposeLocation,
+      false,
+      rawInverseTransposeMatrix
+    );
+
+    /* Get Light */
+    const rawLight = light.getRawDirection();
+
+    /* Set Light Value */
+    gl.uniform3fv(reverseLightDirectionLocation, rawLight);
 
     /* Draw Shape */
     const primitiveType = gl.TRIANGLES;

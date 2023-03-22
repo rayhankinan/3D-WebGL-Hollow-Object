@@ -247,6 +247,22 @@ class Matrix implements MatrixInterface {
       )
     );
   }
+
+  public transpose(): Matrix {
+    /* Unpack "this" matrix */
+    const [a11, a21, a31, a41] = this.a1.getQuadruplet();
+    const [a12, a22, a32, a42] = this.a2.getQuadruplet();
+    const [a13, a23, a33, a43] = this.a3.getQuadruplet();
+    const [a14, a24, a34, a44] = this.a4.getQuadruplet();
+
+    /* Create transpose coordinate */
+    const a1 = new Coordinate(a11, a12, a13, a14);
+    const a2 = new Coordinate(a21, a22, a23, a24);
+    const a3 = new Coordinate(a31, a32, a33, a34);
+    const a4 = new Coordinate(a41, a42, a43, a44);
+
+    return new Matrix(a1, a2, a3, a4);
+  }
 }
 
 export default Matrix;

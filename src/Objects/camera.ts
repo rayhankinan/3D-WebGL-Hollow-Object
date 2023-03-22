@@ -18,6 +18,22 @@ class Camera implements CameraInterface {
     public upZ: number
   ) {}
 
+  public rotateX(angle: number): void {
+    this.angleX = angle;
+  }
+
+  public rotateY(angle: number): void {
+    this.angleY = angle;
+  }
+
+  public rotateZ(angle: number): void {
+    this.angleZ = angle;
+  }
+
+  public moveRadius(distance: number): void {
+    this.radius = distance;
+  }
+
   lookAt(): Matrix {
     const initialMatrix = Transformation.rotationX(this.angleX)
       .multiplyMatrix(Transformation.rotationY(this.angleY))

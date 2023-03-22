@@ -131,6 +131,7 @@ const resetButton = document.getElementById("reset-btn");
 
 /* Global Variables */
 let object: Shape;
+let camera: Camera;
 let projectionType: ProjectionType = "orthographic";
 let projectionParams: ProjectionParams = {
   orthographic: {
@@ -160,7 +161,6 @@ let projectionParams: ProjectionParams = {
     ortho_far: -1000,
   },
 };
-let camera: Camera;
 let shader = false;
 let animation = false;
 
@@ -169,7 +169,7 @@ const renderCanvas = () => {
   /* Clear Color and Buffer */
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-  /* Update Angle If Animation Is Enabled */
+  /* Update Angle if Animation is Enabled */
   if (animation) {
     object.rotateY(degToRad((radToDeg(object.angleY) + 1) % 360));
 
@@ -299,7 +299,35 @@ sliderScaleZ.addEventListener("input", (event) => {
   object.scaleZ(delta);
 });
 
+listOfProjection.addEventListener("change", () => {
+  const newProjectionType = listOfProjection.selectedOptions[0]
+    .value as ProjectionType;
+
+  projectionType = newProjectionType;
+});
+
 /* Camera control listener */
+sliderCamAngleX.addEventListener("input", (event) => {
+  const delta = (event.target as HTMLInputElement).valueAsNumber;
+
+  labelCamAngleX.textContent = delta.toString();
+  camera.rotateX(degToRad(delta));
+});
+
+sliderCamAngleY.addEventListener("input", (event) => {
+  const delta = (event.target as HTMLInputElement).valueAsNumber;
+
+  labelCamAngleY.textContent = delta.toString();
+  camera.rotateY(degToRad(delta));
+});
+
+sliderCamAngleZ.addEventListener("input", (event) => {
+  const delta = (event.target as HTMLInputElement).valueAsNumber;
+
+  labelCamAngleZ.textContent = delta.toString();
+  camera.rotateZ(degToRad(delta));
+});
+
 sliderCamRadius.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
 
@@ -317,6 +345,7 @@ saveButton.addEventListener("click", () => {
   FileHandling.download(FileSystem.serializeShape(object));
 });
 
+/* Shading and Animation */
 shadingModeButton.addEventListener("click", () => {
   if (!shader) {
     shadingModeButton.classList.add("active");
@@ -345,13 +374,7 @@ animationModeButton.addEventListener("click", () => {
   }
 });
 
-listOfProjection.addEventListener("change", () => {
-  const newProjectionType = listOfProjection.selectedOptions[0]
-    .value as ProjectionType;
-
-  projectionType = newProjectionType;
-});
-
+/* Reset State */
 resetButton.addEventListener("click", () => {
   initializeDefaultValue(generateDefaultShape(), generateDefaultCamera());
 });

@@ -114,7 +114,11 @@ class Shape implements ShapeInterface {
         .flat()
     );
 
-    gl.bufferData(gl.ARRAY_BUFFER, new Uint8Array(colorArray), gl.STATIC_DRAW);
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      new Float32Array(colorArray),
+      gl.STATIC_DRAW
+    );
   }
 
   public addNormal(gl: WebGLRenderingContext): void {
@@ -191,8 +195,8 @@ class Shape implements ShapeInterface {
     this.addColor(gl);
 
     const colorSize = 3; /* 3 components per iteration */
-    const colorType = gl.UNSIGNED_BYTE; /* The data is 8 bit unsigned values */
-    const colorNormalized = true; /* Normalize the data */
+    const colorType = gl.FLOAT; /* The data is 32 bit float */
+    const colorNormalized = false; /* Normalize the data */
     const colorStride = 0; /* 0: Move forward size * sizeof(type) each iteration to get the next position */
     const colorOffset = 0; /* Start at the beginning of the buffer */
     gl.vertexAttribPointer(

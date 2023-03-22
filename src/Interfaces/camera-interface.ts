@@ -1,8 +1,6 @@
 interface CameraInterface {
   radius: number;
-  angleX: number;
-  angleY: number;
-  angleZ: number;
+  angle: number;
   targetX: number;
   targetY: number;
   targetZ: number;

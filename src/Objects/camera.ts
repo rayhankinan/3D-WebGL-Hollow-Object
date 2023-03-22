@@ -7,9 +7,7 @@ import Vector from "Operations/vector";
 class Camera implements CameraInterface {
   public constructor(
     public radius: number,
-    public angleX: number,
-    public angleY: number,
-    public angleZ: number,
+    public angle: number,
     public targetX: number,
     public targetY: number,
     public targetZ: number,
@@ -18,16 +16,8 @@ class Camera implements CameraInterface {
     public upZ: number
   ) {}
 
-  public rotateX(angle: number): void {
-    this.angleX = angle;
-  }
-
-  public rotateY(angle: number): void {
-    this.angleY = angle;
-  }
-
-  public rotateZ(angle: number): void {
-    this.angleZ = angle;
+  public rotate(angle: number): void {
+    this.angle = angle;
   }
 
   public moveRadius(distance: number): void {
@@ -35,10 +25,9 @@ class Camera implements CameraInterface {
   }
 
   lookAt(): Matrix {
-    const initialMatrix = Transformation.rotationX(this.angleX)
-      .multiplyMatrix(Transformation.rotationY(this.angleY))
-      .multiplyMatrix(Transformation.rotationZ(this.angleZ))
-      .multiplyMatrix(Transformation.translation(0, 0, this.radius));
+    const initialMatrix = Transformation.rotationY(this.angle).multiplyMatrix(
+      Transformation.translation(0, 0, this.radius)
+    );
     const cameraPosition = initialMatrix.a4;
 
     const eye = new Vector(

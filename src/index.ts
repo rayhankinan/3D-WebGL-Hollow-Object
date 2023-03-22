@@ -98,20 +98,10 @@ const sliderScaleZ = document.getElementById(
 const labelScaleZ = document.getElementById("label-scale-z");
 
 /* Camera Control Elements */
-const sliderCamAngleX = document.getElementById(
-  "slider-cam-angle-x"
+const sliderCamAngle = document.getElementById(
+  "slider-cam-angle"
 ) as HTMLInputElement;
-const labelCamAngleX = document.getElementById("label-cam-angle-x");
-
-const sliderCamAngleY = document.getElementById(
-  "slider-cam-angle-y"
-) as HTMLInputElement;
-const labelCamAngleY = document.getElementById("label-cam-angle-y");
-
-const sliderCamAngleZ = document.getElementById(
-  "slider-cam-angle-z"
-) as HTMLInputElement;
-const labelCamAngleZ = document.getElementById("label-cam-angle-z");
+const labelCamAngle = document.getElementById("label-cam-angle");
 
 const sliderCamRadius = document.getElementById(
   "slider-cam-radius"
@@ -139,8 +129,8 @@ let projectionParams: ProjectionParams = {
     right: (gl.canvas as HTMLCanvasElement).clientWidth,
     bottom: (gl.canvas as HTMLCanvasElement).clientHeight,
     top: 0,
-    near: 1000,
-    far: -1000,
+    near: 500,
+    far: -500,
   },
   perspective: {
     fieldOfView: degToRad(60),
@@ -157,8 +147,8 @@ let projectionParams: ProjectionParams = {
     ortho_right: (gl.canvas as HTMLCanvasElement).clientWidth,
     ortho_bottom: (gl.canvas as HTMLCanvasElement).clientHeight,
     ortho_top: 0,
-    ortho_near: 1000,
-    ortho_far: -1000,
+    ortho_near: 500,
+    ortho_far: -500,
   },
 };
 let shader = false;
@@ -307,25 +297,11 @@ listOfProjection.addEventListener("change", () => {
 });
 
 /* Camera control listener */
-sliderCamAngleX.addEventListener("input", (event) => {
+sliderCamAngle.addEventListener("input", (event) => {
   const delta = (event.target as HTMLInputElement).valueAsNumber;
 
-  labelCamAngleX.textContent = delta.toString();
-  camera.rotateX(degToRad(delta));
-});
-
-sliderCamAngleY.addEventListener("input", (event) => {
-  const delta = (event.target as HTMLInputElement).valueAsNumber;
-
-  labelCamAngleY.textContent = delta.toString();
-  camera.rotateY(degToRad(delta));
-});
-
-sliderCamAngleZ.addEventListener("input", (event) => {
-  const delta = (event.target as HTMLInputElement).valueAsNumber;
-
-  labelCamAngleZ.textContent = delta.toString();
-  camera.rotateZ(degToRad(delta));
+  labelCamAngle.textContent = delta.toString();
+  camera.rotate(degToRad(delta));
 });
 
 sliderCamRadius.addEventListener("input", (event) => {

@@ -1,4 +1,4 @@
-import CoordinateInterface from "Main/Interfaces/coordinate-interface";
+import CoordinateInterface from "Interfaces/coordinate-interface";
 
 class Coordinate implements CoordinateInterface {
   public constructor(

@@ -1,4 +1,4 @@
-import PointInterface from "Main/Interfaces/point-interface";
+import PointInterface from "Interfaces/point-interface";
 import Coordinate from "Operations/coordinate";
 
 class Point extends Coordinate implements PointInterface {

@@ -1,11 +1,16 @@
-import ShapeInterface from "Main/Interfaces/shape-interface";
-import Shape from "Main/Objects/shape";
+import ShapeInterface from "Interfaces/shape-interface";
+import TransformationInterface from "Interfaces/transformation-interface";
+import Shape from "Objects/shape";
 import FaceFactory from "Factories/face-factory";
 
 class ShapeFactory {
-  public static fromInterface(shape: ShapeInterface): Shape {
-    const { arrayOfFace, tx, ty, tz, angleX, angleY, angleZ, sx, sy, sz } =
-      shape;
+  public static fromInterface(
+    shape: ShapeInterface,
+    transformation: TransformationInterface
+  ): Shape {
+    const { arrayOfFace } = shape;
+
+    const { tx, ty, tz, angleX, angleY, angleZ, sx, sy, sz } = transformation;
 
     const newArrayOfFace = arrayOfFace.map((face) => {
       return FaceFactory.fromInterface(face);

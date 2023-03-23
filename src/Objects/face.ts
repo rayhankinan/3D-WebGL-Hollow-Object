@@ -1,4 +1,5 @@
 import FaceInterface from "Interfaces/face-interface";
+import Matrix from "Operations/matrix";
 import Color from "Operations/color";
 import Point from "Operations/point";
 import Vector from "Operations/vector";
@@ -83,6 +84,17 @@ class Face implements FaceInterface {
 
   public getRawColor(): readonly [number, number, number] {
     return this.color.getTriplet();
+  }
+
+  public applyMatrix(matrix: Matrix): Face {
+    return new Face(
+      this.arrayOfPoint.map((p) => {
+        const [x, y, z, w] = matrix.multiplyCoordinate(p).getQuadruplet();
+
+        return new Point(x / w, y / w, z / w);
+      }),
+      this.color
+    );
   }
 }
 

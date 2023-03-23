@@ -41,8 +41,9 @@
       uniform bool u_shading;
 
       void main() {
+        gl_FragColor = v_color;
+
         if (u_shading) {
-          gl_FragColor = v_color;
           // Because v_normal is a varying it's interpolated so it will not be a unit vector
           // Normalizing it will make it a unit vector again
           vec3 normal = normalize(v_normal);
@@ -50,8 +51,6 @@
 
           // Lets multiply just the color portion (not the alpha) by the light
           gl_FragColor.rgb *= (u_ambientLightColor + directional_light);
-        } else {
-          gl_FragColor = v_color;
         }
       }
     </script>

@@ -1,6 +1,6 @@
-import VectorInterface from "Main/Interfaces/vector-interface";
+import VectorInterface from "Interfaces/vector-interface";
 import Coordinate from "Operations/coordinate";
-import CLOSEST_TO_ZERO from "Main/Constants/closest-to-zero";
+import CLOSEST_TO_ZERO from "Constants/closest-to-zero";
 
 class Vector extends Coordinate implements VectorInterface {
   public constructor(

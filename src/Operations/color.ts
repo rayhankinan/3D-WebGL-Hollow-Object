@@ -1,4 +1,4 @@
-import ColorInterface from "Main/Interfaces/color-interface";
+import ColorInterface from "Interfaces/color-interface";
 
 class Color implements ColorInterface {
   constructor(

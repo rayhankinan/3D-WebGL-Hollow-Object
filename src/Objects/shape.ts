@@ -1,4 +1,5 @@
 import ShapeInterface from "Interfaces/shape-interface";
+import TransformationInterface from "Interfaces/transformation-interface";
 import Point from "Operations/point";
 import Color from "Operations/color";
 import Transformation from "Operations/transformation";
@@ -10,7 +11,7 @@ import Face from "Objects/face";
 import Camera from "Objects/camera";
 import Light from "Objects/light";
 
-class Shape implements ShapeInterface {
+class Shape implements ShapeInterface, TransformationInterface {
   constructor(
     public readonly arrayOfFace: Face[],
     public tx: number,
@@ -96,6 +97,25 @@ class Shape implements ShapeInterface {
 
   public scaleZ(delta: number): void {
     this.sz = delta;
+  }
+
+  public applyTransformation(): Shape {
+    const matrix = Transformation.general(
+      this.tx,
+      this.ty,
+      this.tz,
+      this.angleX,
+      this.angleY,
+      this.angleZ,
+      this.sx,
+      this.sy,
+      this.sz,
+      this.findCenter()
+    );
+
+    const arrayOfFace = this.arrayOfFace.map((f) => f.applyMatrix(matrix));
+
+    return new Shape(arrayOfFace, 0, 0, 0, 0, 0, 0, 1, 1, 1);
   }
 
   public addPosition(gl: WebGLRenderingContext): void {

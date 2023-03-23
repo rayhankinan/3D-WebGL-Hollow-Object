@@ -1,4 +1,4 @@
-import MatrixInterface from "Main/Interfaces/matrix-interface";
+import MatrixInterface from "Interfaces/matrix-interface";
 import Coordinate from "Operations/coordinate";
 
 class Matrix implements MatrixInterface {

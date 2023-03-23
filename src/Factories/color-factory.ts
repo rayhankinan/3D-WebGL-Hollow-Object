@@ -1,5 +1,5 @@
-import ColorInterface from "Main/Interfaces/color-interface";
-import Color from "Main/Operations/color";
+import ColorInterface from "Interfaces/color-interface";
+import Color from "Operations/color";
 
 class ColorFactory {
   public static fromInterface(color: ColorInterface): Color {

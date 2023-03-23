@@ -184,8 +184,8 @@ let animationTimeout = Date.now().valueOf() + period;
 
 const animate = () => {
   if (animation && Date.now().valueOf() > animationTimeout) {
-    object.rotateY(degToRad((radToDeg(object.angleY) + 1) % 360.0));
-    object.rotateZ(degToRad((radToDeg(object.angleZ) + 1) % 360.0));
+    object.rotateY(degToRad((radToDeg(object.angleY) + 1) % 360));
+    object.rotateZ(degToRad((radToDeg(object.angleZ) + 1) % 360));
 
     sliderAngleY.valueAsNumber = radToDeg(object.angleY);
     labelAngleY.textContent = radToDeg(object.angleY).toString();

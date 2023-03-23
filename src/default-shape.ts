@@ -4,7 +4,7 @@ import Point from "Operations/point";
 import Color from "Operations/color";
 import { degToRad } from "Utils/angle";
 
-function generateDefaultShape() {
+function generateDefaultShape(): Shape {
   return new Shape(
     [
       /* Left Column Front */

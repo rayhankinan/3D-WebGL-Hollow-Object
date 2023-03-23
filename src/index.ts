@@ -136,16 +136,16 @@ let ambientColor: Color;
 let directionalLight: Light;
 let offsetTranslate = {
   orthographic: {
-    x: 680,
-    y: 200,
+    x: canvas.width/2,
+    y: canvas.height/3,
   },
   perspective: {
     x: 0,
     y: 0,
   },
   oblique: {
-    x: 870,
-    y: 10,
+    x: canvas.width/1.7,
+    y: canvas.height/5.5,
   },
 };
 let projectionType: ProjectionType = "orthographic";

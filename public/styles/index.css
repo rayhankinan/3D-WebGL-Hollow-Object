@@ -48,6 +48,36 @@ canvas {
   flex-direction: vertical;
 }
 
+#help-panel {
+  display: none;
+  position: fixed;
+  z-index: 3;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  justify-content: center;
+  align-items: center;
+}
+
+#help-content {
+  background-color: white;
+  margin: auto;
+  padding: 3vw;
+  width: 80%;
+  top: 50%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, auto));
+  column-gap: 2vw;
+}
+
+#help-content h2 {
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+}
+
 #section {
   display: flex;
   flex-direction: column;
@@ -56,9 +86,8 @@ canvas {
 }
 
 #control-section {
-  display: grid;
-  grid-template-columns: repeat(3, 42vw);
-  grid-template-rows: repeat(2, minmax(0, auto));
+  display: flex;
+  flex-direction: row;
   padding: 1vw;
 }
 
@@ -80,12 +109,14 @@ canvas {
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.8);
   color: #fdfdfd;
   height: fit-content;
-  width: 100vw;
+  width: 70vw;
   bottom: 0;
+  right: 0;
   z-index: 2;
 }
 
 #transformation-sliders {
+  width: 60%;
   grid-row-start: 2;
   grid-column-start: 1;
   display: grid;
@@ -93,13 +124,14 @@ canvas {
 }
 
 #camera-sliders {
+  width: 20%;
   grid-row-start: 2;
   grid-column-start: 2;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 
 #extra-controls {
+  width: 20%;
   grid-row-start: 2;
   grid-column-start: 3;
 }
@@ -169,13 +201,36 @@ canvas {
   touch-action: manipulation;
 }
 
-.btn:hover {
-  transition: all 0.1s ease;
-  background-color: rgb(150, 150, 150);
+.close-help-btn {
+  align-items: center;
+  background: red;
+  border: 0 solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  color: #1a202c;
+  display: inline-flex;
+  font-size: 1rem;
+  font-weight: 700;
+  height: 5vh;
+  justify-content: center;
+  line-height: 24px;
+  overflow-wrap: break-word;
+  padding-left: 8px;
+  text-decoration: none;
+  width: 100%;
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin-top: 3vh;
 }
 
+.btn:hover,
 .shading-btn:hover,
-.animation-btn:hover {
+.animation-btn:hover,
+.close-help-btn:hover {
   transition: all 0.1s ease;
   background-color: rgb(150, 150, 150);
 }

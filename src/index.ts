@@ -124,6 +124,10 @@ const saveButton = document.getElementById("save-btn");
 const shadingModeButton = document.getElementById("shading-mode-btn");
 const animationModeButton = document.getElementById("animation-mode-btn");
 const resetButton = document.getElementById("reset-btn");
+const helpButton = document.getElementById("help-btn");
+const helpModal = document.getElementById("help-panel");
+const helpContent = document.getElementById("help-panel");
+const closeHelpButton = document.getElementById("close-help-btn");
 
 /* Global Variables */
 let object: Shape;
@@ -191,7 +195,7 @@ const animate = () => {
 
     animationTimeout = Date.now().valueOf() + period;
   }
-}
+};
 
 /* Render Canvas */
 const renderCanvas = () => {
@@ -422,6 +426,21 @@ resetButton.addEventListener("click", () => {
     generateDefaultDirectionalLight()
   );
 });
+
+/* Help Button */
+helpButton.addEventListener("click", () => {
+  helpModal.style.display = "flex";
+});
+
+closeHelpButton.addEventListener("click", () => {
+  helpModal.style.display = "none";
+});
+
+window.onclick = function (event) {
+  if (event.target == helpModal) {
+    helpModal.style.display = "none";
+  }
+};
 
 document.addEventListener("DOMContentLoaded", () => {
   initializeDefaultValue(

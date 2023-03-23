@@ -72,18 +72,21 @@
           <button class="btn" id="save-btn">Save</button>
           <h2>Projection</h2>
           <select id="list-of-projection" class="btn">
-            <option value="orthographic" selected="selected">Orthographic</option>
+            <option value="orthographic" selected="selected">
+              Orthographic
+            </option>
             <option value="perspective">Perspective</option>
             <option value="oblique">Oblique</option>
           </select>
           <button class="btn" id="reset-btn">Reset</button>
+          <button class="btn" id="help-btn">Help</button>
         </div>
       </div>
       <canvas id="webgl-canvas"></canvas>
       <div id="control-panel">
         <div id="control-section">
-          <h2>Transformation</h2>
           <div id="transformation-sliders">
+            <h2>Transformation</h2>
             <div id="translation">
               <h3>Translate X</h3>
               <input
@@ -181,8 +184,8 @@
               <label id="label-scale-z" for="slider-scale-z">1</label>
             </div>
           </div>
-          <h2>Camera Controls</h2>
           <div id="camera-sliders">
+            <h2>Camera Controls</h2>
             <div id="camera-parameter">
               <h3>Angle</h3>
               <input
@@ -212,6 +215,122 @@
             <h3>Enable Animation</h3>
             <button class="animation-btn" id="animation-mode-btn">ON</button>
           </div>
+        </div>
+      </div>
+    </div>
+    <div id="help-panel">
+      <div id="help-content">
+        <div>
+          <h2>1. Transformasi Translasi</h2>
+          <p>
+            <b>Translate X</b>: Melakukan translasi objek pada sumbu X dengan
+            jarak tertentu
+          </p>
+          <p>
+            <b>Translate Y</b>: Melakukan translasi objek pada sumbu Y dengan
+            jarak tertentu
+          </p>
+          <p>
+            <b>Translate Z</b>: Melakukan translasi objek pada sumbu Z dengan
+            jarak tertentu
+          </p>
+
+          <h2>2. Transformasi Rotasi</h2>
+          <p>
+            <b>Angle X</b>: Melakukan rotasi objek pada sumbu X dengan sudut
+            tertentu
+          </p>
+          <p>
+            <b>Angle Y</b>: Melakukan rotasi objek pada sumbu Y dengan sudut
+            tertentu
+          </p>
+          <p>
+            <b>Angle Z</b>: Melakukan rotasi objek pada sumbu Z dengan sudut
+            tertentu
+          </p>
+
+          <h2>3. Transformasi Dilatasi</h2>
+          <p>
+            <b>Scale X</b>: Melakukan scaling (memperbesar / memperkecil) objek
+            pada sumbu X dengan skala tertentu
+          </p>
+          <p>
+            <b>Scale Y</b>: Melakukan scaling (memperbesar / memperkecil) objek
+            pada sumbu Y dengan skala tertentu
+          </p>
+          <p>
+            <b>Scale Z</b>: Melakukan scaling (memperbesar / memperkecil) objek
+            pada sumbu Z dengan skala tertentu
+          </p>
+        </div>
+        <div>
+          <h2>4. Kontrol Kamera</h2>
+          <p>
+            <b>Angle</b>: Mengubah sudut kamera terhadap objek dengan sudut
+            tertentu
+          </p>
+          <p><b>Radius</b>: Mengubah jarak view radius kamera terhadap objek</p>
+
+          <h2>5. Shading Mode</h2>
+          <p>
+            <b>Mode ON</b>: Akan menyalakan shading terhadap objek dengan
+            directional lighting
+          </p>
+          <p>
+            <b>Mode OFF</b>: Akan mematikan shading dan melakukan render object
+            tanpa cahaya
+          </p>
+
+          <h2>6. Enable Animation</h2>
+          <p>
+            <b>Mode ON</b>: Akan menyalakan animasi rotasi terhadap sumbu Y dan
+            Z secara otomatis
+          </p>
+          <p>
+            <b>Mode OFF</b>: Akan menghentikan animasi rotasi di posisi saat itu
+          </p>
+
+          <h2>7. File</h2>
+          <p>
+            <b>Load</b>: Melakukan load file JSON yang berisi data objek model
+            3D yang pernah disimpan
+          </p>
+          <p>
+            <b>Save</b>: Melakukan save file ke format JSON yang berisi data
+            objek model 3D saat itu
+          </p>
+        </div>
+        <div>
+          <h2>8. Projection</h2>
+          <p>Terdapat 3 jenis proyeksi yang disediakan, yaitu:</p>
+          <p>
+            <b>Ortographic Projection</b>: Adalah jenis proyeksi dimana semua
+            garis proyeksi tegak lurus terhadap bidang proyeksi
+          </p>
+          <br />
+          <p>
+            <b>Perspective Projection</b>: Adalah jenis proyeksi dimana semakin
+            menjauh sebuah objek, maka akan terlihat lebih kecil, dan sebaliknya
+          </p>
+          <br />
+          <p>
+            <b>Oblique Projection</b>: Adalah jenis proyeksi dimana hasil
+            proyeksi tidak tegak lurus terhadap bidang proyeksi, tetapi berada
+            pada sebuah sudut
+          </p>
+
+          <h2>9. Tombol Reset</h2>
+          <p>
+            Digunakan untuk mengembalikan semua perubahan ke state awal yang
+            didefinisikan oleh program
+          </p>
+
+          <h2>10. Tombol Help</h2>
+          <p>Untuk menampilkan halaman ini</p>
+
+          <button type="button" class="close-help-btn" id="close-help-btn">
+            Close
+          </button>
         </div>
       </div>
     </div>

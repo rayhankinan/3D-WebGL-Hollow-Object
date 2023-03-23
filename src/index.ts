@@ -136,16 +136,16 @@ let ambientColor: Color;
 let directionalLight: Light;
 let offsetTranslate = {
   orthographic: {
-    x: canvas.width/2,
-    y: canvas.height/3,
+    x: canvas.width / 2,
+    y: canvas.height / 3,
   },
   perspective: {
     x: 0,
     y: 0,
   },
   oblique: {
-    x: canvas.width/1.7,
-    y: canvas.height/5.5,
+    x: canvas.width / 1.7,
+    y: canvas.height / 5.5,
   },
 };
 let projectionType: ProjectionType = "orthographic";
@@ -184,8 +184,8 @@ let animationTimeout = Date.now().valueOf() + period;
 
 const animate = () => {
   if (animation && Date.now().valueOf() > animationTimeout) {
-    object.rotateY(degToRad((radToDeg(object.angleY) + 1.0) % 360.0));
-    object.rotateZ(degToRad((radToDeg(object.angleZ) + 0.55) % 360.0));
+    object.rotateY(degToRad((radToDeg(object.angleY) + 1) % 360.0));
+    object.rotateZ(degToRad((radToDeg(object.angleZ) + 1) % 360.0));
 
     sliderAngleY.valueAsNumber = radToDeg(object.angleY);
     labelAngleY.textContent = radToDeg(object.angleY).toString();

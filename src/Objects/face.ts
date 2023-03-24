@@ -75,6 +75,7 @@ class Face implements FaceInterface {
 
     const qr = r.subtract(q);
     const qs = s.subtract(q);
+
     return qs.cross(qr).normalize();
   }
 

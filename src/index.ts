@@ -11,7 +11,6 @@ import ProjectionParams from "Types/projection-params";
 import ShaderStatus from "Types/shader-status";
 import FileHandling from "Files/file-handling";
 import FileSystem from "Files/file-system";
-import generateDefaultShape from "Main/default-shape";
 import generateDefaultCamera from "Main/default-camera";
 import generateDefaultAmbientColor from "Main/default-ambient-color";
 import generateDefaultDirectionalLight from "Main/default-directional-light";
@@ -128,12 +127,16 @@ const helpButton = document.getElementById("help-btn");
 const helpModal = document.getElementById("help-panel");
 const helpContent = document.getElementById("help-panel");
 const closeHelpButton = document.getElementById("close-help-btn");
+const cubeButton = document.getElementById("cube-btn");
+const pyramidButton = document.getElementById("pyramid-btn");
+const tubeButton = document.getElementById("tube-btn");
 
 /* Global Variables */
 let object: Shape;
 let camera: Camera;
 let ambientColor: Color;
 let directionalLight: Light;
+let currentShape: string = JSON.stringify(require('../shapes/cube.json'));
 let offsetTranslate = {
   orthographic: {
     x: canvas.width / 2,
@@ -375,8 +378,9 @@ sliderCamRadius.addEventListener("input", (event) => {
 
 loadButton.addEventListener("click", () => {
   FileHandling.upload((text) => {
+    currentShape = text;
     initializeDefaultValue(
-      FileSystem.loadShape(text),
+      FileSystem.loadShape(currentShape),
       generateDefaultCamera(),
       generateDefaultAmbientColor(),
       generateDefaultDirectionalLight()
@@ -420,7 +424,7 @@ animationModeButton.addEventListener("click", () => {
 /* Reset State */
 resetButton.addEventListener("click", () => {
   initializeDefaultValue(
-    generateDefaultShape(),
+    FileSystem.loadShape(currentShape),
     generateDefaultCamera(),
     generateDefaultAmbientColor(),
     generateDefaultDirectionalLight()
@@ -442,9 +446,40 @@ window.onclick = function (event) {
   }
 };
 
+/* Shape selector */
+cubeButton.addEventListener("click", () => {
+  currentShape = JSON.stringify(require('../shapes/cube.json'))
+  initializeDefaultValue(
+    FileSystem.loadShape(currentShape),
+    generateDefaultCamera(),
+    generateDefaultAmbientColor(),
+    generateDefaultDirectionalLight()
+  );
+})
+
+pyramidButton.addEventListener("click", () => {
+  currentShape = JSON.stringify(require('../shapes/pyramid.json'))
+  initializeDefaultValue(
+    FileSystem.loadShape(currentShape),
+    generateDefaultCamera(),
+    generateDefaultAmbientColor(),
+    generateDefaultDirectionalLight()
+  );
+})
+
+tubeButton.addEventListener("click", () => {
+  currentShape = JSON.stringify(require('../shapes/tube.json'))
+  initializeDefaultValue(
+    FileSystem.loadShape(currentShape),
+    generateDefaultCamera(),
+    generateDefaultAmbientColor(),
+    generateDefaultDirectionalLight()
+  );
+})
+
 document.addEventListener("DOMContentLoaded", () => {
   initializeDefaultValue(
-    generateDefaultShape(),
+    FileSystem.loadShape(currentShape),
     generateDefaultCamera(),
     generateDefaultAmbientColor(),
     generateDefaultDirectionalLight()

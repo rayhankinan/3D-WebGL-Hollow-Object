@@ -107,3 +107,4 @@ WebGL merupakan kakas dengan spesialisasi pada ranah grafika yang dapat dengan m
 
 1. Jalankan perintah `yarn nodemon` untuk menjalankan kompilasi secara _hot reload_
 2. Buka browser dan akses `localhost` untuk melihat hasil kompilasi
+3. Dapat juga diakses menggunakan pranala berikut [ini](https://rayhankinan.github.io/3D-WebGL-Hollow-Object/public/)

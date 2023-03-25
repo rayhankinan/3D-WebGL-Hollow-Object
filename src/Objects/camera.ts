@@ -21,9 +21,20 @@ class Camera implements CameraInterface {
   }
 
   lookAt(): Matrix {
-    const initialMatrix = Transformation.rotationY(this.angle).multiplyMatrix(
-      Transformation.translation(0, 0, this.radius)
-    );
+    const initialMatrix = Transformation.translation(
+      this.center.x,
+      this.center.y,
+      this.center.z
+    )
+      .multiplyMatrix(Transformation.rotationY(this.angle))
+      .multiplyMatrix(Transformation.translation(0, 0, this.radius))
+      .multiplyMatrix(
+        Transformation.translation(
+          -this.center.x,
+          -this.center.y,
+          -this.center.z
+        )
+      );
     const cameraPosition = initialMatrix.a4;
 
     const eyeVector = new Vector(
